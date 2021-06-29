@@ -6,9 +6,7 @@ import LandingScreen from "./app/screens/LandingScreen"
 
 export default function App() {
   return (
-    <View style={styles.container}>
       <LandingScreen />
-    </View>
   );
 }
 
