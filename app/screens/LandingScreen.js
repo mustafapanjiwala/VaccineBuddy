@@ -1,7 +1,5 @@
 import React from 'react';
 import { StyleSheet, View, Image } from 'react-native';
-import MyFadeInComponent from '../components/FadeInView';
-import FadeIn from 'react-native-fade-in-image';
 import logo from '../assets/logo.png';
 
 const LandingScreen = () => {
@@ -17,7 +15,6 @@ const LandingScreen = () => {
                 //     }, 1400);
                 // }}
             />
-            {/* <MyFadeInComponent /> */}
         </View>
     );
 };
@@ -31,7 +28,7 @@ const styles = StyleSheet.create({
     },
     logo: {
         flex: 1,
-        width: '80%',
+        width: '60%',
         resizeMode: 'contain'
     }
 });
