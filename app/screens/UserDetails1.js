@@ -6,27 +6,26 @@ import { withTheme } from 'react-native-paper';
 import colors from '../constants/colors';
 
 const UserDetails1 = () => {
-
     const [mothersName, setMothersName] = React.useState('');
-    return(
+    return (
         <Screen>
             <View style={styles.container}>
-            < TextInput
-                label = "Mother's Name"
-                value = {mothersName}
-                mode={'outlined'}
-                onChangeText = {setMothersName}
-            />
+                <TextInput
+                    label="Mother's Name"
+                    value={mothersName}
+                    mode={'outlined'}
+                    onChangeText={setMothersName}
+                />
             </View>
-        </Screen>    
-    )
-}
+        </Screen>
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
         marginTop: 200,
-        padding:20,
+        padding: 20
     }
-})
+});
 
 export default UserDetails1;
