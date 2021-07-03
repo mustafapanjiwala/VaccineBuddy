@@ -5,33 +5,34 @@ import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import AuthNavigator from './app/navigation/AuthNavigator';
 import AppNavigator from './app/navigation/AppNavigator';
-import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import {
+    DefaultTheme,
+    configureFonts,
+    Provider as PaperProvider
+} from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import SetReminderScreen from './app/screens/SetReminderScreen';
 
-import { configureFonts, DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
-
-
 const fontConfig = {
-  web: {
-    regular: {
-      fontFamily: 'PublicSans-Regular',
-    },
-    light: {
-      fontFamily: 'PublicSans-Light',
-    },
-  }
-}
+    web: {
+        regular: {
+            fontFamily: 'PublicSans-Regular'
+        },
+        light: {
+            fontFamily: 'PublicSans-Light'
+        }
+    }
+};
 
 const theme = {
-  ...DefaultTheme,
-  fonts: configureFonts(fontConfig),
-  roundness: 10,
-  colors: {
-    ...DefaultTheme.colors,
-    primary: '#0A8C94',
-    accent: '#ECECEC',
-  },
+    ...DefaultTheme,
+    fonts: configureFonts(fontConfig),
+    roundness: 10,
+    colors: {
+        ...DefaultTheme.colors,
+        primary: '#0A8C94',
+        accent: '#ECECEC'
+    }
 };
 
 export default function App() {

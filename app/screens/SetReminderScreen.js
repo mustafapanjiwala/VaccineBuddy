@@ -9,14 +9,10 @@ import {
 } from 'react-native';
 
 import Screen from '../components/Screen';
+import DatePicker from '../components/DatePicker';
+
 import CardHeading from '../components/CardHeading';
-import {
-    Button,
-    Paragraph,
-    Dialog,
-    Portal,
-    TextInput
-} from 'react-native-paper';
+import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
 
 import ParaText from '../components/ParaText';
 import img from '../assets/calendar.png';
@@ -70,13 +66,7 @@ const SetReminderScreen = () => {
                     <ParaText style={{ marginBottom: 30, fontSize: 22 }}>
                         Your child’s next vaccine will be on:
                     </ParaText>
-                    <TextInput
-                        label="Phone Number"
-                        value={5}
-                        mode={'outlined'}
-                        keyboardType={'numeric'}
-                        style={styles.input}
-                    />
+                    <DatePicker />
                     <Test />
                 </View>
 
@@ -112,7 +102,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#79D1D7',
         borderRadius: 3,
-        height: 40
+        height: 40,
+        marginTop: 30
     },
     btnTitle: {
         color: '#fff',
@@ -131,12 +122,6 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         position: 'absolute',
         right: 0
-    },
-    input: {
-        fontSize: 14,
-        backgroundColor: '#ECECEC',
-        zIndex: 2,
-        marginBottom: 30
     }
 });
 
