@@ -12,8 +12,8 @@ const AppHeading = ({ fontColor = colors.black, style, children }) => {
 
 const styles = StyleSheet.create({
     text: {
-        fontSize: 22,
-        fontFamily: 'OpenSans-Bold'
+        fontSize: 24,
+        fontFamily: 'OpenSans-SemiBold'
     }
 });
 

@@ -5,13 +5,27 @@ import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import LandingScreen from "./app/screens/LandingScreen";
 import UserDetails1 from './app/screens/UserDetails1';
-import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { configureFonts, DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+
+
+const fontConfig = {
+  web: {
+    regular: {
+      fontFamily: 'PublicSans-Regular',
+    },
+    light: {
+      fontFamily: 'PublicSans-Light',
+    },
+  }
+}
 
 const theme = {
   ...DefaultTheme,
+  fonts: configureFonts(fontConfig),
+  roundness: 10,
   colors: {
     ...DefaultTheme.colors,
-    primary: '#79D1D7',
+    primary: '#0A8C94',
     accent: '#ECECEC',
   },
 };
