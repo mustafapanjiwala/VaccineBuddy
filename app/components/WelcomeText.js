@@ -12,7 +12,7 @@ const WelcomeText = ({ fontColor = colors.black, style, children }) => {
 
 const styles = StyleSheet.create({
     text: {
-        fontSize: 28,
+        fontSize: 32,
         fontFamily: 'OpenSans-Bold'
     }
 });

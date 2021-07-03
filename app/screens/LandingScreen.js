@@ -2,18 +2,18 @@ import React from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import logo from '../assets/logo.png';
 
-const LandingScreen = () => {
+const LandingScreen = ({ navigation }) => {
     return (
         <View style={styles.containers}>
             <Image
-                fadeDuration={2000}
+                fadeDuration={1200}
                 source={logo}
                 style={styles.logo}
-                // onLoad={() => {
-                //     setTimeout(() => {
-                //         navigation.navigate('Welcome');
-                //     }, 1400);
-                // }}
+                onLoad={() => {
+                    setTimeout(() => {
+                        navigation.navigate('PhoneNumber');
+                    }, 1400);
+                }}
             />
         </View>
     );
