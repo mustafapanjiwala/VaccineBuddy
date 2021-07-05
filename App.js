@@ -12,6 +12,7 @@ import {
 } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import SetReminderScreen from './app/screens/SetReminderScreen';
+import ProfileScreen from './app/screens/ProfileScreen';
 
 const fontConfig = {
     web: {
@@ -48,12 +49,12 @@ export default function App() {
         return <AppLoading />;
     } else {
         return (
-            // <NavigationContainer>
-            <PaperProvider theme={theme}>
-                {/* <AuthNavigator /> */}
-                <SetReminderScreen />
-            </PaperProvider>
-            // </NavigationContainer>
+            <NavigationContainer>
+                <PaperProvider theme={theme}>
+                    {/* <AuthNavigator /> */}
+                    <ProfileScreen />
+                </PaperProvider>
+            </NavigationContainer>
         );
     }
 }
