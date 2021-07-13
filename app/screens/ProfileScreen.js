@@ -11,7 +11,6 @@ import colors from '../constants/colors';
 const ProfileScreen = () => {
     return (
         <Screen style={styles.cointainer}>
-            <ScrollView>
                 <View style={styles.top}>
                     <View style={styles.topDetails}>
                         <CardHeading>Your Profile</CardHeading>
@@ -57,7 +56,6 @@ const ProfileScreen = () => {
                         <ParaText style={styles.text}>12/12/12</ParaText>
                     </View>
                 </View>
-            </ScrollView>
         </Screen>
     );
 };

@@ -12,7 +12,7 @@ const CardPara = ({ fontColor = colors.black, style, children }) => {
 
 const styles = StyleSheet.create({
     text: {
-        fontSize: 12,
+        fontSize: 11,
         fontFamily: 'PublicSans-Regular'
     }
 });

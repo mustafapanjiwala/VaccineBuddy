@@ -13,6 +13,10 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import SetReminderScreen from './app/screens/SetReminderScreen';
 import ProfileScreen from './app/screens/ProfileScreen';
+import CheckListScreen from './app/screens/CheckListScreen';
+import SelectVaccine from './app/screens/SelectVaccine';
+import Home from './app/screens/Home';
+import KnowYourVaccines from './app/screens/KnowYourVaccines';
 
 const fontConfig = {
     web: {
@@ -52,7 +56,8 @@ export default function App() {
             <NavigationContainer>
                 <PaperProvider theme={theme}>
                     {/* <AuthNavigator /> */}
-                    <ProfileScreen />
+                    {/* <CheckListScreen /> */}
+                    <KnowYourVaccines />
                 </PaperProvider>
             </NavigationContainer>
         );
