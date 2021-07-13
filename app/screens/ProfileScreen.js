@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 
 import Screen from '../components/Screen';
-// import { TextInput } from 'react-native-paper';
 import CardHeading from '../components/CardHeading';
 import ParaText from '../components/ParaText';
 import img from '../assets/Profile.png';
@@ -15,7 +14,15 @@ const ProfileScreen = () => {
                 <View style={styles.top}>
                     <View style={styles.topDetails}>
                         <CardHeading>Your Profile</CardHeading>
-                        <ParaText>Mustafa Panjiwala</ParaText>
+                        <ParaText style={styles.name}>
+                            Mustafa Panjiwala
+                        </ParaText>
+                        <Text
+                            onPress={() => console.log('Pressed')}
+                            style={styles.button}
+                        >
+                            Update your profile
+                        </Text>
                     </View>
                     <View style={styles.topImage}>
                         <Image source={img} />
@@ -23,38 +30,38 @@ const ProfileScreen = () => {
                 </View>
                 <View style={styles.bottom}>
                     <View style={styles.list}>
-                        <ParaText>Mother's Name</ParaText>
-                        <ParaText style={styles.text}>Lorem Ipsum</ParaText>
+                        <ParaText style={styles.text}>Mother's Name</ParaText>
+                        <ParaText style={styles.text2}>Lorem Ipsum</ParaText>
                     </View>
                     <View style={styles.list}>
-                        <ParaText>Child's Name</ParaText>
-                        <ParaText style={styles.text}>Lorem Ipsum</ParaText>
+                        <ParaText style={styles.text}>Child's Name</ParaText>
+                        <ParaText style={styles.text2}>Lorem Ipsum</ParaText>
                     </View>
                     <View style={styles.list}>
-                        <ParaText>Father's name</ParaText>
-                        <ParaText style={styles.text}>Lorem Ipsum</ParaText>
+                        <ParaText style={styles.text}>Father's name</ParaText>
+                        <ParaText style={styles.text2}>Lorem Ipsum</ParaText>
                     </View>
                     <View style={styles.list}>
-                        <ParaText>D.O.B</ParaText>
-                        <ParaText style={styles.text}>20/20/20</ParaText>
+                        <ParaText style={styles.text}>D.O.B</ParaText>
+                        <ParaText style={styles.text2}>20/20/20</ParaText>
                     </View>
                     <View style={styles.list}>
-                        <ParaText>Age (of Child)</ParaText>
-                        <ParaText style={styles.text}>3 yrs</ParaText>
+                        <ParaText style={styles.text}>Age (of Child)</ParaText>
+                        <ParaText style={styles.text2}>3 yrs</ParaText>
                     </View>
                     <View style={styles.list}>
-                        <ParaText>Birth Weight</ParaText>
-                        <ParaText style={styles.text}>20 lb</ParaText>
+                        <ParaText style={styles.text}>Birth Weight</ParaText>
+                        <ParaText style={styles.text2}>20 lb</ParaText>
                     </View>
                     <View style={styles.list}>
-                        <ParaText>Address</ParaText>
+                        <ParaText style={styles.text}>Address</ParaText>
                         <ParaText style={styles.address}>
                             60, Minim laboris deserunt cillum non excepteur
                         </ParaText>
                     </View>
                     <View style={styles.list}>
-                        <ParaText>Last vaccinated</ParaText>
-                        <ParaText style={styles.text}>12/12/12</ParaText>
+                        <ParaText style={styles.text}>Last vaccinated</ParaText>
+                        <ParaText style={styles.text2}>12/12/12</ParaText>
                     </View>
                 </View>
             </ScrollView>
@@ -70,13 +77,26 @@ const styles = StyleSheet.create({
     top: {
         display: 'flex',
         flexDirection: 'row',
-        backgroundColor: colors.profileBlue
+        backgroundColor: colors.profileBlue,
+        paddingHorizontal: 10
     },
     topDetails: {
-        width: '50%'
+        width: '60%',
+        paddingVertical: 20
+    },
+    name: {
+        marginTop: 10,
+        marginBottom: 20
     },
     topImage: {
-        width: '50%'
+        width: '40%',
+        flexDirection: 'column-reverse'
+    },
+    button: {
+        textDecorationLine: 'underline',
+        fontSize: 10,
+        color: colors.black,
+        fontSize: 12
     },
     bottom: {
         paddingHorizontal: 30,
@@ -92,11 +112,15 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     text: {
-        fontWeight: 'bold'
+        fontSize: 14
+    },
+    text2: {
+        fontSize: 14,
+        fontFamily: 'PublicSans-SemiBold'
     },
     address: {
-        fontWeight: 'bold',
-        fontSize: 14,
+        fontFamily: 'PublicSans-SemiBold',
+        fontSize: 12,
         width: 150
     }
 });

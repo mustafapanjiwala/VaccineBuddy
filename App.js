@@ -13,6 +13,9 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import SetReminderScreen from './app/screens/SetReminderScreen';
 import ProfileScreen from './app/screens/ProfileScreen';
+import UserDetails1 from './app/screens/UserDetails1';
+import PhoneNumberScreen from './app/screens/PhoneNumberScreen';
+import FaqScreen from './app/screens/FaqScreen';
 
 const fontConfig = {
     web: {
@@ -52,7 +55,7 @@ export default function App() {
             <NavigationContainer>
                 <PaperProvider theme={theme}>
                     {/* <AuthNavigator /> */}
-                    <ProfileScreen />
+                    <FaqScreen />
                 </PaperProvider>
             </NavigationContainer>
         );

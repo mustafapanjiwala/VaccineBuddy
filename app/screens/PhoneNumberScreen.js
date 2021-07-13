@@ -52,7 +52,7 @@ const PhoneNumberScreen = ({ navigation }) => {
                     <TouchableOpacity
                         activeOpacity={0.8}
                         onPress={() => {
-                            navigation.navigate('PhoneNumber');
+                            navigation.navigate('UserDetails');
                         }}
                     >
                         <View style={styles.button}>
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end'
     },
     img: {
-        width: '60%',
+        width: '50%',
         resizeMode: 'contain',
         position: 'absolute',
         right: 0
