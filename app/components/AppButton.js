@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         paddingVertical:16,
         // flexDirection: 'row',
-        backgroundColor: colors.primary
+        backgroundColor: colors.primary,
+        
     },
     btnTitle: {
         color: colors.white,

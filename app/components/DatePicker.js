@@ -60,8 +60,8 @@ const styles = StyleSheet.create({
         display:'flex',
         flexDirection: 'row',
         justifyContent:'space-between',
-        paddingHorizontal:16,
-        paddingVertical:14,
+        paddingHorizontal:14,
+        paddingVertical:12,
     },
     selectedDate:{
         fontFamily: 'PublicSans-Light',

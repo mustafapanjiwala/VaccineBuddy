@@ -12,8 +12,8 @@ const CardHeading = ({ fontColor = colors.black, style, children }) => {
 
 const styles = StyleSheet.create({
     text: {
-        fontSize: 28,
-        fontFamily: 'OpenSans-SemiBold'
+        fontSize: 18,
+        fontFamily: 'OpenSans-Bold'
     }
 });
 
