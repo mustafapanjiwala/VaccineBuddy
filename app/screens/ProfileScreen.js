@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 
 import Screen from '../components/Screen';
 import CardHeading from '../components/CardHeading';
@@ -10,59 +10,57 @@ import colors from '../constants/colors';
 const ProfileScreen = () => {
     return (
         <Screen style={styles.cointainer}>
-                <View style={styles.top}>
-                    <View style={styles.topDetails}>
-                        <CardHeading>Your Profile</CardHeading>
-                        <ParaText style={styles.name}>
-                            Mustafa Panjiwala
-                        </ParaText>
-                        <Text
-                            onPress={() => console.log('Pressed')}
-                            style={styles.button}
-                        >
-                            Update your profile
-                        </Text>
-                    </View>
-                    <View style={styles.topImage}>
-                        <Image source={img} />
-                    </View>
+            <View style={styles.top}>
+                <View style={styles.topDetails}>
+                    <CardHeading>Your Profile</CardHeading>
+                    <ParaText style={styles.name}>Mustafa Panjiwala</ParaText>
+                    <Text
+                        onPress={() => console.log('Pressed')}
+                        style={styles.button}
+                    >
+                        Update your profile
+                    </Text>
                 </View>
-                <View style={styles.bottom}>
-                    <View style={styles.list}>
-                        <ParaText style={styles.text}>Mother's Name</ParaText>
-                        <ParaText style={styles.text2}>Lorem Ipsum</ParaText>
-                    </View>
-                    <View style={styles.list}>
-                        <ParaText style={styles.text}>Child's Name</ParaText>
-                        <ParaText style={styles.text2}>Lorem Ipsum</ParaText>
-                    </View>
-                    <View style={styles.list}>
-                        <ParaText style={styles.text}>Father's name</ParaText>
-                        <ParaText style={styles.text2}>Lorem Ipsum</ParaText>
-                    </View>
-                    <View style={styles.list}>
-                        <ParaText style={styles.text}>D.O.B</ParaText>
-                        <ParaText style={styles.text2}>20/20/20</ParaText>
-                    </View>
-                    <View style={styles.list}>
-                        <ParaText style={styles.text}>Age (of Child)</ParaText>
-                        <ParaText style={styles.text2}>3 yrs</ParaText>
-                    </View>
-                    <View style={styles.list}>
-                        <ParaText style={styles.text}>Birth Weight</ParaText>
-                        <ParaText style={styles.text2}>20 lb</ParaText>
-                    </View>
-                    <View style={styles.list}>
-                        <ParaText style={styles.text}>Address</ParaText>
-                        <ParaText style={styles.address}>
-                            60, Minim laboris deserunt cillum non excepteur
-                        </ParaText>
-                    </View>
-                    <View style={styles.list}>
-                        <ParaText style={styles.text}>Last vaccinated</ParaText>
-                        <ParaText style={styles.text2}>12/12/12</ParaText>
-                    </View>
+                <View style={styles.topImage}>
+                    <Image source={img} />
                 </View>
+            </View>
+            <View style={styles.bottom}>
+                <View style={styles.list}>
+                    <ParaText style={styles.text}>Mother's Name</ParaText>
+                    <ParaText style={styles.text2}>Lorem Ipsum</ParaText>
+                </View>
+                <View style={styles.list}>
+                    <ParaText style={styles.text}>Child's Name</ParaText>
+                    <ParaText style={styles.text2}>Lorem Ipsum</ParaText>
+                </View>
+                <View style={styles.list}>
+                    <ParaText style={styles.text}>Father's name</ParaText>
+                    <ParaText style={styles.text2}>Lorem Ipsum</ParaText>
+                </View>
+                <View style={styles.list}>
+                    <ParaText style={styles.text}>D.O.B</ParaText>
+                    <ParaText style={styles.text2}>20/20/20</ParaText>
+                </View>
+                <View style={styles.list}>
+                    <ParaText style={styles.text}>Age (of Child)</ParaText>
+                    <ParaText style={styles.text2}>3 yrs</ParaText>
+                </View>
+                <View style={styles.list}>
+                    <ParaText style={styles.text}>Birth Weight</ParaText>
+                    <ParaText style={styles.text2}>20 lb</ParaText>
+                </View>
+                <View style={styles.list}>
+                    <ParaText style={styles.text}>Address</ParaText>
+                    <ParaText style={styles.address}>
+                        60, Minim laboris deserunt cillum non excepteur
+                    </ParaText>
+                </View>
+                <View style={styles.list}>
+                    <ParaText style={styles.text}>Last vaccinated</ParaText>
+                    <ParaText style={styles.text2}>12/12/12</ParaText>
+                </View>
+            </View>
         </Screen>
     );
 };
