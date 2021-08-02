@@ -1,5 +1,11 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import CameraRoll from '@react-native-community/cameraroll';
+import { Permissions } from 'expo-permissions';
+import * as FileSystem from 'expo-file-system';
+import * as MediaLibrary from 'expo-media-library';
+import * as Sharing from 'expo-sharing';
+import * as Print from 'expo-print';
 
 import Screen from '../components/Screen';
 import AppHeading from '../components/AppHeading';
@@ -7,11 +13,60 @@ import ParaText from '../components/ParaText';
 import AppButton2 from '../components/AppButton2';
 import img from '../assets/NationalVaccine.png';
 
-import * as MediaLibrary from 'expo-media-library';
-import * as FileSystem from 'expo-file-system';
-import * as Permissions from 'expo-permissions';
-
 const NationalVaccineScreen = () => {
+    // saveToCamerRoll = async (img) => {
+    //     let cameraPermissions = await Permissions.getAsync(
+    //         Permissions.CAMERA_ROLL
+    //     );
+    //     if (cameraPermissions.status != 'granted') {
+    //         cameraPermissions = await Permissions.askAsync(
+    //             Permissions.CAMERA_ROLL
+    //         );
+    //     }
+
+    //     if (cameraPermissions.status === 'granted') {
+    //         FileSystem.downloadAsync(
+    //             img,
+    //             FileSystem.DocumentDirectory +
+    //                 'National Vaccine Schedule' +
+    //                 '.jpg'
+    //         )
+    //             .then(({ uri }) => {
+    //                 CameraRoll.saveToCameraRoll(uri);
+    //                 alert('Saved to photos');
+    //             })
+    //             .catch((error) => {
+    //                 console.log(error);
+    //             });
+    //     } else {
+    //         alert('Requires camer roll Permission');
+    //     }
+    // };
+
+    const htmlContent = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pdf Content</title>
+        <style>
+            body {
+                font-size: 16px;
+                color: rgb(255, 196, 0);
+            }
+
+            h1 {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Hello, UppLabs!</h1>
+    </body>
+    </html>
+`;
+
     return (
         <Screen>
             <View style={styles.container}>
@@ -28,7 +83,7 @@ const NationalVaccineScreen = () => {
                     title="Download"
                     name="download"
                     onPress={() => {
-                        console.log('pressed');
+                        createAndSavePDF();
                     }}
                 />
             </View>

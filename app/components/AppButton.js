@@ -1,23 +1,18 @@
 import React from 'react';
-import {
-    Text,
-    StyleSheet,
-    TouchableOpacity,
-    Image
-} from 'react-native';
+import { Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import colors from '../constants/colors';
 
-const AppButton = () => {
-    return(
+const AppButton = ({ onPress }) => {
+    return (
         <TouchableOpacity
             activeOpacity={0.8}
             style={styles.btnContainer}
-            // onPress={onPress}
+            onPress={onPress}
         >
             <Text style={styles.btnTitle}>Continue</Text>
         </TouchableOpacity>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     btnContainer: {
@@ -25,16 +20,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 3,
-        paddingVertical:16,
+        paddingVertical: 16,
         // flexDirection: 'row',
-        backgroundColor: colors.primary,
-        
+        backgroundColor: colors.primary
     },
     btnTitle: {
         color: colors.white,
         fontSize: 16,
-        fontFamily: 'PublicSans-SemiBold',
+        fontFamily: 'PublicSans-SemiBold'
     }
-})
+});
 
 export default AppButton;

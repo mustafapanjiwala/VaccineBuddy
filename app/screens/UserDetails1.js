@@ -5,69 +5,121 @@ import DatePicker from '../components/DatePicker';
 import { TextInput } from 'react-native-paper';
 import AppButton from '../components/AppButton';
 import AppHeading from '../components/AppHeading';
+import { Formik } from 'formik';
+import * as yup from 'yup';
 // import { withTheme } from 'react-native-paper';
 // import colors from '../constants/colors';
 // import DateTimePicker from '@react-native-community/datetimepicker';
 // import { FontAwesome5 } from '@expo/vector-icons';
 // import moment from 'moment';
 
-const UserDetails1 = () => {
+const profileSchema = yup.object({
+    mothersName: yup
+        .string()
+        .matches(/^[A-Za-z ]*$/, 'Please enter valid name')
+        .required('Mothers Name is a required field.')
+        .min(4, 'Mothers Name must be at least 4 characters')
+        .max(30)
+    // email: yup.string().email().required(),
+    // phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
+    // country: yup.string().required().min(4).max(30)
+});
+
+const UserDetails1 = ({ navigation }) => {
     const [mothersName, setMothersName] = React.useState('');
     const [childsName, setChildsName] = React.useState('');
     const [fathersName, setFathersName] = React.useState('');
+    const [address, setAddress] = React.useState('');
 
     return (
         <Screen>
-            <View style={styles.container}>
-                <View style={styles.details}>
-                    <AppHeading>Enter Details</AppHeading>
-                    <Text style={styles.stepText}>Step: 1/2</Text>
-                </View>
-                <View style={styles.inputs}>
-                    <TextInput
-                        label="Mother's Name"
-                        value={mothersName}
-                        mode={'outlined'}
-                        outlineColor={'#E2E2E2'}
-                        // selectionColor={'#E2E2E2'}
-                        onChangeText={setMothersName}
-                    />
+            <Formik
+                initialValues={{ mothersName: '' }}
+                validationSchema={profileSchema}
+            >
+                {(props) => (
+                    <View style={styles.container}>
+                        <View>
+                            <View style={styles.details}>
+                                <AppHeading>Enter Details</AppHeading>
+                                <Text style={styles.stepText}>Step: 1/2</Text>
+                            </View>
+                            <View style={styles.inputs}>
+                                <Text>
+                                    {props.touched.mothersName &&
+                                        props.errors.mothersName}
+                                </Text>
+                                <TextInput
+                                    label="Mother's Name*"
+                                    mode={'outlined'}
+                                    outlineColor={'#E2E2E2'}
+                                    onChangeText={props.handleChange(
+                                        'mothersName'
+                                    )}
+                                    value={props.values.mothersName}
+                                    onBlur={props.handleBlur('mothersName')}
+                                />
+                                <TextInput
+                                    label="Child's Name"
+                                    value={childsName}
+                                    mode={'outlined'}
+                                    outlineColor={'#E2E2E2'}
+                                    // selectionColor={'#E2E2E2'}
+                                    onChangeText={setChildsName}
+                                />
 
-                    <TextInput
-                        label="Child's Name"
-                        value={childsName}
-                        mode={'outlined'}
-                        outlineColor={'#E2E2E2'}
-                        // selectionColor={'#E2E2E2'}
-                        onChangeText={setChildsName}
-                    />
-
-                    <TextInput
-                        label="Father's Name"
-                        value={fathersName}
-                        mode={'outlined'}
-                        outlineColor={'#E2E2E2'}
-                        // selectionColor={'#E2E2E2'}
-                        onChangeText={setFathersName}
-                    />
-                </View>
-                <DatePicker />
-
-                <AppButton />
-            </View>
+                                <TextInput
+                                    label="Father's Name"
+                                    value={fathersName}
+                                    mode={'outlined'}
+                                    outlineColor={'#E2E2E2'}
+                                    // selectionColor={'#E2E2E2'}
+                                    onChangeText={setFathersName}
+                                />
+                                <TextInput
+                                    label="Address"
+                                    value={address}
+                                    mode={'outlined'}
+                                    outlineColor={'#E2E2E2'}
+                                    // selectionColor={'#E2E2E2'}
+                                    onChangeText={setAddress}
+                                />
+                            </View>
+                            <DatePicker />
+                        </View>
+                        <AppButton
+                            // onPress={props.handleSubmit}
+                            onPress={() => {
+                                navigation.navigate('UserDetails2');
+                                {
+                                    props.handleSubmit;
+                                }
+                            }}
+                        />
+                    </View>
+                )}
+            </Formik>
         </Screen>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 100,
-        padding: 20
+        flex: 1,
+        // marginTop: 50,
+        padding: 20,
+        // backgroundColor: 'green',
+        justifyContent: 'space-between',
+        paddingBottom: Platform.OS === 'ios' ? 40 : 20,
+        paddingHorizontal: 20,
+        paddingTop: Platform.OS === 'ios' ? 40 : 50
     },
     inputs: {
-        height: 250,
+        marginTop: 20,
+        height: 360,
         display: 'flex',
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
+        marginBottom: 10
     },
     details: {
         width: '100%',

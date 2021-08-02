@@ -56,9 +56,9 @@ export default function App() {
         return (
             <NavigationContainer>
                 <PaperProvider theme={theme}>
-                    {/* <AuthNavigator /> */}
+                    <AuthNavigator />
                     {/* <CheckListScreen /> */}
-                    <NationalVaccineScreen />
+                    {/* <NationalVaccineScreen /> */}
                 </PaperProvider>
             </NavigationContainer>
         );

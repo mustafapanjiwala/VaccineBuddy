@@ -13,6 +13,7 @@ import { TextInput } from 'react-native-paper';
 import WelcomeText from '../components/WelcomeText';
 import ParaText from '../components/ParaText';
 import img from '../assets/MobNumber.png';
+import AppButton2 from '../components/AppButton2';
 
 const PhoneNumberScreen = ({ navigation }) => {
     const [phoneNumber, setPhoneNumber] = React.useState('');
@@ -49,16 +50,13 @@ const PhoneNumberScreen = ({ navigation }) => {
                         keyboardType={'numeric'}
                         style={styles.input}
                     />
-                    <TouchableOpacity
-                        activeOpacity={0.8}
+                    <AppButton2
+                        title="Continue"
+                        name="arrow-right"
                         onPress={() => {
                             navigation.navigate('UserDetails');
                         }}
-                    >
-                        <View style={styles.button}>
-                            <Text style={styles.btnTitle}>Continue</Text>
-                        </View>
-                    </TouchableOpacity>
+                    />
                 </View>
 
                 <View style={styles.bottom}>
@@ -93,20 +91,6 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         backgroundColor: '#ECECEC',
         zIndex: 2
-    },
-    button: {
-        width: '30%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#79D1D7',
-        borderRadius: 3,
-        height: 40
-    },
-    btnTitle: {
-        color: '#fff',
-        fontSize: 12,
-        textTransform: 'uppercase',
-        fontFamily: 'OpenSans-Bold'
     },
     bottom: {
         flex: 3,
