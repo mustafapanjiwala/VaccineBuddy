@@ -22,7 +22,12 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         paddingVertical: 16,
         // flexDirection: 'row',
-        backgroundColor: colors.primary
+        backgroundColor: colors.primary,
+        shadowOffset: {width: 0, height: 8},
+        shadowColor: '#AAD2D4',
+        shadowOpacity: .44,
+        shadowRadius: 100,
+        elevation: 2
     },
     btnTitle: {
         color: colors.white,

@@ -18,6 +18,8 @@ import SelectVaccine from './app/screens/SelectVaccine';
 import Home from './app/screens/Home';
 import KnowYourVaccines from './app/screens/KnowYourVaccines';
 import NationalVaccineScreen from './app/screens/NationalVaccineScreen';
+import UserDetails2 from './app/screens/UserDetails2';
+import OTPVerification from './app/screens/OTPVerification';
 
 const fontConfig = {
     web: {
@@ -56,8 +58,9 @@ export default function App() {
         return (
             <NavigationContainer>
                 <PaperProvider theme={theme}>
-                    <AuthNavigator />
+                    {/* <AuthNavigator /> */}
                     {/* <CheckListScreen /> */}
+                    <OTPVerification />
                     {/* <NationalVaccineScreen /> */}
                 </PaperProvider>
             </NavigationContainer>
