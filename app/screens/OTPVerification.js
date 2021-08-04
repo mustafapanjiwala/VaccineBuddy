@@ -34,7 +34,7 @@ const CELL_COUNT = 6;
 
 
 const OTPVerification = ({ route, navigation }) => {
-    const phoneNumber = route.params;
+    const phoneNumber = "+919039004566";
     const recaptchaVerifier = React.useRef(null);
     const firebaseConfig = firebase.apps.length ? firebase.app().options : undefined;
     const [message, showMessage] = React.useState((!firebaseConfig || Platform.OS === 'web')
@@ -48,7 +48,7 @@ const OTPVerification = ({ route, navigation }) => {
         verificationCode,
         setVerificationCode
     });
-
+    
 
     useEffect(() => {
         async function callOTP() {
@@ -106,8 +106,6 @@ const OTPVerification = ({ route, navigation }) => {
                             marginTop: 30
                         }}
                     >
-                        <CardPara>Resend OTP </CardPara>
-                        <Timer />
                     </View>
                 </View>
 
@@ -137,7 +135,6 @@ const OTPVerification = ({ route, navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.black,
         width: '100%',
         justifyContent: 'space-between',
         padding: 20
@@ -164,11 +161,11 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         justifyContent: 'center',
         alignItems: 'center',
-        borderBottomColor: colors.white,
+        borderBottomColor: colors.black,
         borderBottomWidth: 1
     },
     cellText: {
-        color: colors.white,
+        color: colors.black,
         fontSize: 24,
         textAlign: 'center'
     },
