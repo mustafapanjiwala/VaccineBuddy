@@ -13,16 +13,22 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import SetReminderScreen from './app/screens/SetReminderScreen';
 import ProfileScreen from './app/screens/ProfileScreen';
-<<<<<<< HEAD
 import UserDetails1 from './app/screens/UserDetails1';
 import PhoneNumberScreen from './app/screens/PhoneNumberScreen';
 import FaqScreen from './app/screens/FaqScreen';
-=======
 import CheckListScreen from './app/screens/CheckListScreen';
 import SelectVaccine from './app/screens/SelectVaccine';
 import Home from './app/screens/Home';
 import KnowYourVaccines from './app/screens/KnowYourVaccines';
->>>>>>> b93d8e909d7a84d32dfd889ae3b74397219c1199
+import firebase from "firebase/app";
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { useGetChildMutate } from "./app/queries/Child/getChildMutate"
+import { useGetUserMutate } from "./app/queries/Users/getUsersMutate"
+import EditableTable from "./app/screens/EditableTableScreen"
+
+//context
+import { AppContext, AppProvider } from "./app/context/AppContext"
+import LandingScreen from './app/screens/LandingScreen';
 
 const fontConfig = {
     web: {
@@ -46,7 +52,24 @@ const theme = {
     }
 };
 
+const firebaseConfig = {
+    apiKey: "AIzaSyDq38i04UZjDTi-WImzGUmI3JImbKRsGmQ",
+    authDomain: "vaccinebuddy.firebaseapp.com",
+    projectId: "vaccinebuddy",
+    storageBucket: "vaccinebuddy.appspot.com",
+    messagingSenderId: "151343793466",
+    appId: "1:151343793466:web:a01eb512c9c455a3cdbc03"
+};
+
+try {
+    firebase.initializeApp(firebaseConfig)
+} catch (Error) { console.error("FIREBASE INIT FAILED!!!") }
+
+const queryClient = new QueryClient()
+
 export default function App() {
+
+
     let [fontsLoaded] = useFonts({
         'OpenSans-Bold': require('./assets/fonts/OpenSans-Bold.ttf'),
         'OpenSans-SemiBold': require('./assets/fonts/OpenSans-SemiBold.ttf'),
@@ -55,17 +78,28 @@ export default function App() {
         'PublicSans-Regular': require('./assets/fonts/PublicSans-Regular.ttf'),
         'PublicSans-SemiBold': require('./assets/fonts/PublicSans-SemiBold.ttf')
     });
+
+
     if (!fontsLoaded) {
         return <AppLoading />;
     } else {
         return (
-            <NavigationContainer>
-                <PaperProvider theme={theme}>
-                    {/* <AuthNavigator /> */}
-                    {/* <CheckListScreen /> */}
-                    <KnowYourVaccines />
-                </PaperProvider>
-            </NavigationContainer>
+            <QueryClientProvider client={queryClient}>
+                <NavigationContainer>
+                    <PaperProvider theme={theme}>
+                        <AppProvider>
+                            {/* <AuthNavigator /> */}
+                            {/* <CheckListScreen /> */}
+                            {/* <SelectVaccine /> */}
+                            <EditableTable />
+                            {/* <ProfileScreen /> */}
+                            {/* <LandingScreen /> */}
+                            {/* <UserDetails1 /> */}
+                            {/* <KnowYourVaccines /> */}
+                        </AppProvider>
+                    </PaperProvider>
+                </NavigationContainer>
+            </QueryClientProvider>
         );
     }
 }
