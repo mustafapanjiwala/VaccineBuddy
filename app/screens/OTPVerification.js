@@ -16,19 +16,19 @@ import CardPara from '../components/CardPara';
 import colors from '../constants/colors';
 
 
-try {
-    firebase.initializeApp({
-    apiKey: "AIzaSyCpme7Etn65aolZB-gCkP03YEuYEzxil9M",
-    authDomain: "muniversiti-connect-1.firebaseapp.com",
-    projectId: "muniversiti-connect-1",
-    storageBucket: "muniversiti-connect-1.appspot.com",
-    messagingSenderId: "668245427283",
-    appId: "1:668245427283:web:cb1947ebb29e5ae321f2a6",
-    measurementId: "G-P2L2B1H3HB"
-    });
-} catch (err) {
-    // ignore app already initialized error in snack
-}
+// try {
+//     firebase.initializeApp({
+//     apiKey: "AIzaSyCpme7Etn65aolZB-gCkP03YEuYEzxil9M",
+//     authDomain: "muniversiti-connect-1.firebaseapp.com",
+//     projectId: "muniversiti-connect-1",
+//     storageBucket: "muniversiti-connect-1.appspot.com",
+//     messagingSenderId: "668245427283",
+//     appId: "1:668245427283:web:cb1947ebb29e5ae321f2a6",
+//     measurementId: "G-P2L2B1H3HB"
+//     });
+// } catch (err) {
+//     // ignore app already initialized error in snack
+// }
 
 const CELL_COUNT = 6;
 

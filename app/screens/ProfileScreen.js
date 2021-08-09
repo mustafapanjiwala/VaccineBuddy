@@ -6,14 +6,21 @@ import CardHeading from '../components/CardHeading';
 import ParaText from '../components/ParaText';
 import img from '../assets/Profile.png';
 import colors from '../constants/colors';
+import { useGetUser } from "../queries/Users/getUser";
+import { useGetChild } from '../queries/Child/getChild';
 
 const ProfileScreen = () => {
+    const user = useGetUser("wYQA7c8yPCXOFX0BOdLPTu0jrA63");
+    const child = useGetChild("2uW8KfSNufNUes7E5NI1");
+
+    if (user.isLoading || child.isLoading) return <View><Text>Loading...</Text></View>
+    console.log("CHILD", child.data, "USER", user.data)
     return (
         <Screen style={styles.cointainer}>
             <View style={styles.top}>
                 <View style={styles.topDetails}>
                     <CardHeading>Your Profile</CardHeading>
-                    <ParaText style={styles.name}>Mustafa Panjiwala</ParaText>
+                    <ParaText style={styles.name}>{child?.data?.name}</ParaText>
                     <Text
                         onPress={() => console.log('Pressed')}
                         style={styles.button}
@@ -28,37 +35,37 @@ const ProfileScreen = () => {
             <View style={styles.bottom}>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Mother's Name</ParaText>
-                    <ParaText style={styles.text2}>Lorem Ipsum</ParaText>
+                    <ParaText style={styles.text2}>{user.data?.mothers_name}</ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Child's Name</ParaText>
-                    <ParaText style={styles.text2}>Lorem Ipsum</ParaText>
+                    <ParaText style={styles.text2}>{child.data?.name}</ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Father's name</ParaText>
-                    <ParaText style={styles.text2}>Lorem Ipsum</ParaText>
+                    <ParaText style={styles.text2}>{user.data?.fathers_name}</ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>D.O.B</ParaText>
-                    <ParaText style={styles.text2}>20/20/20</ParaText>
+                    <ParaText style={styles.text2}>{child.data?.dob?.toLocaleDateString()}</ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Age (of Child)</ParaText>
-                    <ParaText style={styles.text2}>3 yrs</ParaText>
+                    <ParaText style={styles.text2}>{"calculate here"}</ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Birth Weight</ParaText>
-                    <ParaText style={styles.text2}>20 lb</ParaText>
+                    <ParaText style={styles.text2}>{child.data?.weight}</ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Address</ParaText>
                     <ParaText style={styles.address}>
-                        60, Minim laboris deserunt cillum non excepteur
+                        {user.data?.address}
                     </ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Last vaccinated</ParaText>
-                    <ParaText style={styles.text2}>12/12/12</ParaText>
+                    <ParaText style={styles.text2}>{child.data?.last_vaccinated?.toLocaleDateString()}</ParaText>
                 </View>
             </View>
         </Screen>
