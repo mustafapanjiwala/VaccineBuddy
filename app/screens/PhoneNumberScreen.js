@@ -4,8 +4,7 @@ import {
     Text,
     Image,
     StyleSheet,
-    KeyboardAvoidingView,
-    TouchableOpacity
+    KeyboardAvoidingView
 } from 'react-native';
 
 import Screen from '../components/Screen';
