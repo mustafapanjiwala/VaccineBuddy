@@ -12,6 +12,33 @@ import { useGetChild } from '../queries/Child/getChild';
 const ProfileScreen = () => {
     const user = useGetUser("wYQA7c8yPCXOFX0BOdLPTu0jrA63");
     const child = useGetChild("2uW8KfSNufNUes7E5NI1");
+    const [image, setImage] = useState(null);
+
+    useEffect(() => {
+      (async () => {
+        if (Platform.OS !== 'web') {
+          const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+          if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to make this work!');
+          }
+        }
+      })();
+    }, []);
+  
+    const pickImage = async () => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [3, 5],
+        quality: 1,
+      });
+  
+      console.log(result);
+  
+      if (!result.cancelled) {
+        setImage(result.uri);
+      }
+    };
 
     if (user.isLoading || child.isLoading) return <View><Text>Loading...</Text></View>
     console.log("CHILD", child.data, "USER", user.data)
@@ -19,14 +46,17 @@ const ProfileScreen = () => {
         <Screen style={styles.cointainer}>
             <View style={styles.top}>
                 <View style={styles.topDetails}>
-                    <CardHeading>Your Profile</CardHeading>
+                    <ParaText style={{fontSize:20, fontFamily: 'PublicSans-SemiBold'}}>Your Profile</ParaText>
                     <ParaText style={styles.name}>{child?.data?.name}</ParaText>
+                    <View style={{flexDirection: 'row'}}>
+                    <Feather style={{marginTop: 3}} name="camera" size={18} color="black" />    
                     <Text
-                        onPress={() => console.log('Pressed')}
+                        onPress={pickImage}
                         style={styles.button}
                     >
-                        Update your profile
+                        Add Prescription
                     </Text>
+                    </View>
                 </View>
                 <View style={styles.topImage}>
                     <Image source={img} />
@@ -68,6 +98,10 @@ const ProfileScreen = () => {
                     <ParaText style={styles.text2}>{child.data?.last_vaccinated?.toLocaleDateString()}</ParaText>
                 </View>
             </View>
+            <View style={styles.addProfileButton}>
+                <AntDesign style={{marginTop:1}} name="adduser" size={21} color="white" />
+                <Text style={styles.addtext}>Add Profile</Text>
+            </View>
         </Screen>
     );
 };
@@ -81,7 +115,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         backgroundColor: colors.profileBlue,
-        paddingHorizontal: 10
+        paddingHorizontal: 30,
+        paddingTop: 18
     },
     topDetails: {
         width: '60%',
@@ -89,17 +124,20 @@ const styles = StyleSheet.create({
     },
     name: {
         marginTop: 10,
-        marginBottom: 20
+        marginBottom: 20,
+        fontSize: 12
     },
     topImage: {
         width: '40%',
-        flexDirection: 'column-reverse'
+        flexDirection: 'column-reverse',
     },
     button: {
         textDecorationLine: 'underline',
         fontSize: 10,
         color: colors.black,
-        fontSize: 12
+        fontSize: 11,
+        fontFamily: 'PublicSans-SemiBold',
+        marginLeft: 4
     },
     bottom: {
         paddingHorizontal: 30,
@@ -110,21 +148,54 @@ const styles = StyleSheet.create({
         backgroundColor: '#f3f3f3',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 15,
-        marginBottom: 5,
-        borderRadius: 5
+        padding: 10,
+        marginBottom: 8,
+        borderRadius: 5,
+        height: 'auto',
     },
     text: {
-        fontSize: 14
+        fontSize: 12,
+        marginRight: 18,
+        // width: 100,
+        width: 130,
+        flexWrap: 'wrap',
+        fontFamily: 'PublicSans-Light',
     },
     text2: {
-        fontSize: 14,
-        fontFamily: 'PublicSans-SemiBold'
+        fontSize: 12,
+        fontFamily: 'PublicSans-Regular',
+        flex: 1, flexWrap: 'wrap'
     },
     address: {
-        fontFamily: 'PublicSans-SemiBold',
+        fontFamily: 'PublicSans-Regular',
         fontSize: 12,
-        width: 150
+        flex: 1,
+        flexWrap: 'wrap'
+        // width: 150
+    },
+    addtext:{
+        fontFamily: 'PublicSans-Regular',
+        fontSize: 15,
+        color: colors.white,
+        margin:2
+    },
+    addProfileButton: {
+        backgroundColor: colors.primary,
+        flexDirection: 'row',
+        alignSelf: 'flex-start',
+        paddingHorizontal:15,
+        paddingVertical:10,
+        borderRadius: 30,
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        position: 'absolute',
+        right: 15,
+        bottom: 20,
+        shadowOffset: {width: 2, height: 6},
+        shadowColor: '#AAD2D4',
+        shadowOpacity: .21,
+        shadowRadius: 100,
+        elevation: 2
     }
 });
 
