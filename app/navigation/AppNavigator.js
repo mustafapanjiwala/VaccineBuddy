@@ -1,10 +1,16 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import colors from './app/constants/colors';
+import colors from '../constants/colors';
 import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import Home from '../screens/Home';
 import ProfileScreen from '../screens/ProfileScreen';
+import AddProfile from '../screens/AddProfile';
 import SetReminderScreen from '../screens/SetReminderScreen';
+import EditableVaccine from '../screens/EditableTableScreen';
+import KnowYourVaccines from '../screens/KnowYourVaccines';
+import CheckListScreen from '../screens/CheckListScreen';
+import HomeNavigator from './HomeNavigator';
+import ProfileScreenNavigator from './ProfileScreenNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -13,13 +19,17 @@ const AppNavigator = () => {
         <Tab.Navigator
             tabBarOptions={{
                 activeTintColor: '#00858D',
-                inactiveTintColor: colors.white
+                inactiveTintColor: colors.white,
+                style: {
+                    backgroundColor: '#79d1d7',
+                    height: 60,
+                    paddingBottom: 5
+                }
             }}
-            barStyle={{ backgroundColor: colors.primary }}
         >
             <Tab.Screen
                 name="Home"
-                component={Home}
+                component={HomeNavigator}
                 options={{
                     tabBarIcon: ({ size, color }) => (
                         <AntDesign name="home" size={size} color={color} />
@@ -27,12 +37,12 @@ const AppNavigator = () => {
                 }}
             />
             <Tab.Screen
-                name="Setreminder"
+                name="Reminder"
                 component={SetReminderScreen}
                 options={{
                     tabBarIcon: ({ size, color }) => (
                         <MaterialCommunityIcons
-                            name="notifications-none"
+                            name="bell-outline"
                             size={size}
                             color={color}
                         />
@@ -40,8 +50,8 @@ const AppNavigator = () => {
                 }}
             />
             <Tab.Screen
-                name="ProfileScreen"
-                component={ProfileScreen}
+                name="Profile"
+                component={ProfileScreenNavigator}
                 options={{
                     tabBarIcon: ({ size, color }) => (
                         <AntDesign name="user" size={size} color={color} />
