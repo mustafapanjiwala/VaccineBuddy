@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 import Screen from '../components/Screen';
@@ -11,41 +11,38 @@ import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import CardPara from '../components/CardPara';
-import { useGetUser } from '../queries/Users/getUser';
+import { useGetUser } from "../queries/Users/getUser";
 import { useGetChild } from '../queries/Child/getChild';
 
-const ProfileScreen = ({ navigation }) => {
+const ProfileScreen = ({navigation}) => {
     const [image, setImage] = useState(null);
-    const user = useGetUser('wYQA7c8yPCXOFX0BOdLPTu0jrA63');
-    const child = useGetChild('2uW8KfSNufNUes7E5NI1');
+    const user = useGetUser("wYQA7c8yPCXOFX0BOdLPTu0jrA63");
+    const child = useGetChild("2uW8KfSNufNUes7E5NI1");
 
     useEffect(() => {
-        (async () => {
-            if (Platform.OS !== 'web') {
-                const { status } =
-                    await ImagePicker.requestMediaLibraryPermissionsAsync();
-                if (status !== 'granted') {
-                    alert(
-                        'Sorry, we need camera roll permissions to make this work!'
-                    );
-                }
-            }
-        })();
-    }, []);
-
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [3, 5],
-            quality: 1
-        });
-
-        console.log(result);
-
-        if (!result.cancelled) {
-            setImage(result.uri);
+      (async () => {
+        if (Platform.OS !== 'web') {
+          const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+          if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to make this work!');
+          }
         }
+      })();
+    }, []);
+  
+    const pickImage = async () => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [3, 5],
+        quality: 1,
+      });
+  
+      console.log(result);
+  
+      if (!result.cancelled) {
+        setImage(result.uri);
+      }
     };
 
     // if (user.isLoading || child.isLoading) return <View><Text>Loading...</Text></View>
@@ -55,25 +52,16 @@ const ProfileScreen = ({ navigation }) => {
         <Screen style={styles.cointainer}>
             <View style={styles.top}>
                 <View style={styles.topDetails}>
-                    <ParaText
-                        style={{
-                            fontSize: 20,
-                            fontFamily: 'PublicSans-SemiBold'
-                        }}
-                    >
-                        Your Profile
-                    </ParaText>
+                    <ParaText style={{fontSize:20, fontFamily: 'PublicSans-SemiBold'}}>Your Profile</ParaText>
                     <ParaText style={styles.name}>Mustafa Panjiwala</ParaText>
-                    <View style={{ flexDirection: 'row' }}>
-                        <Feather
-                            style={{ marginTop: 3 }}
-                            name="camera"
-                            size={18}
-                            color="black"
-                        />
-                        <Text onPress={pickImage} style={styles.button}>
-                            Add Prescription
-                        </Text>
+                    <View style={{flexDirection: 'row'}}>
+                    <Feather style={{marginTop: 3}} name="camera" size={18} color="black" />    
+                    <Text
+                        onPress={pickImage}
+                        style={styles.button}
+                    >
+                        Add Prescription
+                    </Text>
                     </View>
                 </View>
                 <View style={styles.topImage}>
@@ -83,9 +71,7 @@ const ProfileScreen = ({ navigation }) => {
             <View style={styles.bottom}>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Mother's Name</ParaText>
-                    <ParaText style={styles.text2}>
-                        {user.data?.mothers_name}
-                    </ParaText>
+                    <ParaText style={styles.text2}>{user.data?.mothers_name}</ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Child's Name</ParaText>
@@ -93,25 +79,19 @@ const ProfileScreen = ({ navigation }) => {
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Father's name</ParaText>
-                    <ParaText style={styles.text2}>
-                        {user.data?.fathers_name}
-                    </ParaText>
+                    <ParaText style={styles.text2}>{user.data?.fathers_name}</ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>D.O.B</ParaText>
-                    <ParaText style={styles.text2}>
-                        {child.data?.dob?.toLocaleDateString()}
-                    </ParaText>
+                    <ParaText style={styles.text2}>{child.data?.dob?.toLocaleDateString()}</ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Age (of Child)</ParaText>
-                    <ParaText style={styles.text2}>{'calculate here'}</ParaText>
+                    <ParaText style={styles.text2}>{"calculate here"}</ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Birth Weight</ParaText>
-                    <ParaText style={styles.text2}>
-                        {child.data?.weight}
-                    </ParaText>
+                    <ParaText style={styles.text2}>{child.data?.weight}</ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Address</ParaText>
@@ -121,31 +101,17 @@ const ProfileScreen = ({ navigation }) => {
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Last vaccinated</ParaText>
-                    <ParaText style={styles.text2}>
-                        {child.data?.last_vaccinated?.toLocaleDateString()}
-                    </ParaText>
+                    <ParaText style={styles.text2}>{child.data?.last_vaccinated?.toLocaleDateString()}</ParaText>
                 </View>
             </View>
-            <View
-                style={styles.addProfileButton}
-                onPress={() => {
-                    navigation.navigate('AddPrf');
-                }}
-            >
-                {/* <TouchableOpacity
-                    onPress={() => {
-                        navigation.navigate('AddProfile');
-                    }}
-                > */}
-                <AntDesign
-                    style={{ marginTop: 1 }}
-                    name="adduser"
-                    size={21}
-                    color="white"
-                />
+            <TouchableOpacity activeOpacity={0.8} onPress={() => {
+                            navigation.navigate('AddPrf');
+                        }}>
+            <View style={styles.addProfileButton}>
+                <AntDesign style={{marginTop:1}} name="adduser" size={21} color="white" />
                 <Text style={styles.addtext}>Add Profile</Text>
-                {/* </TouchableOpacity> */}
             </View>
+            </TouchableOpacity>
         </Screen>
     );
 };
@@ -173,7 +139,7 @@ const styles = StyleSheet.create({
     },
     topImage: {
         width: '40%',
-        flexDirection: 'column-reverse'
+        flexDirection: 'column-reverse',
     },
     button: {
         textDecorationLine: 'underline',
@@ -195,7 +161,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 8,
         borderRadius: 5,
-        height: 'auto'
+        height: 'auto',
     },
     text: {
         fontSize: 12,
@@ -203,13 +169,12 @@ const styles = StyleSheet.create({
         // width: 100,
         width: 130,
         flexWrap: 'wrap',
-        fontFamily: 'PublicSans-Light'
+        fontFamily: 'PublicSans-Light',
     },
     text2: {
         fontSize: 12,
         fontFamily: 'PublicSans-Regular',
-        flex: 1,
-        flexWrap: 'wrap'
+        flex: 1, flexWrap: 'wrap'
     },
     address: {
         fontFamily: 'PublicSans-Regular',
@@ -218,27 +183,27 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap'
         // width: 150
     },
-    addtext: {
+    addtext:{
         fontFamily: 'PublicSans-Regular',
         fontSize: 15,
         color: colors.white,
-        margin: 2
+        margin:2
     },
     addProfileButton: {
         backgroundColor: colors.primary,
         flexDirection: 'row',
         alignSelf: 'flex-start',
-        paddingHorizontal: 15,
-        paddingVertical: 10,
+        paddingHorizontal:15,
+        paddingVertical:10,
         borderRadius: 30,
         alignItems: 'center',
         justifyContent: 'space-around',
         position: 'absolute',
         right: 15,
         bottom: 20,
-        shadowOffset: { width: 2, height: 6 },
+        shadowOffset: {width: 2, height: 6},
         shadowColor: '#AAD2D4',
-        shadowOpacity: 0.21,
+        shadowOpacity: .21,
         shadowRadius: 100,
         elevation: 2
     }

@@ -43,10 +43,15 @@
     "react-native-screens": "~3.0.0",
     "react-native-table-component": "^1.2.1",
     "react-native-web": "~0.13.12",
+<<<<<<< HEAD
     "react-native-webview": "^11.6.5",
     "react-query": "^3.18.1",
     "rn-fetch-blob": "^0.12.0",
     "yup": "^0.32.9"
+=======
+    "react-query": "^3.18.1",
+    "expo-image-picker": "~10.1.4"
+>>>>>>> c59f5a4b162b9429d380106ecc59773ef40f845a
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

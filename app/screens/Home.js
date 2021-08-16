@@ -13,37 +13,43 @@ const Home = () => {
             id: '1',
             title: 'Add Vaccine',
             para: 'Helps you schedule your next vaccine on time.',
-            img: require('../../assets/illustrations/1.jpg')
+            img: require('../../assets/illustrations/1.jpg'),
+            onpress: 'CheckListScreen'
         },
         {
             id: '2',
             title: 'Set Reminder',
             para: 'Set reminder according to your preference.',
-            img: require('../../assets/illustrations/2.jpg')
+            img: require('../../assets/illustrations/2.jpg'),
+            onpress: 'SetReminderScreen'
         },
         {
             id: '3',
             title: 'Your Vaccine Chart',
             para: 'Get assistance from your own doctor.',
-            img: require('../../assets/illustrations/3.jpg')
+            img: require('../../assets/illustrations/3.jpg'),
+            onpress: ''
         },
         {
             id: '4',
             title: 'Vaccination Schedule',
             para: 'Latest national vaccination schedule.',
-            img: require('../../assets/illustrations/4.jpg')
+            img: require('../../assets/illustrations/4.jpg'),
+            onpress: 'NationalVaccineScreen'
         },
         {
             id: '5',
             title: 'Know Your Vaccines',
             para: 'Details of the vaccines you’re going to take.',
-            img: require('../../assets/illustrations/5.jpg')
+            img: require('../../assets/illustrations/5.jpg'),
+            onpress: 'KnowYourVaccines'
         },
         {
             id: '6',
             title: 'FAQs',
             para: 'Dont worry about a thing. Weve got you covered.',
-            img: require('../../assets/illustrations/6.jpg')
+            img: require('../../assets/illustrations/6.jpg'),
+            onpress: 'FaqScreen'
         },
     ])
 
@@ -62,7 +68,7 @@ const Home = () => {
                     style={{marginTop: 35}}
                     data={cardInfo}
                     renderItem={({ item }) => (
-                        <TouchableOpacity activeOpacity={0.7} style={styles.card}>
+                        <TouchableOpacity activeOpacity={0.7} style={styles.card} onPress={navigation.navigate(item.onpress)}>
                             <View style={styles.textContainer}>
                                 <CardHeading>{item.title}</CardHeading>
                                 <CardPara style={{marginTop:10}}>{item.para}</CardPara>

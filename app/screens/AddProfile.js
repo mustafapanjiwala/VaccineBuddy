@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useState } from 'react';
 import { StyleSheet, TouchableOpacity, View, Text, Button } from 'react-native';
 import Screen from '../components/Screen';
 import DatePicker from '../components/DatePicker';
@@ -15,19 +16,22 @@ import CardPara from '../components/CardPara';
 // import { FontAwesome5 } from '@expo/vector-icons';
 // import moment from 'moment';
 
-const profileSchema = yup.object({
-    childsName: yup
-        .string()
-        .matches(/^[A-Za-z ]*$/, 'Please enter valid name')
-        .required('Mothers Name is a required field.')
-        .min(4, 'Mothers Name must be at least 4 characters')
-        .max(30)
-    // email: yup.string().email().required(),
-    // phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
-    // country: yup.string().required().min(4).max(30)
-});
 
-const AddProfile = ({ navigation }) => {
+
+const AddProfile = () => {
+
+    const profileSchema = yup.object({
+        childsName: yup
+            .string()
+            .matches(/^[A-Za-z ]*$/, 'Please enter valid name')
+            .required('Mothers Name is a required field.')
+            .min(4, 'Mothers Name must be at least 4 characters')
+            .max(30)
+        // email: yup.string().email().required(),
+        // phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
+        // country: yup.string().required().min(4).max(30)
+    });
+
     const [mothersName, setMothersName] = React.useState('');
     const [childsName, setChildsName] = React.useState('');
     const [fathersName, setFathersName] = React.useState('');
