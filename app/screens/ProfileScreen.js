@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 
 import Screen from '../components/Screen';
@@ -6,13 +6,18 @@ import CardHeading from '../components/CardHeading';
 import ParaText from '../components/ParaText';
 import img from '../assets/Profile.png';
 import colors from '../constants/colors';
+import AppHeading from '../components/AppHeading';
+import { Feather } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
+import CardPara from '../components/CardPara';
 import { useGetUser } from "../queries/Users/getUser";
 import { useGetChild } from '../queries/Child/getChild';
 
 const ProfileScreen = () => {
+    const [image, setImage] = useState(null);
     const user = useGetUser("wYQA7c8yPCXOFX0BOdLPTu0jrA63");
     const child = useGetChild("2uW8KfSNufNUes7E5NI1");
-    const [image, setImage] = useState(null);
 
     useEffect(() => {
       (async () => {
@@ -40,14 +45,15 @@ const ProfileScreen = () => {
       }
     };
 
-    if (user.isLoading || child.isLoading) return <View><Text>Loading...</Text></View>
-    console.log("CHILD", child.data, "USER", user.data)
+    // if (user.isLoading || child.isLoading) return <View><Text>Loading...</Text></View>
+    // console.log("CHILD", child.data, "USER", user.data)
+
     return (
         <Screen style={styles.cointainer}>
             <View style={styles.top}>
                 <View style={styles.topDetails}>
                     <ParaText style={{fontSize:20, fontFamily: 'PublicSans-SemiBold'}}>Your Profile</ParaText>
-                    <ParaText style={styles.name}>{child?.data?.name}</ParaText>
+                    <ParaText style={styles.name}>Mustafa Panjiwala</ParaText>
                     <View style={{flexDirection: 'row'}}>
                     <Feather style={{marginTop: 3}} name="camera" size={18} color="black" />    
                     <Text

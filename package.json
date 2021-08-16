@@ -45,7 +45,8 @@
     "yup": "^0.32.9",
     "react-native-table-component": "^1.2.1",
     "react-native-web": "~0.13.12",
-    "react-query": "^3.18.1"
+    "react-query": "^3.18.1",
+    "expo-image-picker": "~10.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
