@@ -91,12 +91,12 @@ export default function App() {
                 <NavigationContainer>
                     <PaperProvider theme={theme}>
                         <AppProvider>
-                            {/* <AuthNavigator /> */}
+                            <AuthNavigator />
                             {/* <CheckListScreen /> */}
                             {/* <SelectVaccine /> */}
                             {/* <EditableTable /> */}
                             {/* <KnowYourVaccines /> */}
-                            <ProfileScreen />
+                            {/* <ProfileScreen /> */}
                             {/* <LandingScreen /> */}
                             {/* <UserDetails1 /> */}
                             {/* <KnowYourVaccines /> */}

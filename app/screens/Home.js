@@ -8,6 +8,10 @@ import CardPara from '../components/CardPara'
 
 const Home = () => {
 
+    goToNextScreen = (screen) => {
+        return navigation.navigate(screen);
+    }
+
     const[cardInfo, setCardInfo] = useState([
         {
             id: '1',
@@ -68,7 +72,7 @@ const Home = () => {
                     style={{marginTop: 35}}
                     data={cardInfo}
                     renderItem={({ item }) => (
-                        <TouchableOpacity activeOpacity={0.7} style={styles.card} onPress={navigation.navigate(item.onpress)}>
+                        <TouchableOpacity activeOpacity={0.7} style={styles.card} onPress={() => goToNextScreen(item.onpress)}>
                             <View style={styles.textContainer}>
                                 <CardHeading>{item.title}</CardHeading>
                                 <CardPara style={{marginTop:10}}>{item.para}</CardPara>
