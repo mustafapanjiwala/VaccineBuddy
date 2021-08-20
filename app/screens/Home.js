@@ -1,57 +1,65 @@
 import React, { useState } from 'react';
-import { StyleSheet, TouchableOpacity, View, Text, Button, ScrollView, FlatList, Image } from 'react-native';
+import {
+    StyleSheet,
+    TouchableOpacity,
+    View,
+    Text,
+    Button,
+    ScrollView,
+    FlatList,
+    Image
+} from 'react-native';
 import { color } from 'react-native-reanimated';
 import Screen from '../components/Screen';
 import colors from '../constants/colors';
-import CardHeading from '../components/CardHeading'
-import CardPara from '../components/CardPara'
+import CardHeading from '../components/CardHeading';
+import CardPara from '../components/CardPara';
 
-const Home = () => {
-
-    const[cardInfo, setCardInfo] = useState([
+const Home = ({ navigation }) => {
+    const [cardInfo, setCardInfo] = useState([
         {
             id: '1',
             title: 'Add Vaccine',
             para: 'Helps you schedule your next vaccine on time.',
             img: require('../../assets/illustrations/1.jpg'),
-            onpress: 'CheckListScreen'
+            onpress: 'AddVaccine'
         },
         {
             id: '2',
             title: 'Set Reminder',
             para: 'Set reminder according to your preference.',
             img: require('../../assets/illustrations/2.jpg'),
-            onpress: 'SetReminderScreen'
+            onpress: 'Reminder'
         },
         {
             id: '3',
             title: 'Your Vaccine Chart',
             para: 'Get assistance from your own doctor.',
             img: require('../../assets/illustrations/3.jpg'),
-            onpress: ''
+            onpress: 'EditableTable'
         },
         {
             id: '4',
             title: 'Vaccination Schedule',
             para: 'Latest national vaccination schedule.',
             img: require('../../assets/illustrations/4.jpg'),
-            onpress: 'NationalVaccineScreen'
+            onpress: 'NationalVaccine'
         },
         {
             id: '5',
             title: 'Know Your Vaccines',
             para: 'Details of the vaccines you’re going to take.',
             img: require('../../assets/illustrations/5.jpg'),
-            onpress: 'KnowYourVaccines'
+            onpress: 'KnowYourVaccine'
         },
         {
             id: '6',
             title: 'FAQs',
             para: 'Dont worry about a thing. Weve got you covered.',
             img: require('../../assets/illustrations/6.jpg'),
-            onpress: 'FaqScreen'
-        },
-    ])
+            onpress: 'Faq'
+        }
+    ]);
 
     return (
         <Screen>
@@ -59,38 +67,47 @@ const Home = () => {
                 <View style={styles.helloBox}>
                     <Text style={styles.helloText}>Hello There!</Text>
                     <View style={styles.nextVaccineContainer}>
-                        <Text style={styles.nextVaccineText}>Your next vaccine</Text>
+                        <Text style={styles.nextVaccineText}>
+                            Your next vaccine
+                        </Text>
                         <Text style={styles.nextVaccineText}>PCV 1</Text>
                     </View>
                 </View>
 
-                <FlatList 
-                    style={{marginTop: 35}}
+                <FlatList
+                    style={{ marginTop: 35 }}
                     data={cardInfo}
                     renderItem={({ item }) => (
-                        <TouchableOpacity activeOpacity={0.7} style={styles.card} onPress={navigation.navigate(item.onpress)}>
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            style={styles.card}
+                            onPress={navigation.navigate('Faq')}
+                        >
                             <View style={styles.textContainer}>
                                 <CardHeading>{item.title}</CardHeading>
-                                <CardPara style={{marginTop:10}}>{item.para}</CardPara>
+                                <CardPara style={{ marginTop: 10 }}>
+                                    {item.para}
+                                </CardPara>
                             </View>
-                            <View >
-                                <Image source={item.img} style={{width: 150, height:100}} />
-                            </View>    
+                            <View>
+                                <Image
+                                    source={item.img}
+                                    style={{ width: 150, height: 100 }}
+                                />
+                            </View>
                         </TouchableOpacity>
                     )}
                 />
-
-
             </View>
         </Screen>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.grey3,
-        padding: 20,
+        padding: 20
     },
     helloBox: {
         flexDirection: 'row',
@@ -99,11 +116,11 @@ const styles = StyleSheet.create({
     },
     helloText: {
         fontFamily: 'PublicSans-SemiBold',
-        fontSize: 26,
+        fontSize: 26
     },
     nextVaccineText: {
         fontFamily: 'PublicSans-Regular',
-        fontSize: 11,
+        fontSize: 11
     },
     nextVaccineContainer: {
         alignItems: 'flex-end'
@@ -115,7 +132,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         backgroundColor: colors.white,
         flex: 1,
-        flexWrap:'wrap',
+        flexWrap: 'wrap',
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
@@ -123,11 +140,11 @@ const styles = StyleSheet.create({
         marginBottom: 40
     },
     textContainer: {
-        flex:1,
+        flex: 1,
         height: '100%',
         justifyContent: 'space-evenly'
         // width: 180,
     }
-})
+});
 
-export default Home
+export default Home;

@@ -19,34 +19,34 @@ const HomeNavigator = () => {
                 options={{ headerShown: false }}
             />
             <Stack.Screen
-                name="AddVacine"
+                name="AddVaccine"
                 component={AddVaccineNavigator}
-                options={{ headerShown: false }}
+                options={{ headerShown: true }}
             />
             <Stack.Screen
                 name="Reminder"
                 component={SetReminderScreen}
-                options={{ headerShown: false }}
+                options={{ headerShown: true }}
             />
             <Stack.Screen
                 name="EditableTable"
                 component={EditableVaccine}
-                options={{ headerShown: false }}
+                options={{ headerShown: true }}
             />
             <Stack.Screen
                 name="NationalVaccine"
                 component={NationalVaccineScreen}
-                options={{ headerShown: false }}
+                options={{ headerShown: true }}
             />
             <Stack.Screen
-                name="knowYourVaccine"
+                name="KnowYourVaccine"
                 component={KnowYourVaccines}
-                options={{ headerShown: false }}
+                options={{ headerShown: true }}
             />
             <Stack.Screen
                 name="Faq"
                 component={FaqScreen}
-                options={{ headerShown: false }}
+                options={{ headerShown: true }}
             />
         </Stack.Navigator>
     );

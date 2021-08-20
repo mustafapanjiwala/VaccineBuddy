@@ -6,6 +6,7 @@ import UserDetails1 from '../screens/UserDetails1';
 import UserDetails2 from '../screens/UserDetails2';
 import Home from '../screens/Home';
 import HomeNavigator from './HomeNavigator';
+import AppNavigator from './AppNavigator';
 
 const Stack = createStackNavigator();
 
@@ -34,7 +35,7 @@ const AuthNavigator = () => {
             />
             <Stack.Screen
                 name="Home"
-                component={HomeNavigator}
+                component={AppNavigator}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>
