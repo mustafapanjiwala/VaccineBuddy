@@ -1,6 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import CheckListScreen from '../screens/CheckListScreen';
+import Home from '../screens/Home';
 import PreviewScreen from '../screens/PreviewScreen';
 import SelectVaccine from '../screens/SelectVaccine';
 

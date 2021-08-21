@@ -91,7 +91,7 @@ export default function App() {
                 <NavigationContainer>
                     <PaperProvider theme={theme}>
                         <AppProvider>
-                            <AuthNavigator />
+                            <AppNavigator />
                             {/* <CheckListScreen /> */}
                             {/* <SelectVaccine /> */}
                             {/* <EditableTable /> */}
