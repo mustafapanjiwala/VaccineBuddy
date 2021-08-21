@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 import Screen from '../components/Screen';
 import CardHeading from '../components/CardHeading';
@@ -14,7 +14,7 @@ import CardPara from '../components/CardPara';
 import { useGetUser } from "../queries/Users/getUser";
 import { useGetChild } from '../queries/Child/getChild';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}) => {
     const [image, setImage] = useState(null);
     const user = useGetUser("wYQA7c8yPCXOFX0BOdLPTu0jrA63");
     const child = useGetChild("2uW8KfSNufNUes7E5NI1");
@@ -104,10 +104,14 @@ const ProfileScreen = () => {
                     <ParaText style={styles.text2}>{child.data?.last_vaccinated?.toLocaleDateString()}</ParaText>
                 </View>
             </View>
+            <TouchableOpacity activeOpacity={0.8} onPress={() => {
+                            navigation.navigate('AddPrf');
+                        }}>
             <View style={styles.addProfileButton}>
                 <AntDesign style={{marginTop:1}} name="adduser" size={21} color="white" />
                 <Text style={styles.addtext}>Add Profile</Text>
             </View>
+            </TouchableOpacity>
         </Screen>
     );
 };

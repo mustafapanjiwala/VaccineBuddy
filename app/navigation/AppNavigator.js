@@ -9,8 +9,8 @@ import SetReminderScreen from '../screens/SetReminderScreen';
 import EditableVaccine from '../screens/EditableTableScreen';
 import KnowYourVaccines from '../screens/KnowYourVaccines';
 import CheckListScreen from '../screens/CheckListScreen';
-// import HomeNavigator from './HomeNavigator';
-// import ProfileScreenNavigator from './ProfileScreenNavigator';
+import HomeNavigator from './HomeNavigator';
+import ProfileScreenNavigator from './ProfileScreenNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,7 +29,7 @@ const AppNavigator = () => {
         >
             <Tab.Screen
                 name="Home"
-                component={Home}
+                component={HomeNavigator}
                 options={{
                     tabBarIcon: ({ size, color }) => (
                         <AntDesign name="home" size={size} color={color} />
@@ -51,7 +51,7 @@ const AppNavigator = () => {
             />
             <Tab.Screen
                 name="Profile"
-                component={ProfileScreen}
+                component={ProfileScreenNavigator}
                 options={{
                     tabBarIcon: ({ size, color }) => (
                         <AntDesign name="user" size={size} color={color} />

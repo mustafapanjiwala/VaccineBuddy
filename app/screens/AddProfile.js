@@ -43,89 +43,137 @@ const AddProfile = () => {
     return (
         <Screen>
             <Formik
-                initialValues={{ childsName: '', gender: '', deliveryMode: '', firstChild: '' }}
+                initialValues={{
+                    childsName: '',
+                    gender: '',
+                    deliveryMode: '',
+                    firstChild: ''
+                }}
                 validationSchema={profileSchema}
             >
                 {(props) => (
                     <View style={styles.container}>
-                            <View style={styles.details}>
-                                <AppHeading>Add Profile</AppHeading>
-                            </View>
-                            <View style={styles.inputs}>
-                                <Text>
-                                    {props.touched.mothersName &&
-                                        props.errors.mothersName}
-                                </Text>
-                                <TextInput
-                                    label="Child's Name*"
-                                    mode={'outlined'}
-                                    outlineColor={'#E2E2E2'}
-                                    onChangeText={props.handleChange(
-                                        'childsName'
-                                    )}
-                                    value={props.values.childsName}
-                                    onBlur={props.handleBlur('childsName')}
+                        <View style={styles.details}>
+                            <AppHeading>Add Profile</AppHeading>
+                        </View>
+                        <View style={styles.inputs}>
+                            <Text>
+                                {props.touched.mothersName &&
+                                    props.errors.mothersName}
+                            </Text>
+                            <TextInput
+                                label="Child's Name*"
+                                mode={'outlined'}
+                                outlineColor={'#E2E2E2'}
+                                onChangeText={props.handleChange('childsName')}
+                                value={props.values.childsName}
+                                onBlur={props.handleBlur('childsName')}
+                            />
+                            <CardPara
+                                style={{
+                                    fontSize: 14,
+                                    fontFamily: 'PublicSans-Regular'
+                                }}
+                            >
+                                Gender
+                            </CardPara>
+                            <View style={styles.radio}>
+                                <RadioButton
+                                    value="male"
+                                    status={
+                                        gender === 'male'
+                                            ? 'checked'
+                                            : 'unchecked'
+                                    }
+                                    onPress={() => setGender('male')}
+                                    color="#79D1D7"
                                 />
-                                <CardPara style={{fontSize: 14, fontFamily: 'PublicSans-Regular'}}>Gender</CardPara>
-                                <View style={styles.radio}>
-                                    <RadioButton
-                                        value="male"
-                                        status={ gender === 'male' ? 'checked' : 'unchecked' }
-                                        onPress={() => setGender('male')}
-                                        color="#79D1D7"
-                                    />
-                                    <CardPara>Male</CardPara>
-                                </View>
-                                <View style={styles.radio}>
-                                    <RadioButton
-                                        value="female"
-                                        status={ gender === 'female' ? 'checked' : 'unchecked' }
-                                        onPress={() => setGender('female')}
-                                        color="#79D1D7"
-                                    />
-                                    <CardPara>Female</CardPara>
-                                </View>
-                            
-                                <CardPara style={{fontSize: 14, fontFamily: 'PublicSans-Regular'}}>Is this your first child?</CardPara>
-                                <View style={styles.radio}>
-                                    <RadioButton
-                                        value="yes"
-                                        status={ firstChild === 'yes' ? 'checked' : 'unchecked' }
-                                        onPress={() => setFirstChild('yes')}
-                                        color="#79D1D7"
-                                    />
-                                    <CardPara>Yes</CardPara>
-                                </View>
-                                <View style={styles.radio}>
-                                    <RadioButton
-                                        value="no"
-                                        status={ firstChild === 'no' ? 'checked' : 'unchecked' }
-                                        onPress={() => setFirstChild('no')}
-                                        color="#79D1D7"
-                                    />
-                                    <CardPara>No</CardPara>
-                                </View>
+                                <CardPara>Male</CardPara>
+                            </View>
+                            <View style={styles.radio}>
+                                <RadioButton
+                                    value="female"
+                                    status={
+                                        gender === 'female'
+                                            ? 'checked'
+                                            : 'unchecked'
+                                    }
+                                    onPress={() => setGender('female')}
+                                    color="#79D1D7"
+                                />
+                                <CardPara>Female</CardPara>
+                            </View>
 
-                                <CardPara style={{fontSize: 14, fontFamily: 'PublicSans-Regular'}}>Mode Of Delivery</CardPara>
-                                <View style={styles.radio}>
-                                    <RadioButton
-                                        value="lscs"
-                                        status={ deliveryMode === 'lscs' ? 'checked' : 'unchecked' }
-                                        onPress={() => setDeliveryMode('lscs')}
-                                        color="#79D1D7"
-                                    />
-                                    <CardPara>LSCS Delivery</CardPara>
-                                </View>
-                                <View style={styles.radio}>
-                                    <RadioButton
-                                        value="vaginal"
-                                        status={ gender === 'vaginal' ? 'checked' : 'unchecked' }
-                                        onPress={() => setDeliveryMode('vaginal')}
-                                        color="#79D1D7"
-                                    />
-                                    <CardPara>Vaginal Delivery</CardPara>
-                                </View>
-                                <View style={{height: 15}}></View>
+                            <CardPara
+                                style={{
+                                    fontSize: 14,
+                                    fontFamily: 'PublicSans-Regular'
+                                }}
+                            >
+                                Is this your first child?
+                            </CardPara>
+                            <View style={styles.radio}>
+                                <RadioButton
+                                    value="yes"
+                                    status={
+                                        firstChild === 'yes'
+                                            ? 'checked'
+                                            : 'unchecked'
+                                    }
+                                    onPress={() => setFirstChild('yes')}
+                                    color="#79D1D7"
+                                />
+                                <CardPara>Yes</CardPara>
+                            </View>
+                            <View style={styles.radio}>
+                                <RadioButton
+                                    value="no"
+                                    status={
+                                        firstChild === 'no'
+                                            ? 'checked'
+                                            : 'unchecked'
+                                    }
+                                    onPress={() => setFirstChild('no')}
+                                    color="#79D1D7"
+                                />
+                                <CardPara>No</CardPara>
+                            </View>
+
+                            <CardPara
+                                style={{
+                                    fontSize: 14,
+                                    fontFamily: 'PublicSans-Regular'
+                                }}
+                            >
+                                Mode Of Delivery
+                            </CardPara>
+                            <View style={styles.radio}>
+                                <RadioButton
+                                    value="lscs"
+                                    status={
+                                        deliveryMode === 'lscs'
+                                            ? 'checked'
+                                            : 'unchecked'
+                                    }
+                                    onPress={() => setDeliveryMode('lscs')}
+                                    color="#79D1D7"
+                                />
+                                <CardPara>LSCS Delivery</CardPara>
+                            </View>
+                            <View style={styles.radio}>
+                                <RadioButton
+                                    value="vaginal"
+                                    status={
+                                        gender === 'vaginal'
+                                            ? 'checked'
+                                            : 'unchecked'
+                                    }
+                                    onPress={() => setDeliveryMode('vaginal')}
+                                    color="#79D1D7"
+                                />
+                                <CardPara>Vaginal Delivery</CardPara>
+                            </View>
+                            <View style={{ height: 15 }}></View>
                             <DatePicker />
                         </View>
                         <AppButton
@@ -160,7 +208,7 @@ const styles = StyleSheet.create({
         height: 460,
         display: 'flex',
         justifyContent: 'space-evenly',
-        marginBottom: 70,
+        marginBottom: 70
     },
     details: {
         width: '100%',
@@ -173,7 +221,7 @@ const styles = StyleSheet.create({
         fontSize: 13,
         color: '#676767'
     },
-    radio:{
+    radio: {
         flexDirection: 'row',
         alignItems: 'center'
     }
