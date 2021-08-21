@@ -27,8 +27,9 @@ import firebase from "firebase/app";
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { useGetChildMutate } from "./app/queries/Child/getChildMutate"
 import { useGetUserMutate } from "./app/queries/Users/getUsersMutate"
+// import { AppContext, AppProvider } from "./app/context/AppContext"
 import EditableTable from "./app/screens/EditableTableScreen"
-
+import { LogBox } from 'react-native';
 //context
 import { AppContext, AppProvider } from "./app/context/AppContext"
 import LandingScreen from './app/screens/LandingScreen';
@@ -82,6 +83,8 @@ export default function App() {
         'PublicSans-SemiBold': require('./assets/fonts/PublicSans-SemiBold.ttf')
     });
 
+    
+// LogBox.ignoreLogs(['Setting a timer']);
 
     if (!fontsLoaded) {
         return <AppLoading />;
@@ -91,19 +94,21 @@ export default function App() {
                 <NavigationContainer>
                     <PaperProvider theme={theme}>
                         <AppProvider>
-                            <AuthNavigator />
+                            {/* <AuthNavigator /> */}
+                            <AppNavigator />
+                            {/* <Home /> */}
                             {/* <CheckListScreen /> */}
                             {/* <SelectVaccine /> */}
                             {/* <EditableTable /> */}
                             {/* <KnowYourVaccines /> */}
                             {/* <ProfileScreen /> */}
                             {/* <LandingScreen /> */}
-                            {/* <UserDetails1 /> */}
+                            {/* <UserDetails2 /> */}
                             {/* <KnowYourVaccines /> */}
                         </AppProvider>
                     </PaperProvider>
                 </NavigationContainer>
             </QueryClientProvider>
         );
-    }
+        }
 }

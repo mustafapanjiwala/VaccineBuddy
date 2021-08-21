@@ -59,11 +59,11 @@ const LandingScreen = ({ navigation }) => {
                 fadeDuration={1200}
                 source={logo}
                 style={styles.logo}
-                // onLoad={() => {
-                //     setTimeout(() => {
-                //         navigation.navigate('PhoneNumber');
-                //     }, 1400);
-                // }}
+                onLoad={() => {
+                    setTimeout(() => {
+                        navigation.navigate('PhoneNumber');
+                    }, 1400);
+                }}
             />
         </View>
     );

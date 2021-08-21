@@ -46,7 +46,9 @@
     "react-native-table-component": "^1.2.1",
     "react-native-web": "~0.13.12",
     "react-query": "^3.18.1",
-    "expo-image-picker": "~10.1.4"
+    "expo-image-picker": "~10.1.4",
+    "@react-native-picker/picker": "1.9.11",
+    "expo-notifications": "~0.11.6"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

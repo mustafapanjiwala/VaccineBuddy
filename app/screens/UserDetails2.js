@@ -15,19 +15,21 @@ import CardPara from '../components/CardPara';
 // import moment from 'moment';
 
 
-const UserDetails2 = () => {
-    
+const UserDetails2 = ({navigation}) => {
+    const [birthWeight, setBirthWeight] = React.useState('');
     const [gender, setGender] = React.useState('');
     const [firstChild, setFirstChild] = React.useState('');
     const [deliveryMode, setDeliveryMode] = React.useState('');
 
+    function setData() {
+        global.userData.birthWeight = birthWeight;
+        global.userData.gender = gender;
+        global.userData.firstChild = firstChild;
+        global.userData.deliveryMode = deliveryMode;
+    }
 
     return (
         <Screen>
-            <Formik
-            initialValues={{birthWeight: ''}}
-            >
-                {(props) => (
                     <View style={styles.container}>
                         <View>
                         <View style={styles.details}>
@@ -39,14 +41,9 @@ const UserDetails2 = () => {
                                 label="Birth Weight"
                                 mode={'outlined'}
                                 outlineColor={'#E2E2E2'}
-                                onChangeText={props.handleChange('birthWeight')}
-                                value={props.values.birthWeight}
-                                onBlur={props.handleBlur('birthWeight')}
-                                style={{width: '60%', height: 50,
-                                shadowOffset: {width: 8, height: 8},
-                                shadowColor: 'black',
-                                shadowOpacity: .44,
-                                shadowRadius: 24,
+                                onChangeText={setBirthWeight}
+                                value={birthWeight}
+                                style={{width: '60%', 
                             }}
                             />
 
@@ -116,11 +113,13 @@ const UserDetails2 = () => {
                         </View>
                         </View>
                         <AppButton 
-                            onPress={props.handleSubmit}
+                            onPress={() => {
+                                setData();
+                                console.log(userData);
+                                navigation.navigate('Home')
+                            }}
                         />
                     </View>
-                )}
-            </Formik>
         </Screen>
     );
 };

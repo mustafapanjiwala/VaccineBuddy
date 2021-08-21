@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { StyleSheet, TouchableOpacity, View, Text, Button } from 'react-native';
 import Screen from '../components/Screen';
 import DatePicker from '../components/DatePicker';
@@ -7,6 +7,7 @@ import AppButton from '../components/AppButton';
 import AppHeading from '../components/AppHeading';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import moment from 'moment';
 // import { withTheme } from 'react-native-paper';
 // import colors from '../constants/colors';
 // import DateTimePicker from '@react-native-community/datetimepicker';
@@ -24,16 +25,27 @@ const profileSchema = yup.object({
     // phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
     // country: yup.string().required().min(4).max(30)
 });
+const userData = {mothersName: '', childsName: '', fathersName: '' , address: '', dob: '', birthWeight: '', gender: '', firstChild: '', deliveryMode: ''};
+global.userData = userData;
 
 const UserDetails1 = ({ navigation }) => {
+    const ref = useRef(null);
     const [mothersName, setMothersName] = React.useState('');
     const [childsName, setChildsName] = React.useState('');
     const [fathersName, setFathersName] = React.useState('');
     const [address, setAddress] = React.useState('');
 
+    function setData() {
+        userData.mothersName = ref.current.values.mothersName;
+        userData.childsName = childsName;
+        userData.fathersName = fathersName;
+        userData.address = address;
+    }
+
     return (
         <Screen>
             <Formik
+                innerRef={ref}
                 initialValues={{ mothersName: '' }}
                 validationSchema={profileSchema}
             >
@@ -45,7 +57,7 @@ const UserDetails1 = ({ navigation }) => {
                                 <Text style={styles.stepText}>Step: 1/2</Text>
                             </View>
                             <View style={styles.inputs}>
-                                <Text>
+                                <Text style={{fontSize: 9, color: 'crimson'}}>
                                     {props.touched.mothersName &&
                                         props.errors.mothersName}
                                 </Text>
@@ -57,6 +69,7 @@ const UserDetails1 = ({ navigation }) => {
                                         'mothersName'
                                     )}
                                     value={props.values.mothersName}
+                                    mothersName={props.values.mothersName}
                                     onBlur={props.handleBlur('mothersName')}
                                 />
                                 <TextInput
@@ -87,9 +100,14 @@ const UserDetails1 = ({ navigation }) => {
                             </View>
                             <DatePicker />
                         </View>
+                        <Button title="hi"onPress={() => {
+                            setData();
+                            console.log(userData);
+                        }} />
                         <AppButton
                             // onPress={props.handleSubmit}
                             onPress={() => {
+                                // console.log(values)
                                 navigation.navigate('UserDetails2');
                                 {
                                     props.handleSubmit;
