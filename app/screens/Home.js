@@ -16,6 +16,10 @@ import CardHeading from '../components/CardHeading';
 import CardPara from '../components/CardPara';
 
 const Home = ({ navigation }) => {
+    goToNextScreen = (screen) => {
+        return navigation.navigate(screen);
+    };
+
     const [cardInfo, setCardInfo] = useState([
         {
             id: '1',
@@ -79,9 +83,9 @@ const Home = ({ navigation }) => {
                     data={cardInfo}
                     renderItem={({ item }) => (
                         <TouchableOpacity
-                            activeOpacity={0.8}
+                            activeOpacity={0.7}
                             style={styles.card}
-                            onPress={navigation.navigate('Faq')}
+                            onPress={() => goToNextScreen(item.onpress)}
                         >
                             <View style={styles.textContainer}>
                                 <CardHeading>{item.title}</CardHeading>
