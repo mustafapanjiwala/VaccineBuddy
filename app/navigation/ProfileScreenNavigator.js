@@ -1,20 +1,21 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import AddProfile from '../screens/AddProfile';
+import Home from '../screens/Home';
 import ProfileScreen from '../screens/ProfileScreen';
 
-const Stack = createStackNavigator;
+const Stack = createStackNavigator();
 
 const ProfileScreenNavigator = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="ProfileScr"
+                name="ProfileScreen"
                 component={ProfileScreen}
                 options={{ headerShown: false }}
             />
             <Stack.Screen
-                name="AddPrf"
+                name="AddProfile"
                 component={AddProfile}
                 options={{ headerShown: false }}
             />

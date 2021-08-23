@@ -5,7 +5,7 @@ import Home from '../screens/Home';
 import PreviewScreen from '../screens/PreviewScreen';
 import SelectVaccine from '../screens/SelectVaccine';
 
-const Stack = createStackNavigator;
+const Stack = createStackNavigator();
 
 const AddVaccineNavigator = () => {
     return (
