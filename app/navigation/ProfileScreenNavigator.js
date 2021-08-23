@@ -15,7 +15,7 @@ const ProfileScreenNavigator = () => {
                 options={{ headerShown: false }}
             />
             <Stack.Screen
-                name="AddProfile"
+                name="AdProfile"
                 component={AddProfile}
                 options={{ headerShown: false }}
             />

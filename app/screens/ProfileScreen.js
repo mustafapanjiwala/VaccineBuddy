@@ -129,7 +129,7 @@ const ProfileScreen = ({ navigation }) => {
             <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() => {
-                    navigation.navigate('AddProfile');
+                    navigation.navigate('AdProfile');
                 }}
             >
                 <View style={styles.addProfileButton}>
