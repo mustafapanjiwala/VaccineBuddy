@@ -129,7 +129,7 @@ const ProfileScreen = ({ navigation }) => {
             <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() => {
-                    navigation.navigate('AdProfile');
+                    navigation.navigate('AddProfile');
                 }}
             >
                 <View style={styles.addProfileButton}>
@@ -229,9 +229,9 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         alignItems: 'center',
         justifyContent: 'space-around',
-        position: 'absolute',
-        right: 15,
-        bottom: 20,
+        // position: 'absolute',
+        alignSelf: 'flex-end',
+        marginRight: 10,
         shadowOffset: { width: 2, height: 6 },
         shadowColor: '#AAD2D4',
         shadowOpacity: 0.21,

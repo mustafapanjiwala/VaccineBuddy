@@ -93,7 +93,7 @@ export default function App() {
                     <PaperProvider theme={theme}>
                         <AppProvider>
                             {/* <AuthNavigator /> */}
-                            <AppNavigator />
+                            <AuthNavigator />
                             {/* <Home /> */}
                             {/* <CheckListScreen /> */}
                             {/* <SelectVaccine /> */}

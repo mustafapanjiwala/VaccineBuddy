@@ -16,10 +16,7 @@ import CardPara from '../components/CardPara';
 // import { FontAwesome5 } from '@expo/vector-icons';
 // import moment from 'moment';
 
-
-
 const AddProfile = () => {
-
     const profileSchema = yup.object({
         childsName: yup
             .string()
@@ -164,7 +161,7 @@ const AddProfile = () => {
                                 <RadioButton
                                     value="vaginal"
                                     status={
-                                        gender === 'vaginal'
+                                        deliveryMode === 'vaginal'
                                             ? 'checked'
                                             : 'unchecked'
                                     }
