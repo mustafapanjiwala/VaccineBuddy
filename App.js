@@ -1,39 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import AuthNavigator from './app/navigation/AuthNavigator';
-import AppNavigator from './app/navigation/AppNavigator';
 import {
     DefaultTheme,
     configureFonts,
     Provider as PaperProvider
 } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import SetReminderScreen from './app/screens/SetReminderScreen';
-import ProfileScreen from './app/screens/ProfileScreen';
-import UserDetails1 from './app/screens/UserDetails1';
-import PhoneNumberScreen from './app/screens/PhoneNumberScreen';
-import FaqScreen from './app/screens/FaqScreen';
-import CheckListScreen from './app/screens/CheckListScreen';
-import SelectVaccine from './app/screens/SelectVaccine';
-import Home from './app/screens/Home';
-import KnowYourVaccines from './app/screens/KnowYourVaccines';
-import NationalVaccineScreen from './app/screens/NationalVaccineScreen';
-import UserDetails2 from './app/screens/UserDetails2';
-import OTPVerification from './app/screens/OTPVerification';
 import firebase from 'firebase/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { useGetChildMutate } from './app/queries/Child/getChildMutate';
-import { useGetUserMutate } from './app/queries/Users/getUsersMutate';
-// import { AppContext, AppProvider } from "./app/context/AppContext"
-import EditableTable from './app/screens/EditableTableScreen';
-import { LogBox } from 'react-native';
-//context
 import { AppContext, AppProvider } from './app/context/AppContext';
-import LandingScreen from './app/screens/LandingScreen';
 
 const fontConfig = {
     web: {
@@ -92,17 +69,7 @@ export default function App() {
                 <NavigationContainer>
                     <PaperProvider theme={theme}>
                         <AppProvider>
-                            {/* <AuthNavigator /> */}
                             <AuthNavigator />
-                            {/* <Home /> */}
-                            {/* <CheckListScreen /> */}
-                            {/* <SelectVaccine /> */}
-                            {/* <EditableTable /> */}
-                            {/* <KnowYourVaccines /> */}
-                            {/* <ProfileScreen /> */}
-                            {/* <LandingScreen /> */}
-                            {/* <UserDetails2 /> */}
-                            {/* <KnowYourVaccines /> */}
                         </AppProvider>
                     </PaperProvider>
                 </NavigationContainer>
