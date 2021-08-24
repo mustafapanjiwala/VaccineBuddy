@@ -3,32 +3,42 @@ import { StyleSheet, View, Image } from 'react-native';
 import logo from '../assets/logo.png';
 import { useEffect } from 'react';
 import { useState, useContext } from 'react';
-import { AppContext } from "../context/AppContext"
-import { useGetUserMutate } from "../queries/Users/getUsersMutate"
-import { useGetChildMutate } from "../queries/Child/getChildMutate"
+import { AppContext } from '../context/AppContext';
+import { useGetUserMutate } from '../queries/Users/getUsersMutate';
+import { useGetChildMutate } from '../queries/Child/getChildMutate';
 
 const LandingScreen = ({ navigation }) => {
-    const { isAuthenticated, setIsAuthenticated, user, setUser, child, setChild } = useContext(AppContext)
+    const {
+        isAuthenticated,
+        setIsAuthenticated,
+        user,
+        setUser,
+        child,
+        setChild
+    } = useContext(AppContext);
 
     const getUser = useGetUserMutate();
     const getChild = useGetChildMutate();
 
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         //for testing
         //START
         try {
             (async function () {
-                const userFetched = await getUser.mutateAsync("wYQA7c8yPCXOFX0BOdLPTu0jrA63");
-                const childFetched = await getChild.mutateAsync(userFetched.chidren[0])
-                console.log("FETCHED CHILD ==> ", childFetched)
-                setChild(childFetched)
-                setUser(userFetched)
-                setIsAuthenticated(true)
+                const userFetched = await getUser.mutateAsync(
+                    'wYQA7c8yPCXOFX0BOdLPTu0jrA63'
+                );
+                const childFetched = await getChild.mutateAsync(
+                    userFetched.chidren[0]
+                );
+                console.log('FETCHED CHILD ==> ', childFetched);
+                setChild(childFetched);
+                setUser(userFetched);
+                setIsAuthenticated(true);
             })();
-        }
-        catch (e) { }
+        } catch (e) {}
         //END
         // firebase.auth().onAuthStateChanged(async function (user) {
         //     setIsLoading(false)
@@ -43,7 +53,7 @@ const LandingScreen = ({ navigation }) => {
         //         catch (e) { }
         //     }
         // })
-    }, [])
+    }, []);
     if (!isAuthenticated) {
         //     handle what to do when user is not signed in
         //     generally return login page
@@ -78,7 +88,7 @@ const styles = StyleSheet.create({
     },
     logo: {
         flex: 1,
-        width: '60%',
+        width: '80%',
         resizeMode: 'contain'
     }
 });
