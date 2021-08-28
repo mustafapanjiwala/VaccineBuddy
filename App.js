@@ -11,6 +11,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import firebase from 'firebase/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { AppContext, AppProvider } from './app/context/AppContext';
+import CheckListScreen from './app/screens/CheckListScreen';
 
 const fontConfig = {
     web: {
@@ -69,7 +70,8 @@ export default function App() {
                 <NavigationContainer>
                     <PaperProvider theme={theme}>
                         <AppProvider>
-                            <AuthNavigator />
+                            {/* <AuthNavigator /> */}
+                            <CheckListScreen />
                         </AppProvider>
                     </PaperProvider>
                 </NavigationContainer>
