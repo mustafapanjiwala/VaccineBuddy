@@ -15,7 +15,7 @@ import img from '../assets/MobNumber.png';
 import AppButton2 from '../components/AppButton2';
 
 const PhoneNumberScreen = ({ navigation }) => {
-    const [phoneNumber, setPhoneNumber] = React.useState('');
+    const [phoneNumber, setPhoneNumber] = React.useState("+91" + '');
 
     return (
         <Screen>
@@ -53,7 +53,7 @@ const PhoneNumberScreen = ({ navigation }) => {
                         title="Continue"
                         name="arrow-right"
                         onPress={() => {
-                            navigation.navigate('UserDetails');
+                            navigation.navigate('OTPVerification', phoneNumber);
                         }}
                     />
                 </View>
@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     label: {
-        fontSize: 14,
-        fontFamily: 'OpenSans-Bold'
+        fontSize: 12,
+        fontFamily: 'OpenSans-SemiBold'
     },
     input: {
         fontSize: 14,

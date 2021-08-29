@@ -21,7 +21,7 @@ const HomeNavigator = () => {
             <Stack.Screen
                 name="AddVaccine"
                 component={AddVaccineNavigator}
-                options={{ headerShown: true }}
+                options={{ headerShown: true}}
             />
             <Stack.Screen
                 name="Reminder"

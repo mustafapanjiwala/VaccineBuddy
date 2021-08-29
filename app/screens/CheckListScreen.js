@@ -8,6 +8,7 @@ import AppButton from '../components/AppButton';
 import CardPara from '../components/CardPara';
 import SelectVaccine from './SelectVaccine';
 import { RadioButton } from 'react-native-paper';
+import ToggleButton from '../components/ToggleButton';
 
 
 const CheckListScreen = ({ navigation }) => {
@@ -26,6 +27,7 @@ const CheckListScreen = ({ navigation }) => {
                     />
                 </View>
                 <View style={styles.cont}>
+                    <ToggleButton onSelect={() => console.log('hi')} textData="hello" />
                     <View style={styles.checkboxContain}>
                             <View style={styles.radio}>
                                 <RadioButton

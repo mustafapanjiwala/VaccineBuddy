@@ -34,7 +34,7 @@ const CELL_COUNT = 6;
 
 
 const OTPVerification = ({ route, navigation }) => {
-    const phoneNumber = "+919039004566";
+    const phoneNumber = route.params;
     const recaptchaVerifier = React.useRef(null);
     const firebaseConfig = firebase.apps.length ? firebase.app().options : undefined;
     const [message, showMessage] = React.useState((!firebaseConfig || Platform.OS === 'web')
@@ -119,7 +119,7 @@ const OTPVerification = ({ route, navigation }) => {
                                 verificationCode
                             );
                             await firebase.auth().signInWithCredential(credential);
-                            // navigation.navigate('CompleteProfile', phoneNumber)
+                            navigation.navigate('UserDetails', phoneNumber)
                             console.log(credential);
                         } catch (err) {
                             console.log(err)

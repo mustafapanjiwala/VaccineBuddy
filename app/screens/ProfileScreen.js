@@ -13,6 +13,7 @@ import * as ImagePicker from 'expo-image-picker';
 import CardPara from '../components/CardPara';
 import { useGetUser } from '../queries/Users/getUser';
 import { useGetChild } from '../queries/Child/getChild';
+import { Picker } from '@react-native-picker/picker';
 
 const ProfileScreen = ({ navigation }) => {
     const [image, setImage] = useState(null);
@@ -51,6 +52,8 @@ const ProfileScreen = ({ navigation }) => {
     // if (user.isLoading || child.isLoading) return <View><Text>Loading...</Text></View>
     // console.log("CHILD", child.data, "USER", user.data)
 
+    const [selectedValue, setSelectedValue] = useState('');
+
     return (
         <Screen style={styles.cointainer}>
             <View style={styles.top}>
@@ -63,7 +66,16 @@ const ProfileScreen = ({ navigation }) => {
                     >
                         Your Profile
                     </ParaText>
-                    <ParaText style={styles.name}>Mustafa Panjiwala</ParaText>
+                    <Picker
+                        selectedValue={selectedValue}
+                        style={{ height: 60, width: 180 }}
+                        onValueChange={(itemValue, itemIndex) =>
+                            setSelectedValue(itemValue)
+                        }
+                    >
+                        <Picker.Item label="13/03/2002" value="13/03/2002" />
+                        <Picker.Item label="29/08/21" value="29/08/21" />
+                    </Picker>
                     <View style={{ flexDirection: 'row' }}>
                         <Feather
                             style={{ marginTop: 3 }}
@@ -221,9 +233,10 @@ const styles = StyleSheet.create({
         margin: 2
     },
     addProfileButton: {
+        marginTop: 50,
         backgroundColor: colors.primary,
         flexDirection: 'row',
-        alignSelf: 'flex-start',
+        // alignSelf: 'flex-start',
         paddingHorizontal: 15,
         paddingVertical: 10,
         borderRadius: 30,

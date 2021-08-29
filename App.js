@@ -12,6 +12,11 @@ import firebase from 'firebase/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { AppContext, AppProvider } from './app/context/AppContext';
 import CheckListScreen from './app/screens/CheckListScreen';
+import SetReminderScreen from './app/screens/SetReminderScreen';
+import FaqScreen from './app/screens/FaqScreen';
+import KnowYourVaccines from './app/screens/KnowYourVaccines';
+import SelectVaccine from './app/screens/SelectVaccine';
+import ProfileScreen from './app/screens/ProfileScreen';
 
 const fontConfig = {
     web: {
@@ -71,7 +76,7 @@ export default function App() {
                     <PaperProvider theme={theme}>
                         <AppProvider>
                             {/* <AuthNavigator /> */}
-                            <CheckListScreen />
+                            <ProfileScreen />
                         </AppProvider>
                     </PaperProvider>
                 </NavigationContainer>

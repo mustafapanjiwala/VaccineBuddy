@@ -11,6 +11,7 @@ import { useGetChildMutate } from "../queries/Child/getChildMutate"
 import { useGetVaccinatedVaccines } from "../queries/Vaccines/getVaccinatedVaccines";
 import { useRemoveVaccine } from "../queries/Vaccines/removeVaccine";
 import { useQueryClient } from "react-query"
+import colors from '../constants/colors';
 
 const SelectVaccine = () => {
     const [selectedVaccine, setSelectedVaccine] = useState();
@@ -130,6 +131,7 @@ const SelectVaccine = () => {
             {/* <AppButton /> */}
             {!isVacSelected && <TouchableOpacity
                 activeOpacity={0.8}
+                style={styles.button}
                 onPress={() => {
                     if (selectedVaccine && selectedBrand) addVac(selectedVaccine, selectedBrand)
                 }}
@@ -139,6 +141,7 @@ const SelectVaccine = () => {
             {isVacSelected && <View>
                 <TouchableOpacity
                     activeOpacity={0.8}
+                    style={styles.button}
                     onPress={() => {
                         if (selectedVaccine && selectedBrand) removeVac(selectedVaccine, selectedBrand)
                     }}
@@ -146,6 +149,7 @@ const SelectVaccine = () => {
                     <Text>Remove </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+                    style={styles.button}
                     activeOpacity={0.8}
                     onPress={() => {
                         if (selectedVaccine && selectedBrand) addVac(selectedVaccine, selectedBrand)
@@ -168,6 +172,16 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'flex-start',
         alignItems: 'center',
+    },
+    button: {
+    backgroundColor: colors.primary,
+    width: 80,
+    height: 40,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5,
+    marginVertical: 15
     }
 })
 

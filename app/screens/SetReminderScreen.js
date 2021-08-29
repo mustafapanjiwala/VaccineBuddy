@@ -115,15 +115,12 @@ const SetReminderScreen = () => {
 async function schedulePushNotification() {
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: "You've got mail! 📬",
-        body: 'Here is the notification body',
+        title: "Vaccine Reminder 💉",
+        body: 'Your scheduled vaccination is on 29/08/21',
         data: { data: 'goes here' },
       },
       trigger: { 
-        date: Date.now() + 3000,
-       },
-       trigger: { 
-        date: Date.now() + 7000,
+        seconds: 2,
        },
     });
   }
