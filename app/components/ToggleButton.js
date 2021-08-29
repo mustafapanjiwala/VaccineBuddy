@@ -14,8 +14,8 @@ const ToggleButton = (props) => {
     
     return (
             <TouchableOpacity
-            // style={[styles.toggle, (status=='checked') ? styles.toggleCheck : styles.toggleUncheck ]}
-            style={[styles.toggle, props.selected ? styles.toggleCheck : styles.toggleUncheck]}
+            style={[styles.toggle, (status=='checked') ? styles.toggleCheck : styles.toggleUncheck ]}
+            // style={[styles.toggle, props.selected ? styles.toggleCheck : styles.toggleUncheck]}
                 activeOpacity={0.8}
                 status={status}
                 onPress={onButtonToggle}

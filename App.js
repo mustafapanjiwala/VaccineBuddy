@@ -19,6 +19,11 @@ import HomeNavigator from './app/navigation/HomeNavigator';
 import ProfileScreen from './app/screens/ProfileScreen';
 import CheckListScreen from './app/screens/CheckListScreen';
 import AppNavigator from './app/navigation/AppNavigator';
+import SetReminderScreen from './app/screens/SetReminderScreen';
+import FaqScreen from './app/screens/FaqScreen';
+import KnowYourVaccines from './app/screens/KnowYourVaccines';
+import SelectVaccine from './app/screens/SelectVaccine';
+import ProfileScreen from './app/screens/ProfileScreen';
 
 const fontConfig = {
     web: {

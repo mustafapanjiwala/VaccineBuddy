@@ -99,11 +99,13 @@ const UserDetails1 = ({ navigation }) => {
                                 />
                             </View>
                             <DatePicker />
+                            <Text style={styles.stepText}>Enter D.O.B*</Text>
+
                         </View>
-                        <Button title="hi"onPress={() => {
+                        {/* <Button title="hi"onPress={() => {
                             setData();
                             console.log(userData);
-                        }} />
+                        }} /> */}
                         <AppButton
                             // onPress={props.handleSubmit}
                             onPress={() => {

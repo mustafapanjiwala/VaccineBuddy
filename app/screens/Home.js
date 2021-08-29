@@ -133,7 +133,7 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.grey3,
+        // backgroundColor: colors.grey3,
         padding: 20
     },
     helloBox: {

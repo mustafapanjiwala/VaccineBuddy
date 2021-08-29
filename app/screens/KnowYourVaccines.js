@@ -3,8 +3,6 @@ import { StyleSheet, TouchableOpacity, View, Text, Button, ScrollView } from 're
 import { Picker } from '@react-native-picker/picker';
 import ParaText from '../components/ParaText';
 import Screen from '../components/Screen';
-import ToggleButton from '../components/ToggleButton';
-import ToggleRadioButton from '../components/ToggleRadioButton';
 import AppButton from '../components/AppButton';
 import colors from '../constants/colors';
 import { vaccineInfo } from '../constants/VaccineInfo';
@@ -94,6 +92,78 @@ const KnowYourVaccines = ({ key }) => {
                         </ParaText>
                         <ParaText style={styles.text2}>
                             {result.mode}
+                        </ParaText>
+                    </View>
+                    <View style={styles.list}>
+                        <ParaText style={styles.text}>
+                        Body Part
+                        </ParaText>
+                        <ParaText style={styles.text2}>
+                            {result.bodyPart}
+                        </ParaText>
+                    </View>
+                    <View style={styles.list}>
+                        <ParaText style={styles.text}>
+                        Fever
+                        </ParaText>
+                        <ParaText style={styles.text2}>
+                            {result.fever}
+                        </ParaText>
+                    </View>
+                    <View style={styles.list}>
+                        <ParaText style={styles.text}>
+                        Pain
+                        </ParaText>
+                        <ParaText style={styles.text2}>
+                            {result.pain}
+                        </ParaText>
+                    </View>
+                    <View style={styles.list}>
+                        <ParaText style={styles.text}>
+                        Disease
+                        </ParaText>
+                        <ParaText style={styles.text2}>
+                            {result.disease}
+                        </ParaText>
+                    </View>
+                    <View style={styles.list}>
+                        <ParaText style={styles.text}>
+                        Side Effects
+                        </ParaText>
+                        <ParaText style={styles.text2}>
+                            {result.effects}
+                        </ParaText>
+                    </View>
+                    <View style={styles.list}>
+                        <ParaText style={styles.text}>
+                        Efficacy
+                        </ParaText>
+                        <ParaText style={styles.text2}>
+                            {result.efficacy}
+                        </ParaText>
+                    </View>
+                    <View style={styles.list}>
+                        <ParaText style={styles.text}>
+                        Brands
+                        </ParaText>
+                        <ParaText style={styles.text2}>
+                            {result.brands + "," + " "}
+                        </ParaText>
+                    </View>
+                    <View style={styles.list}>
+                        <ParaText style={styles.text}>
+                        Compulsory
+                        </ParaText>
+                        <ParaText style={styles.text2}>
+                            {result.compulsory}
+                        </ParaText>
+                    </View>
+                    <View style={styles.list}>
+                        <ParaText style={styles.text}>
+                        Other
+                        </ParaText>
+                        <ParaText style={styles.text2}>
+                            {result.other}
                         </ParaText>
                     </View>
                 </View>

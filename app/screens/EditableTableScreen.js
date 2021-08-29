@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import ParaText from '../components/ParaText';
 import ToggleButton from '../components/ToggleButton';
-import ToggleRadioButton from '../components/ToggleRadioButton';
 import AppButton2 from '../components/AppButton2';
 import { Paragraph, Dialog, Portal, TextInput } from 'react-native-paper';
 import {
