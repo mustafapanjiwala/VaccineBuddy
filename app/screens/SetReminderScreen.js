@@ -7,7 +7,7 @@ import {
     KeyboardAvoidingView,
     TouchableOpacity
 } from 'react-native';
-
+import moment from 'moment';
 import Screen from '../components/Screen';
 import DatePicker from '../components/DatePicker';
 
@@ -119,10 +119,15 @@ async function schedulePushNotification() {
         body: 'Here is the notification body',
         data: { data: 'goes here' },
       },
-      trigger: { seconds: 2 },
+      trigger: { 
+        date: Date.now() + 3000,
+       },
+       trigger: { 
+        date: Date.now() + 7000,
+       },
     });
   }
-  
+  console.log(Date.now())
   async function registerForPushNotificationsAsync() {
     let token;
     if (Constants.isDevice) {

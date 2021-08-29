@@ -21,6 +21,7 @@ import { COLLECTIONS } from "../../constants/collections"
 
 const process = async (load) => {
     if (load.vaccine && load.child) {
+        console.log("LOAD IN ADD VACCINE", load)
         const collectionref = firebase.firestore().collection(COLLECTIONS.CHILDREN);
         const docref = await collectionref.doc(load.child.id)
         // console.log("LOAD -->", load.vaccine.name);
@@ -28,7 +29,7 @@ const process = async (load) => {
             .doc(load.vaccine.s_no)
             .set({
                 due_on: firebase.firestore.Timestamp.now(),
-                given_on: firebase.firestore.Timestamp.now(),
+                given_on: load.givenOn ? firebase.firestore.Timestamp.fromDate(new Date(load.givenOn)) : "",
                 vaccine: load.vaccine.id,
                 brand: load.brand
             })

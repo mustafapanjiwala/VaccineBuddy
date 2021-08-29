@@ -17,6 +17,8 @@ import OTPSCREEN from "./app/screens/OTPVerification"
 import EDITABLETABLE from "./app/screens/EditableTableScreen"
 import HomeNavigator from './app/navigation/HomeNavigator';
 import ProfileScreen from './app/screens/ProfileScreen';
+import CheckListScreen from './app/screens/CheckListScreen';
+import AppNavigator from './app/navigation/AppNavigator';
 
 const fontConfig = {
     web: {
@@ -118,8 +120,9 @@ const Main = props => {
         <NavigationContainer>
             <PaperProvider theme={theme}>
                 {!isAuthenticated ? <AuthNavigator /> : <HomeNavigator />}
-                {/* <ProfileScreen /> */}
                 {/* <AuthNavigator /> */}
+                {/* <AppNavigator /> */}
+                {/* <ProfileScreen /> */}
             </PaperProvider>
         </NavigationContainer>
     );

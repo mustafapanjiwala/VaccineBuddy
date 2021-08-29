@@ -5,7 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
 
-const DatePicker = () => {
+const DatePicker = (props) => {
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
@@ -15,6 +15,7 @@ const DatePicker = () => {
       const currentDate = selectedDate || date;
       setShow(Platform.OS === 'ios');
       setDate(currentDate);
+        props.datecb(currentDate)
     };
   
     const showMode = (currentMode) => {

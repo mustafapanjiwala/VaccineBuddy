@@ -104,7 +104,7 @@ const ProfileScreen = ({ navigation }) => {
                 <View style={styles.list}>
                     <ParaText style={styles.text}>D.O.B</ParaText>
                     <ParaText style={styles.text2}>
-                        {ctx.child?.dob?.toLocaleDateString()}
+                        {ctx.child?.dob}
                     </ParaText>
                 </View>
                 <View style={styles.list}>

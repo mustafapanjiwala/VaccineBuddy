@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
     StyleSheet,
     TouchableOpacity,
@@ -27,6 +27,8 @@ import * as MediaLibrary from 'expo-media-library';
 import * as Sharing from 'expo-sharing';
 import { createTable } from './Table';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
+import DatePicker from '../components/DatePicker';
+import { AppContext } from '../context/AppContext';
 
 /*
  *    TODO
@@ -80,13 +82,14 @@ const EditableVaccine = () => {
     const [newVal, setNewVal] = useState("")
     const [changeParams, setChangeParams] = useState();
     const [downloadedFileURI, setDownloadedFileURI] = useState()
+    const ctx = useContext(AppContext)
 
     //FOR TESTING
     //START
-    const child = { id: '2uW8KfSNufNUes7E5NI1' };
+    const child = { id: '' };
     //END
 
-    const vaccinatedVaccines = useGetVaccinatedVaccines({ child });
+    const vaccinatedVaccines = useGetVaccinatedVaccines({ child: ctx.child });
 
     const [vacs, setVacs] = useState([
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
@@ -178,7 +181,7 @@ const EditableVaccine = () => {
                 setGivenOn(given_on);
                 setBrands(brands);
 
-                // console.log("SETTING STATES --_> ", dueOn, givenOn, brands)
+                console.log("SETTING STATES --_> ", dueOn, givenOn, brands)
             }
         }
     }, [vaccinatedVaccines]);
@@ -225,17 +228,22 @@ const EditableVaccine = () => {
                                 {dueOn.map((data, i) => <Cell width={70} height={height} data={<View ><Text onPress={() => {
                                     setChangeParams(["dueOn", i])
                                     setVisible(true)
-                                    console.log("CLICKED")
                                 }}>{data}</Text></View>} />)}
                             </TableWrapper>
 
                             <TableWrapper>
-                                {givenOn.map((data) => <Cell width={70} height={height} data={<View><Text></Text></View>} />)}
+                                {givenOn.map((data, i) => <Cell width={70} height={height} data={<View><Text onPress={() => {
+                                    setChangeParams(["givenOn", i])
+                                    setVisible(true)
+                                }}>{data}</Text></View>} />)}
 
                             </TableWrapper>
 
                             <TableWrapper>
-                                {brands.map((data) => <Cell width={90} height={height} data={<View><Text></Text></View>} />)}
+                                {brands.map((data, i) => <Cell width={90} height={height} data={<View><Text onPress={() => {
+                                    setChangeParams(["brands", i])
+                                    setVisible(true)
+                                }}>{data}</Text></View>} />)}
                             </TableWrapper>
 
                             {/* <Col
@@ -301,27 +309,38 @@ const EditableVaccine = () => {
                     <Dialog visible={visible} onDismiss={hideDialog}>
                         <Dialog.Title>Enter new value</Dialog.Title>
                         <Dialog.Content>
-                            <TextInput
-                                label="New Value"
-                                value={newVal}
-                                mode={'outlined'}
-                                outlineColor={'#E2E2E2'}
-                                // selectionColor={'#E2E2E2'}
-                                onChangeText={setNewVal}
-                            />
+                            {changeParams && changeParams[0] === "brands" ?
+                                <TextInput
+                                    label="New Value"
+                                    value={newVal}
+                                    mode={'outlined'}
+                                    outlineColor={'#E2E2E2'}
+                                    // selectionColor={'#E2E2E2'}
+                                    onChangeText={setNewVal}
+                                />
+                                : <DatePicker datecb={(date) => {
+                                    setNewVal(date)
+                                }} />
+                            }
                         </Dialog.Content>
                         <Dialog.Actions>
                             <Button onPress={() => {
                                 if (changeParams) {
-                                    console.log("CHANGE PARAMS", changeParams)
                                     if (changeParams[0] === "dueOn") {
-                                        console.log("CONDITION PASSED")
                                         let temp = [...dueOn]
+                                        temp[changeParams[1]] = newVal.toLocaleDateString();
+                                        setDueOn(temp)
+                                    }
+                                    if (changeParams[0] === "givenOn") {
+                                        let temp = [...givenOn]
+                                        temp[changeParams[1]] = newVal.toLocaleDateString();
+                                        setDueOn(temp)
+                                    }
+                                    if (changeParams[0] === "brands") {
+                                        let temp = [...brands]
                                         temp[changeParams[1]] = newVal
                                         setDueOn(temp)
                                     }
-                                    if (changeParams[0] === "givenOn") givenOn[changeParams[1]] = newVal
-                                    if (changeParams[0] === "brands") brands[changeParams[1]] = newVal
                                     setChangeParams()
                                     setNewVal("")
                                 }

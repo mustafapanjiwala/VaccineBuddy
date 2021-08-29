@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, TouchableOpacity, View, Text, Button } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Text, Button, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import ParaText from '../components/ParaText';
 import Screen from '../components/Screen';
@@ -18,6 +18,7 @@ const KnowYourVaccines = ({ key }) => {
     if (getVaccines.isLoading) return <View><Text>Loading...</Text></View>
     return (
         <Screen>
+            <ScrollView>
             <View style={styles.container}>
                 <ParaText
                     style={{ marginTop: 35, marginBottom: 20, fontSize: 12 }}
@@ -71,8 +72,33 @@ const KnowYourVaccines = ({ key }) => {
                             {selectedValue.age.join(", ")}
                         </ParaText>
                     </View>
+                    <View style={styles.list}>
+                        <ParaText style={styles.text}>
+                           Doses
+                        </ParaText>
+                        <ParaText style={styles.text2}>
+                            {result.doses}
+                        </ParaText>
+                    </View>
+                    <View style={styles.list}>
+                        <ParaText style={styles.text}>
+                           No of Doses
+                        </ParaText>
+                        <ParaText style={styles.text2}>
+                            {result.noOFDoses}
+                        </ParaText>
+                    </View>
+                    <View style={styles.list}>
+                        <ParaText style={styles.text}>
+                        Mode
+                        </ParaText>
+                        <ParaText style={styles.text2}>
+                            {result.mode}
+                        </ParaText>
+                    </View>
                 </View>
             </View>
+            </ScrollView>
         </Screen>
     );
 };

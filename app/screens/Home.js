@@ -76,6 +76,7 @@ const Home = ({ navigation }) => {
             try {
                 const user = await getUSer.mutateAsync(ctx.uid)
                 let userData = user.data()
+                console.log("USERDATA ", userData)
                 ctx.setUser({ ...userData, id: ctx.uid, uid: ctx.uid })
                 if (userData.children) {
                     const childData = await getChild.mutateAsync(userData.children[0])

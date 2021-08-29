@@ -12,7 +12,7 @@ import { useGetVaccinatedVaccines } from "../queries/Vaccines/getVaccinatedVacci
 import { useRemoveVaccine } from "../queries/Vaccines/removeVaccine";
 import { useQueryClient } from "react-query"
 
-const SelectVaccine = () => {
+const SelectVaccine = (props) => {
     const [selectedVaccine, setSelectedVaccine] = useState();
     const [isVacSelected, setIsVacSelected] = useState(false);
     const [selectedBrand, setSelectedBrand] = useState("");
@@ -21,8 +21,9 @@ const SelectVaccine = () => {
 
     //for testing
     //START
-    const age = 14 //age would come from previous page, assuming 14 here
-    const vaccinatedVaccines = useGetVaccinatedVaccines(ctx.child);
+    const age = props.route.params.age//age would come from previous page, assuming 14 here
+    const givenOnDate = props.route.params.givenOnDate
+    const vaccinatedVaccines = useGetVaccinatedVaccines({ child: ctx.child });
     // const getUser = useGetUserMutate();
     // const getChild = useGetChildMutate();
 
@@ -38,6 +39,7 @@ const SelectVaccine = () => {
                 vaccine: vaccine,
                 brand: brand,
                 child: ctx.child,
+                givenOn: givenOnDate
                 // age: age
             }
             const res = await addVaccine.mutateAsync(load);
@@ -63,6 +65,9 @@ const SelectVaccine = () => {
         addVaccine.isLoading ||
         vaccinatedVaccines.isLoading
     ) return <View><Text>Loading...</Text></View>
+
+    if (!props.route.age) props.navigation.navigate("AddVaccine")
+
     return (
         <View style={styles.container}>
             <ParaText style={{ marginTop: 35, marginBottom: 20, fontSize: 14 }}>Select Your Next Vaccine/Vaccines</ParaText>
@@ -71,42 +76,12 @@ const SelectVaccine = () => {
                     return (
                         <ToggleButton
                             onSelect={() => {
-                                console.log("SELECTED VACCINE", selectedVaccine)
                                 setSelectedVaccine(vac)
                                 setSelectedBrand("")
                                 // setIsVacSelected(selectedVaccine && selectedVaccine.id === vac.id || Boolean(vaccinatedVaccines.data.find((val) => val.vaccine === vac.id)))
                                 const vacExist = vaccinatedVaccines.data.find((val) => val.vaccine === vac.id)
                                 setIsVacSelected(Boolean(vacExist))
                                 vacExist && setSelectedBrand(vacExist.brand)
-                                console.log("IS VAC SELECTED", isVacSelected)
-                                // console.log("SELECTED VACCINE -->", selectedVaccine)
-                                // console.log("SELECTED BRAND --> ", selectedBrand)
-                                // //remove
-                                // if (selectedVaccine && selectedVaccine.id === vac.id) {
-                                //     removeVac(selectedVaccine)
-                                //     setSelectedVaccine(undefined);
-                                //     setSelectedBrand("");
-                                // }
-                                // else {
-                                //     console.log("VACCINATED VACCINES", vaccinatedVaccines.data);
-                                //     let brand = vaccinatedVaccines.data.find(v => vac.id === v.vaccine)
-                                //     //already have a selected one ?
-                                //     if (selectedVaccine && selectedBrand) {
-                                //         //if yes
-                                //         //that means we are switching a vaccine
-                                //         // in that case update current to DB
-                                //         addVac(selectedVaccine, selectedBrand)
-                                //         setSelectedBrand("")
-                                //         setSelectedVaccine(vac)
-                                //     } else {
-                                //         setSelectedVaccine(vac)
-                                //         console.log("HERE<",)
-                                //     }
-                                //     if (brand) {
-                                //         setSelectedBrand(brand.brand)
-                                //     }
-
-                                // }
                             }}
                             selected={selectedVaccine && selectedVaccine.id === vac.id || Boolean(vaccinatedVaccines.data.find((val) => val.vaccine === vac.id))}
                             textData={vac.name}

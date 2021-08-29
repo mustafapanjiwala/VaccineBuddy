@@ -12,6 +12,7 @@ import { COLLECTIONS } from "../../constants/collections"
 // }
 
 const process = async (load) => {
+    console.log("LOAD", load)
     if (load.child) {
         const collectionref = firebase.firestore().collection(COLLECTIONS.CHILDREN);
         const mainCollectionref = await collectionref.doc(load.child.id).collection(COLLECTIONS.VACCINATED_VAC).get()

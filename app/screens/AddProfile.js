@@ -17,6 +17,10 @@ import { useAddChild } from "../queries/Child/addChild"
 // import { FontAwesome5 } from '@expo/vector-icons';
 // import moment from 'moment';
 
+
+//TODO
+// -[x] Store date in Firestore timestamp formate
+
 const AddProfile = () => {
     const ctx = useContext(AppContext)
     const addChild = useAddChild();
@@ -40,6 +44,8 @@ const AddProfile = () => {
     const [gender, setGender] = React.useState('');
     const [firstChild, setFirstChild] = React.useState('');
     const [deliveryMode, setDeliveryMode] = React.useState('');
+    const [childName, setChildName] = React.useState('')
+    const [dob, setDob] = React.useState('')
 
     if (addChild.isLoading) return <View><Text>LOading...</Text></View>
 
@@ -68,9 +74,8 @@ const AddProfile = () => {
                                 label="Child's Name*"
                                 mode={'outlined'}
                                 outlineColor={'#E2E2E2'}
-                                onChangeText={props.handleChange('childsName')}
-                                value={props.values.childsName}
-                                onBlur={props.handleBlur('childsName')}
+                                onChangeText={setChildName}
+                                value={childName}
                             />
                             <CardPara
                                 style={{
@@ -177,16 +182,22 @@ const AddProfile = () => {
                                 <CardPara>Vaginal Delivery</CardPara>
                             </View>
                             <View style={{ height: 15 }}></View>
-                            <DatePicker />
+                            <DatePicker datecb={(date) => setDob(date)} />
                         </View>
                         <AppButton
                             // onPress={props.handleSubmit}
                             onPress={() => {
+                                addChild.mutate({
+                                    user: ctx.user, child: {
+                                        childsName: childName,
+                                        gender: gender,
+                                        firstChild: firstChild,
+                                        deliveryMode: deliveryMode,
+                                        dob: dob
+                                    }
+                                })
+                                // navigation.navigate('UserDetails2');
 
-                                navigation.navigate('UserDetails2');
-                                {
-                                    props.handleSubmit;
-                                }
                             }}
                         />
                     </View>
