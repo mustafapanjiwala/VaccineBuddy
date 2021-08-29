@@ -34,7 +34,7 @@ const CELL_COUNT = 6;
 
 
 const OTPVerification = ({ route, navigation }) => {
-    const phoneNumber = "+919039004566";
+    const phoneNumber = "+918962495129";
     const recaptchaVerifier = React.useRef(null);
     const firebaseConfig = firebase.apps.length ? firebase.app().options : undefined;
     const [message, showMessage] = React.useState((!firebaseConfig || Platform.OS === 'web')

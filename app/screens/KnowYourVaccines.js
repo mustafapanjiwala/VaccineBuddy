@@ -8,10 +8,14 @@ import ToggleRadioButton from '../components/ToggleRadioButton';
 import AppButton from '../components/AppButton';
 import colors from '../constants/colors';
 import { vaccineInfo } from '../constants/VaccineInfo';
-const KnowYourVaccines = ({ key }) => {
-    const [selectedValue, setSelectedValue] = useState('DwPT');
-    const result = vaccineInfo.find(({ name }) => name === selectedValue);
+import { useGetAllvaccines } from "../queries/Vaccines/getVaccines"
 
+const KnowYourVaccines = ({ key }) => {
+    const [selectedValue, setSelectedValue] = useState({ name: "", full_form: "", age: [""] });
+
+    const getVaccines = useGetAllvaccines();
+
+    if (getVaccines.isLoading) return <View><Text>Loading...</Text></View>
     return (
         <Screen>
             <View style={styles.container}>
@@ -28,13 +32,15 @@ const KnowYourVaccines = ({ key }) => {
                     }}
                 >
                     <Picker
-                        selectedValue={selectedValue}
+                        selectedValue={selectedValue.name}
                         style={{ height: 60, width: 160 }}
-                        onValueChange={(itemValue, itemIndex) =>
-                            setSelectedValue(itemValue)
+                        onValueChange={(itemValue, itemIndex) => {
+                            console.log("SETTING SELECTED VACCINE TO ", itemValue, itemIndex)
+                            setSelectedValue(getVaccines.data[itemIndex])
+                        }
                         }
                     >
-                        {vaccineInfo.map((item) => {
+                        {getVaccines.data.map((item) => {
                             return (
                                 <Picker.Item
                                     label={item.name}
@@ -49,12 +55,12 @@ const KnowYourVaccines = ({ key }) => {
                 <View style={styles.bottom}>
                     <View style={styles.list}>
                         <ParaText style={styles.text}>Name</ParaText>
-                        <ParaText style={styles.text2}>{result.name}</ParaText>
+                        <ParaText style={styles.text2}>{selectedValue.name}</ParaText>
                     </View>
                     <View style={styles.list}>
                         <ParaText style={styles.text}>Full Name</ParaText>
                         <ParaText style={styles.text2}>
-                            {result.fullForm}
+                            {selectedValue.full_form}
                         </ParaText>
                     </View>
                     <View style={styles.list}>
@@ -62,7 +68,7 @@ const KnowYourVaccines = ({ key }) => {
                             Age of Administration
                         </ParaText>
                         <ParaText style={styles.text2}>
-                            {result.ageOfAdministration}
+                            {selectedValue.age.join(", ")}
                         </ParaText>
                     </View>
                 </View>

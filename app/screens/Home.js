@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
     StyleSheet,
     TouchableOpacity,
@@ -14,11 +14,17 @@ import Screen from '../components/Screen';
 import colors from '../constants/colors';
 import CardHeading from '../components/CardHeading';
 import CardPara from '../components/CardPara';
+import { AppContext } from "../context/AppContext"
+import { useGetUserMutate } from "../queries/Users/getUsersMutate"
+import { useGetChildMutate } from '../queries/Child/getChildMutate'
 
 const Home = ({ navigation }) => {
     goToNextScreen = (screen) => {
         return navigation.navigate(screen);
     };
+    const getUSer = useGetUserMutate();
+    const getChild = useGetChildMutate();
+    const ctx = useContext(AppContext)
 
     const [cardInfo, setCardInfo] = useState([
         {
@@ -64,6 +70,22 @@ const Home = ({ navigation }) => {
             onpress: 'Faq'
         }
     ]);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const user = await getUSer.mutateAsync(ctx.uid)
+                let userData = user.data()
+                ctx.setUser({ ...userData, id: ctx.uid, uid: ctx.uid })
+                if (userData.children) {
+                    const childData = await getChild.mutateAsync(userData.children[0])
+                    ctx.setChild({ ...childData.data(), id: userData.children[0] })
+                }
+            } catch (e) { }
+        })();
+    }, [])
+
+    console.log("CONTEXT --> ", ctx)
 
     return (
         <Screen>

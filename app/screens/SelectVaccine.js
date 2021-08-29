@@ -16,14 +16,15 @@ const SelectVaccine = () => {
     const [selectedVaccine, setSelectedVaccine] = useState();
     const [isVacSelected, setIsVacSelected] = useState(false);
     const [selectedBrand, setSelectedBrand] = useState("");
+    const ctx = useContext(AppContext)
     const queryClient = useQueryClient();
 
     //for testing
     //START
     const age = 14 //age would come from previous page, assuming 14 here
-    const vaccinatedVaccines = useGetVaccinatedVaccines({ child: { id: "2uW8KfSNufNUes7E5NI1" } });
-    const getUser = useGetUserMutate();
-    const getChild = useGetChildMutate();
+    const vaccinatedVaccines = useGetVaccinatedVaccines(ctx.child);
+    // const getUser = useGetUserMutate();
+    // const getChild = useGetChildMutate();
 
     //END
     const getVac = useGetVaccines(age); //six is age in weeks it will return all vaccines that are to be admintrd at 6 weeks
@@ -36,7 +37,7 @@ const SelectVaccine = () => {
             let load = {
                 vaccine: vaccine,
                 brand: brand,
-                child: { id: "2uW8KfSNufNUes7E5NI1" },
+                child: ctx.child,
                 // age: age
             }
             const res = await addVaccine.mutateAsync(load);
@@ -48,7 +49,7 @@ const SelectVaccine = () => {
         if (vaccine) {
             let load = {
                 vaccine: vaccine,
-                child: { id: "2uW8KfSNufNUes7E5NI1" },
+                child: ctx.child,
                 // age: age
             }
             const res = await removeVaccine.mutateAsync(load);
@@ -59,8 +60,6 @@ const SelectVaccine = () => {
     }
 
     if (getVac.isLoading ||
-        getUser.isLoading ||
-        getChild.isLoading ||
         addVaccine.isLoading ||
         vaccinatedVaccines.isLoading
     ) return <View><Text>Loading...</Text></View>

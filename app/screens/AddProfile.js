@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useState } from 'react';
 import { StyleSheet, TouchableOpacity, View, Text, Button } from 'react-native';
 import Screen from '../components/Screen';
@@ -9,7 +9,8 @@ import AppHeading from '../components/AppHeading';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import CardPara from '../components/CardPara';
-
+import { AppContext } from "../context/AppContext"
+import { useAddChild } from "../queries/Child/addChild"
 // import { withTheme } from 'react-native-paper';
 // import colors from '../constants/colors';
 // import DateTimePicker from '@react-native-community/datetimepicker';
@@ -17,6 +18,9 @@ import CardPara from '../components/CardPara';
 // import moment from 'moment';
 
 const AddProfile = () => {
+    const ctx = useContext(AppContext)
+    const addChild = useAddChild();
+
     const profileSchema = yup.object({
         childsName: yup
             .string()
@@ -36,6 +40,8 @@ const AddProfile = () => {
     const [gender, setGender] = React.useState('');
     const [firstChild, setFirstChild] = React.useState('');
     const [deliveryMode, setDeliveryMode] = React.useState('');
+
+    if (addChild.isLoading) return <View><Text>LOading...</Text></View>
 
     return (
         <Screen>
@@ -176,6 +182,7 @@ const AddProfile = () => {
                         <AppButton
                             // onPress={props.handleSubmit}
                             onPress={() => {
+
                                 navigation.navigate('UserDetails2');
                                 {
                                     props.handleSubmit;

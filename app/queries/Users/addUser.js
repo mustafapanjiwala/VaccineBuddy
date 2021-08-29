@@ -1,14 +1,20 @@
+import * as firebase from "firebase";
 import "firebase/firestore"
 import { useQuery, useMutation } from "react-query"
 import { COLLECTIONS } from "../../constants/collections"
 
 const process = async (load) => {
-    if (load.users) {
+    if (load.userData) {
+        console.log("IN QUERY LOAD.UID ---> ", load)
         const collectionref = firebase.firestore().collection(COLLECTIONS.USERS);
-        return collectionref.add(load.user)
+        return collectionref.doc(load.uid).set({
+            mothersName: load.userData.mothersName ?? '',
+            fathersName: load.userData.fathersName ?? '',
+            address: load.userData.address ?? ''
+        })
     }
 }
 
-export const useAddChild = () => {
+export const useAddUser = () => {
     return useMutation((load) => process(load))
 }

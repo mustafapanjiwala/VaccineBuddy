@@ -5,9 +5,7 @@ import { COLLECTIONS } from "../../constants/collections"
 
 const process = async (id) => {
     const collectionref = firebase.firestore().collection(COLLECTIONS.CHILDREN);
-    const doc = await collectionref.doc(id).get();
-    console.log("FETCHING CHILD ID --->>", id)
-    return doc.data();
+    return collectionref.doc(id).get();
 }
 
 export const useGetChildMutate = () => {

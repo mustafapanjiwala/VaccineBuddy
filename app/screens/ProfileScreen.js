@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 import Screen from '../components/Screen';
@@ -13,11 +13,14 @@ import * as ImagePicker from 'expo-image-picker';
 import CardPara from '../components/CardPara';
 import { useGetUser } from '../queries/Users/getUser';
 import { useGetChild } from '../queries/Child/getChild';
+import { AppContext } from "../context/AppContext"
 
 const ProfileScreen = ({ navigation }) => {
     const [image, setImage] = useState(null);
-    const user = useGetUser('wYQA7c8yPCXOFX0BOdLPTu0jrA63');
-    const child = useGetChild('2uW8KfSNufNUes7E5NI1');
+    const ctx = useContext(AppContext)
+
+    // const user = useGetUser(ctx.user.id);
+    // const child = useGetChild(ctx.child.id);
 
     useEffect(() => {
         (async () => {
@@ -49,7 +52,8 @@ const ProfileScreen = ({ navigation }) => {
     };
 
     // if (user.isLoading || child.isLoading) return <View><Text>Loading...</Text></View>
-    // console.log("CHILD", child.data, "USER", user.data)
+    console.log("CHILD", ctx.child, "USER", ctx.user)
+
 
     return (
         <Screen style={styles.cointainer}>
@@ -84,23 +88,23 @@ const ProfileScreen = ({ navigation }) => {
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Mother's Name</ParaText>
                     <ParaText style={styles.text2}>
-                        {user.data?.mothers_name}
+                        {ctx.user?.mothersName}
                     </ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Child's Name</ParaText>
-                    <ParaText style={styles.text2}>{child.data?.name}</ParaText>
+                    <ParaText style={styles.text2}>{ctx.child?.childsName}</ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Father's name</ParaText>
                     <ParaText style={styles.text2}>
-                        {user.data?.fathers_name}
+                        {ctx.user?.fathersName}
                     </ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>D.O.B</ParaText>
                     <ParaText style={styles.text2}>
-                        {child.data?.dob?.toLocaleDateString()}
+                        {ctx.child?.dob?.toLocaleDateString()}
                     </ParaText>
                 </View>
                 <View style={styles.list}>
@@ -110,19 +114,19 @@ const ProfileScreen = ({ navigation }) => {
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Birth Weight</ParaText>
                     <ParaText style={styles.text2}>
-                        {child.data?.weight}
+                        {ctx.child?.weight}
                     </ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Address</ParaText>
                     <ParaText style={styles.address}>
-                        {user.data?.address}
+                        {ctx.user?.address}
                     </ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Last vaccinated</ParaText>
                     <ParaText style={styles.text2}>
-                        {child.data?.last_vaccinated?.toLocaleDateString()}
+                        {ctx.child?.last_vaccinated}
                     </ParaText>
                 </View>
             </View>

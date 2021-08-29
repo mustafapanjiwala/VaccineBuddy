@@ -11,6 +11,7 @@ import ParaText from '../components/ParaText';
 import ToggleButton from '../components/ToggleButton';
 import ToggleRadioButton from '../components/ToggleRadioButton';
 import AppButton2 from '../components/AppButton2';
+import { Paragraph, Dialog, Portal, TextInput } from 'react-native-paper';
 import {
     Table,
     TableWrapper,
@@ -34,7 +35,7 @@ import RNHTMLtoPDF from 'react-native-html-to-pdf';
  */
 
 const mapData = (data, map) => {
-    // return new Promise((resolve, rejet) => {
+
     let count = 0;
     let filled_data = map.map((_, i) => {
         if (Boolean(data[count]) && data[count].id === i.toString()) {
@@ -48,8 +49,6 @@ const mapData = (data, map) => {
         arr[map[i]] = d;
     });
     return arr;
-    // resolve("MOTHER FUCKER")
-    // })
 };
 
 const createAndSavePDF = async (html) => {
@@ -67,6 +66,7 @@ const createAndSavePDF = async (html) => {
 
             if (permission.granted) {
                 await MediaLibrary.createAssetAsync(uri);
+                return uri
             }
         }
     } catch (error) {
@@ -76,6 +76,10 @@ const createAndSavePDF = async (html) => {
 
 const EditableVaccine = () => {
     const height = 30;
+    const [visible, setVisible] = useState(false)
+    const [newVal, setNewVal] = useState("")
+    const [changeParams, setChangeParams] = useState();
+    const [downloadedFileURI, setDownloadedFileURI] = useState()
 
     //FOR TESTING
     //START
@@ -187,6 +191,8 @@ const EditableVaccine = () => {
         );
     }
 
+    const hideDialog = () => setVisible(false)
+
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -209,7 +215,30 @@ const EditableVaccine = () => {
                             widthArr={[60, 110, 70, 70, 90]}
                         />
                         <TableWrapper style={{ flexDirection: 'row' }}>
-                            <Col
+                            <TableWrapper >
+                                {state.age.map((data, i) => <Cell width={60} height={state.vac_back[i].length * height} data={data} />)}
+                            </TableWrapper>
+                            <TableWrapper>
+                                {state.vaccines.map((data) => <Cell width={110} height={height} data={data} />)}
+                            </TableWrapper>
+                            <TableWrapper>
+                                {dueOn.map((data, i) => <Cell width={70} height={height} data={<View ><Text onPress={() => {
+                                    setChangeParams(["dueOn", i])
+                                    setVisible(true)
+                                    console.log("CLICKED")
+                                }}>{data}</Text></View>} />)}
+                            </TableWrapper>
+
+                            <TableWrapper>
+                                {givenOn.map((data) => <Cell width={70} height={height} data={<View><Text></Text></View>} />)}
+
+                            </TableWrapper>
+
+                            <TableWrapper>
+                                {brands.map((data) => <Cell width={90} height={height} data={<View><Text></Text></View>} />)}
+                            </TableWrapper>
+
+                            {/* <Col
                                 data={state.age}
                                 style={styles.head}
                                 heightArr={state.vac_back.map(
@@ -245,7 +274,7 @@ const EditableVaccine = () => {
                                 height={height}
                                 width={90}
                                 textStyle={styles.titleText}
-                            ></Col>
+                            ></Col> */}
                         </TableWrapper>
                     </TableWrapper>
                 </Table>
@@ -263,9 +292,59 @@ const EditableVaccine = () => {
                             brands
                         );
                         // console.log(table)
-                        await createAndSavePDF(table);
+                        const that = await createAndSavePDF(table);
+                        setDownloadedFileURI(that)
+
                     }}
                 />
+                <Portal>
+                    <Dialog visible={visible} onDismiss={hideDialog}>
+                        <Dialog.Title>Enter new value</Dialog.Title>
+                        <Dialog.Content>
+                            <TextInput
+                                label="New Value"
+                                value={newVal}
+                                mode={'outlined'}
+                                outlineColor={'#E2E2E2'}
+                                // selectionColor={'#E2E2E2'}
+                                onChangeText={setNewVal}
+                            />
+                        </Dialog.Content>
+                        <Dialog.Actions>
+                            <Button onPress={() => {
+                                if (changeParams) {
+                                    console.log("CHANGE PARAMS", changeParams)
+                                    if (changeParams[0] === "dueOn") {
+                                        console.log("CONDITION PASSED")
+                                        let temp = [...dueOn]
+                                        temp[changeParams[1]] = newVal
+                                        setDueOn(temp)
+                                    }
+                                    if (changeParams[0] === "givenOn") givenOn[changeParams[1]] = newVal
+                                    if (changeParams[0] === "brands") brands[changeParams[1]] = newVal
+                                    setChangeParams()
+                                    setNewVal("")
+                                }
+                                hideDialog()
+                            }} title="Ok">Done</Button>
+                        </Dialog.Actions>
+                    </Dialog>
+                </Portal>
+                <Portal>
+                    <Dialog visible={downloadedFileURI} onDismiss={() => setDownloadedFileURI()}>
+                        <Dialog.Title>Enter new value</Dialog.Title>
+                        <Dialog.Content>
+                            <ParaText>
+                                Your File has been downloaded to: {downloadedFileURI}
+                            </ParaText>
+                        </Dialog.Content>
+                        <Dialog.Actions>
+                            <Button onPress={() => {
+                                setDownloadedFileURI()
+                            }} title="Ok">Done</Button>
+                        </Dialog.Actions>
+                    </Dialog>
+                </Portal>
             </View>
         </ScrollView>
     );

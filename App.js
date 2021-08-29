@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import AuthNavigator from './app/navigation/AuthNavigator';
@@ -10,7 +10,13 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import firebase from 'firebase/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { useGetUserMutate } from "./app/queries/Users/getUsersMutate"
+import { useGetChildMutate } from "./app/queries/Child/getChildMutate"
 import { AppContext, AppProvider } from './app/context/AppContext';
+import OTPSCREEN from "./app/screens/OTPVerification"
+import EDITABLETABLE from "./app/screens/EditableTableScreen"
+import HomeNavigator from './app/navigation/HomeNavigator';
+import ProfileScreen from './app/screens/ProfileScreen';
 
 const fontConfig = {
     web: {
@@ -49,9 +55,14 @@ try {
     console.error('FIREBASE INIT FAILED!!!');
 }
 
+
 const queryClient = new QueryClient();
 
+
 export default function App() {
+
+
+
     let [fontsLoaded] = useFonts({
         'OpenSans-Bold': require('./assets/fonts/OpenSans-Bold.ttf'),
         'OpenSans-SemiBold': require('./assets/fonts/OpenSans-SemiBold.ttf'),
@@ -66,14 +77,50 @@ export default function App() {
     } else {
         return (
             <QueryClientProvider client={queryClient}>
-                <NavigationContainer>
-                    <PaperProvider theme={theme}>
-                        <AppProvider>
-                            <AuthNavigator />
-                        </AppProvider>
-                    </PaperProvider>
-                </NavigationContainer>
+                <AppProvider>
+                    < Main />
+                </AppProvider>
             </QueryClientProvider>
-        );
+        )
     }
+}
+
+const Main = props => {
+    const getUser = useGetUserMutate();
+    const getChild = useGetChildMutate();
+    const { setUid, setIsAuthenticated, isAuthenticated } = useContext(AppContext)
+
+    firebase.auth().onAuthStateChanged(async function (user) {
+        try {
+            console.log("USER UID", user.uid)
+            setUid(user.uid)
+            if (user) {
+                setIsAuthenticated(true)
+                try {
+                    // const userFetched = await getUser.mutateAsync(user.uid);
+                    // const childFetched = await getChild.mutateAsync(userFetched.children[0])
+                    // console.log("HERE", userFetched)
+                    // setChild(childFetched)
+                    // setUser(userFetched)
+                    // console.log("SETTING USER ID ----> ", user.displayName, userFetched)
+                    setUid(user.uid)
+                }
+                catch (e) {
+                    console.error("CATCHEDI IN ", e)
+                }
+            }
+        } catch (e) {
+            console.error("CATCHED ", e)
+        }
+    })
+    console.log("isAuthenticated", isAuthenticated)
+    return (
+        <NavigationContainer>
+            <PaperProvider theme={theme}>
+                {!isAuthenticated ? <AuthNavigator /> : <HomeNavigator />}
+                {/* <ProfileScreen /> */}
+                {/* <AuthNavigator /> */}
+            </PaperProvider>
+        </NavigationContainer>
+    );
 }

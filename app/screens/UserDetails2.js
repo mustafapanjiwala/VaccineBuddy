@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, TouchableOpacity, View, Text, Button } from 'react-native';
 import Screen from '../components/Screen';
 // import DatePicker from '../components/DatePicker';
@@ -13,12 +13,20 @@ import CardPara from '../components/CardPara';
 // import DateTimePicker from '@react-native-community/datetimepicker';
 // import { FontAwesome5 } from '@expo/vector-icons';
 // import moment from 'moment';
+import { useAddUser } from "../queries/Users/addUser"
+import { useAddChild } from "../queries/Child/addChild"
+import { AppContext } from '../context/AppContext';
 
 const UserDetails2 = ({ navigation }) => {
     const [birthWeight, setBirthWeight] = React.useState('');
     const [gender, setGender] = React.useState('');
     const [firstChild, setFirstChild] = React.useState('');
     const [deliveryMode, setDeliveryMode] = React.useState('');
+
+    const addUser = useAddUser();
+    const addChild = useAddChild();
+
+    const ctx = useContext(AppContext)
 
     function setData() {
         global.userData.birthWeight = birthWeight;
@@ -27,6 +35,7 @@ const UserDetails2 = ({ navigation }) => {
         global.userData.deliveryMode = deliveryMode;
     }
 
+    if (addUser.isLoading || addChild.isLoading) return <View><Text>Loading...</Text></View>
     return (
         <Screen>
             <View style={styles.container}>
@@ -158,8 +167,25 @@ const UserDetails2 = ({ navigation }) => {
                 <AppButton
                     onPress={() => {
                         setData();
-                        console.log(userData);
-                        navigation.navigate('Home');
+                        console.log("GONIG TO UPDATE USER ", userData, ctx)
+                        addUser.mutateAsync({
+                            uid: ctx.uid ?? "wYQA7c8yPCXOFX0BOdLPTu0jrA63", userData: userData
+                        })
+                            .then(res => {
+                                console.log("ADDING CHILD ")
+                                addChild.mutateAsync({
+                                    user: { id: ctx.uid ?? "wYQA7c8yPCXOFX0BOdLPTu0jrA63" }, child: {
+                                        childsName: userData.childsName ?? '',
+                                        dob: userData.dob ?? '',
+                                        birthWeight: userData.birthWeight ?? '',
+                                        gender: userData.gender ?? '',
+                                        firstChild: userData.firstChild ?? '',
+                                        deliveryMode: userData.deliveryMode ?? ''
+                                    }
+                                }).then(res => {
+                                    navigation.navigate('Home');
+                                });
+                            }).catch(err => console.log("ADDING USERDATA TO DB FAILED", err))
                     }}
                 />
             </View>
