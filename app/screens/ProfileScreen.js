@@ -15,11 +15,13 @@ import { useGetUser } from '../queries/Users/getUser';
 import { useGetChild } from '../queries/Child/getChild';
 import { AppContext } from "../context/AppContext"
 import { Picker } from '@react-native-picker/picker';
+import { UploadImage } from "../queries/Image/UploadImage"
+import { useUpdateUser } from "../queries/Users/updateUser"
 
 const ProfileScreen = ({ navigation }) => {
     const [image, setImage] = useState(null);
     const ctx = useContext(AppContext)
-
+    const updateUser = useUpdateUser();
     // const user = useGetUser(ctx.user.id);
     // const child = useGetChild(ctx.child.id);
 
@@ -49,14 +51,21 @@ const ProfileScreen = ({ navigation }) => {
 
         if (!result.cancelled) {
             setImage(result.uri);
+            if (!ctx.user.image) {
+                const imageURL = await UploadImage(result.uri)
+                updateUser.mutate({ userData: { image: imageURL }, uid: ctx.user.uid })
+            }
+        //    else updateImage(result.uri)
+
         }
     };
 
     // if (user.isLoading || child.isLoading) return <View><Text>Loading...</Text></View>
-    console.log("CHILD", ctx.child, "USER", ctx.user)
 
 
     const [selectedValue, setSelectedValue] = useState('');
+
+    if (updateUser.isLoading) return <View><Text>Loading...</Text></View>
 
     return (
         <Screen style={styles.cointainer}>
@@ -73,12 +82,13 @@ const ProfileScreen = ({ navigation }) => {
                     <Picker
                         selectedValue={selectedValue}
                         style={{ height: 60, width: 180 }}
-                        onValueChange={(itemValue, itemIndex) =>
+                        onValueChange={(itemValue, itemIndex) => {
                             setSelectedValue(itemValue)
+                            ctx.setChild(ctx.children[itemIndex])
+                        }
                         }
                     >
-                        <Picker.Item label="13/03/2002" value="13/03/2002" />
-                        <Picker.Item label="29/08/21" value="29/08/21" />
+                        {ctx.children && ctx.children.map((child, index) => <Picker.Item label={child.dob} value={child.id} />)}
                     </Picker>
                     <View style={{ flexDirection: 'row' }}>
                         <Feather
@@ -126,7 +136,7 @@ const ProfileScreen = ({ navigation }) => {
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Birth Weight</ParaText>
                     <ParaText style={styles.text2}>
-                        {ctx.child?.weight}
+                        {ctx.child?.birthWeight}
                     </ParaText>
                 </View>
                 <View style={styles.list}>

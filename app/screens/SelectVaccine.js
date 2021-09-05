@@ -80,11 +80,12 @@ const SelectVaccine = (props) => {
                                 setSelectedVaccine(vac)
                                 setSelectedBrand("")
                                 // setIsVacSelected(selectedVaccine && selectedVaccine.id === vac.id || Boolean(vaccinatedVaccines.data.find((val) => val.vaccine === vac.id)))
-                                const vacExist = vaccinatedVaccines.data.find((val) => val.vaccine === vac.id)
-                                setIsVacSelected(Boolean(vacExist))
-                                vacExist && setSelectedBrand(vacExist.brand)
+                                // const vacExist = vaccinatedVaccines.data.find((val) => val.vaccine === vac.id)
+                                // setIsVacSelected(Boolean(vacExist))
+                                // vacExist && setSelectedBrand(vacExist.brand)
                             }}
-                            selected={selectedVaccine && selectedVaccine.id === vac.id || Boolean(vaccinatedVaccines.data.find((val) => val.vaccine === vac.id))}
+                            // selected={selectedVaccine && selectedVaccine.id === vac.id || Boolean(vaccinatedVaccines.data.find((val) => val.vaccine === vac.id))}
+                            selected={selectedVaccine && selectedVaccine.id === vac.id}
                             textData={vac.name}
                         />
                     )
@@ -95,15 +96,19 @@ const SelectVaccine = (props) => {
                     return (<ToggleButton
                         textData={brand}
                         onSelect={() => {
-                            if (selectedBrand === brand) setSelectedBrand("");
-                            else setSelectedBrand(brand)
+                            // if (selectedBrand === brand) setSelectedBrand("");
+                            // else setSelectedBrand(brand)
+                            setSelectedBrand(brand)
+                            console.log("SELECTED BRANDS", selectedBrand)
                         }}
                         selected={selectedBrand && brand === selectedBrand}
                     />)
                 })}
             </View>
-            {/* <AppButton /> */}
-            {!isVacSelected && <TouchableOpacity
+            <AppButton onPress={() => {
+                addVac(selectedVaccine, selectedBrand)
+            }} />
+            {/* {!isVacSelected && <TouchableOpacity
                 activeOpacity={0.8}
                 style={styles.button}
                 onPress={() => {
@@ -131,7 +136,7 @@ const SelectVaccine = (props) => {
                 >
                     <Text>Update </Text>
                 </TouchableOpacity>
-            </View>}
+            </View>} */}
         </View>
     )
 }

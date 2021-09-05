@@ -21,7 +21,6 @@ import { COLLECTIONS } from "../../constants/collections"
 
 const process = async (load) => {
     if (load.vaccine && load.child) {
-        console.log("LOAD IN ADD VACCINE", load)
         const collectionref = firebase.firestore().collection(COLLECTIONS.CHILDREN);
         const docref = await collectionref.doc(load.child.id)
         // console.log("LOAD -->", load.vaccine.name);

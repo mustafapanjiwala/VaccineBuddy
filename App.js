@@ -23,7 +23,7 @@ import SetReminderScreen from './app/screens/SetReminderScreen';
 import FaqScreen from './app/screens/FaqScreen';
 import KnowYourVaccines from './app/screens/KnowYourVaccines';
 import SelectVaccine from './app/screens/SelectVaccine';
-import ProfileScreen from './app/screens/ProfileScreen';
+import { LogBox } from 'react-native';
 
 const fontConfig = {
     web: {
@@ -68,7 +68,7 @@ const queryClient = new QueryClient();
 
 export default function App() {
 
-
+    console.disableYellowBox = true;
 
     let [fontsLoaded] = useFonts({
         'OpenSans-Bold': require('./assets/fonts/OpenSans-Bold.ttf'),
@@ -93,23 +93,13 @@ export default function App() {
 }
 
 const Main = props => {
-    const getUser = useGetUserMutate();
-    const getChild = useGetChildMutate();
     const { setUid, setIsAuthenticated, isAuthenticated } = useContext(AppContext)
 
     firebase.auth().onAuthStateChanged(async function (user) {
         try {
-            console.log("USER UID", user.uid)
-            setUid(user.uid)
             if (user) {
                 setIsAuthenticated(true)
                 try {
-                    // const userFetched = await getUser.mutateAsync(user.uid);
-                    // const childFetched = await getChild.mutateAsync(userFetched.children[0])
-                    // console.log("HERE", userFetched)
-                    // setChild(childFetched)
-                    // setUser(userFetched)
-                    // console.log("SETTING USER ID ----> ", user.displayName, userFetched)
                     setUid(user.uid)
                 }
                 catch (e) {
@@ -124,7 +114,7 @@ const Main = props => {
     return (
         <NavigationContainer>
             <PaperProvider theme={theme}>
-                {!isAuthenticated ? <AuthNavigator /> : <HomeNavigator />}
+                {!isAuthenticated ? <AuthNavigator /> : <AppNavigator />}
                 {/* <AuthNavigator /> */}
                 {/* <AppNavigator /> */}
                 {/* <ProfileScreen /> */}

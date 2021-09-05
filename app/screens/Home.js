@@ -25,6 +25,7 @@ const Home = ({ navigation }) => {
     const getUSer = useGetUserMutate();
     const getChild = useGetChildMutate();
     const ctx = useContext(AppContext)
+    const [error, setError] = useState()
 
     const [cardInfo, setCardInfo] = useState([
         {
@@ -76,17 +77,23 @@ const Home = ({ navigation }) => {
             try {
                 const user = await getUSer.mutateAsync(ctx.uid)
                 let userData = user.data()
-                console.log("USERDATA ", userData)
                 ctx.setUser({ ...userData, id: ctx.uid, uid: ctx.uid })
                 if (userData.children) {
-                    const childData = await getChild.mutateAsync(userData.children[0])
-                    ctx.setChild({ ...childData.data(), id: userData.children[0] })
-                }
+                    const Promises = userData.children.map(async child => {
+                        const childData = await getChild.mutateAsync(child)
+                        return { ...childData.data(), id: child }
+                    })
+                    Promise.all(Promises).then(res => {
+                        ctx.setChild(res[0])
+                        ctx.setChildren(res)
+                    }).catch(err => { setError("Child Data could not be loaded") })
+                } else setError("Child Data could not be loaded")
             } catch (e) { }
         })();
     }, [])
 
-    console.log("CONTEXT --> ", ctx)
+    if (error) return <View><Text>{error}</Text></View>
+    if (getUSer.isLoading || getChild.isLoading) return <View><Text>Loading...</Text></View>
 
     return (
         <Screen>
