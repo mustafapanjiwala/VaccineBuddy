@@ -23,7 +23,8 @@ import SetReminderScreen from './app/screens/SetReminderScreen';
 import FaqScreen from './app/screens/FaqScreen';
 import KnowYourVaccines from './app/screens/KnowYourVaccines';
 import SelectVaccine from './app/screens/SelectVaccine';
-import ProfileScreen from './app/screens/ProfileScreen';
+import LoadingScreen from './app/components/LoadingScreen';
+import ErrorScreen from './app/components/ErrorScreen'
 
 const fontConfig = {
     web: {
@@ -124,8 +125,8 @@ const Main = props => {
     return (
         <NavigationContainer>
             <PaperProvider theme={theme}>
-                {!isAuthenticated ? <AuthNavigator /> : <HomeNavigator />}
-                {/* <AuthNavigator /> */}
+                {!isAuthenticated ? <AuthNavigator /> : <AppNavigator />}
+                {/* <ProfileScreen /> */}
                 {/* <AppNavigator /> */}
                 {/* <ProfileScreen /> */}
             </PaperProvider>

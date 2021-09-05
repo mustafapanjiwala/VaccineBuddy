@@ -15,8 +15,32 @@ import { useGetUser } from '../queries/Users/getUser';
 import { useGetChild } from '../queries/Child/getChild';
 import { AppContext } from "../context/AppContext"
 import { Picker } from '@react-native-picker/picker';
+import { Modal } from 'react-native';
+import ImageViewer from 'react-native-image-zoom-viewer';
+import { Button } from 'react-native-paper';
+
 
 const ProfileScreen = ({ navigation }) => {
+
+    const [isModalVisible, setModalVisible] = useState(false)
+    const images = [{
+        // Simplest usage.
+        url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
+     
+        // width: number
+        // height: number
+        // Optional, if you know the image size, you can set the optimization performance
+     
+        // You can pass props to <Image />.
+        props: {
+            // headers: ...
+        }
+        }]
+
+        const closeModal = () => { if (isModalVisible) { setModalVisible(false) } }
+
+        const openModal = () => { if (!isModalVisible) { setModalVisible(true) } }
+    
     const [image, setImage] = useState(null);
     const ctx = useContext(AppContext)
 
@@ -141,6 +165,16 @@ const ProfileScreen = ({ navigation }) => {
                         {ctx.child?.last_vaccinated}
                     </ParaText>
                 </View>
+                <View style={styles.list}>
+                    <ParaText style={styles.text}>Your Prescription</ParaText>
+                    {/* <ParaText style={styles.text2}>
+                        {ctx.child?.last_vaccinated}
+                    </ParaText> */}
+                    <Button mode="outlined" style={styles.text2} onPress={openModal}>Prescription</Button>
+                </View>
+                        <Modal visible={isModalVisible}  transparent={true}>
+                            <ImageViewer enableSwipeDown={true} onSwipeDown={closeModal} imageUrls={images}/>
+                        </Modal>
             </View>
             <TouchableOpacity
                 activeOpacity={0.8}
@@ -237,7 +271,7 @@ const styles = StyleSheet.create({
         margin: 2
     },
     addProfileButton: {
-        marginTop: 50,
+        
         backgroundColor: colors.primary,
         flexDirection: 'row',
         // alignSelf: 'flex-start',

@@ -31,7 +31,6 @@ const CheckListScreen = ({ navigation }) => {
                     />
                 </View>
                 <View style={styles.cont}>
-                    <ToggleButton onSelect={() => console.log('hi')} textData="hello" />
                     <View style={styles.checkboxContain}>
                             <View style={styles.radio}>
                                 <RadioButton

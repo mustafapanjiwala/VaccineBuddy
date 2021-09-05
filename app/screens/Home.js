@@ -93,12 +93,12 @@ const Home = ({ navigation }) => {
             <View style={styles.container}>
                 <View style={styles.helloBox}>
                     <Text style={styles.helloText}>Hello There!</Text>
-                    <View style={styles.nextVaccineContainer}>
+                    {/* <View style={styles.nextVaccineContainer}>
                         <Text style={styles.nextVaccineText}>
                             Your next vaccine
                         </Text>
                         <Text style={styles.nextVaccineText}>PCV 1</Text>
-                    </View>
+                    </View> */}
                 </View>
 
                 <FlatList
@@ -133,7 +133,7 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // backgroundColor: colors.grey3,
+        backgroundColor: colors.grey3,
         padding: 20
     },
     helloBox: {
