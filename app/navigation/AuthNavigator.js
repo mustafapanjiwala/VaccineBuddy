@@ -9,7 +9,7 @@ import HomeNavigator from './HomeNavigator';
 import AppNavigator from './AppNavigator';
 import OTPVerification from '../screens/OTPVerification';
 const Stack = createStackNavigator();
-
+import colors from '../constants/colors';
 const AuthNavigator = () => {
     return (
         <Stack.Navigator>

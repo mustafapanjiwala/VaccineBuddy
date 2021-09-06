@@ -330,7 +330,7 @@ const ProfileScreen = ({ route, navigation }) => {
                     setAddProfile(true);
                 }}
             >
-                <TouchableOpacity style={styles.addProfileButton}>
+                <Button style={styles.addProfileButton}>
                     <AntDesign
                         style={{ marginTop: 1 }}
                         name="adduser"
@@ -338,7 +338,7 @@ const ProfileScreen = ({ route, navigation }) => {
                         color="white"
                     />
                     <Text style={styles.addtext}>Add Profile</Text>
-                </TouchableOpacity>
+                </Button>
             </TouchableOpacity>
         </Screen>
     );
