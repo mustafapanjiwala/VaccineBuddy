@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import AuthNavigator from './app/navigation/AuthNavigator';
@@ -10,11 +10,11 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import firebase from 'firebase/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { useGetUserMutate } from "./app/queries/Users/getUsersMutate"
-import { useGetChildMutate } from "./app/queries/Child/getChildMutate"
+import { useGetUserMutate } from './app/queries/Users/getUsersMutate';
+import { useGetChildMutate } from './app/queries/Child/getChildMutate';
 import { AppContext, AppProvider } from './app/context/AppContext';
-import OTPSCREEN from "./app/screens/OTPVerification"
-import EditableTable from "./app/screens/EditableTableScreen"
+import OTPSCREEN from './app/screens/OTPVerification';
+import EditableTable from './app/screens/EditableTableScreen';
 import HomeNavigator from './app/navigation/HomeNavigator';
 import ProfileScreen from './app/screens/ProfileScreen';
 import CheckListScreen from './app/screens/CheckListScreen';
@@ -62,14 +62,13 @@ try {
     console.error('FIREBASE INIT FAILED!!!');
 }
 
-
 const queryClient = new QueryClient();
 
-
 export default function App() {
-
     // console.disableYellowBox = true;
-    LogBox.ignoreLogs(["Setting a timer for a long period of time, i.e. multiple minutes, is a performance and correctness issue on Android as it keeps the timer module awake, and timers can only be called when the app is in the foreground. See https://github.com/facebook/react-native/issues/12981 for more info.(Saw setTimeout with duration 300000ms)"])
+    LogBox.ignoreLogs([
+        'Setting a timer for a long period of time, i.e. multiple minutes, is a performance and correctness issue on Android as it keeps the timer module awake, and timers can only be called when the app is in the foreground. See https://github.com/facebook/react-native/issues/12981 for more info.(Saw setTimeout with duration 300000ms)'
+    ]);
 
     // useEffect(() => firebase.auth().signOut(), [])
 
@@ -90,30 +89,30 @@ export default function App() {
                 <AppProvider>
                     <NavigationContainer>
                         <PaperProvider theme={theme}>
-                    < Main />
+                            <Main />
                         </PaperProvider>
                     </NavigationContainer>
                 </AppProvider>
             </QueryClientProvider>
-        )
+        );
     }
 }
 
-const Main = props => {
-    const { setUid, setIsAuthenticated, isAuthenticated } = useContext(AppContext)
+const Main = (props) => {
+    const { setUid, setIsAuthenticated, isAuthenticated } =
+        useContext(AppContext);
 
     firebase.auth().onAuthStateChanged(async function (user) {
-            if (user) {
-                try {
-                    console.log("SIGNING IN")
-                    setIsAuthenticated(true)
-                    setUid(user.uid)
-                }
-                catch (e) {
-                    console.error("CATCHED IN ", e)
-                }
+        if (user) {
+            try {
+                console.log('SIGNING IN');
+                setIsAuthenticated(true);
+                setUid(user.uid);
+            } catch (e) {
+                console.error('CATCHED IN ', e);
             }
-    })
-    if (isAuthenticated) return <AppNavigator />
-    else return <AuthNavigator />
-}
+        }
+    });
+    if (isAuthenticated) return <AppNavigator />;
+    else return <AuthNavigator />;
+};

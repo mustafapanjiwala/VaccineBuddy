@@ -10,6 +10,7 @@ import AddVaccineNavigator from './AddVaccineNavigator';
 import UserDetails1 from '../screens/UserDetails1';
 import UserDetails2 from '../screens/UserDetails2';
 import ErrorScreen from '../components/ErrorScreen';
+import colors from '../constants/colors';
 
 const Stack = createStackNavigator();
 
@@ -29,37 +30,105 @@ const HomeNavigator = () => {
             <Stack.Screen
                 name="UserDetails2"
                 component={UserDetails2}
-                options={{ headerShown: false }}
+                options={{
+                    headerShown: true,
+                    headerStyle: {
+                        backgroundColor: colors.primary
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold'
+                    }
+                }}
             />
             <Stack.Screen
                 name="AddVaccine"
                 component={AddVaccineNavigator}
-                options={{ headerShown: true}}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="Reminder"
                 component={SetReminderScreen}
-                options={{ headerShown: true }}
+                options={{
+                    headerShown: true,
+                    headerStyle: {
+                        backgroundColor: colors.primary
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold'
+                    }
+                }}
             />
             <Stack.Screen
                 name="EditableTable"
                 component={EditableVaccine}
-                options={{ headerShown: true }}
+                options={{
+                    headerShown: true,
+                    headerStyle: {
+                        backgroundColor: colors.primary
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold'
+                    }
+                }}
             />
             <Stack.Screen
                 name="NationalVaccine"
                 component={NationalVaccineScreen}
-                options={{ headerShown: true }}
+                options={{
+                    headerShown: true,
+                    headerStyle: {
+                        backgroundColor: colors.primary
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold'
+                    }
+                }}
             />
             <Stack.Screen
                 name="KnowYourVaccine"
                 component={KnowYourVaccines}
-                options={{ headerShown: true }}
+                options={{
+                    headerShown: true,
+                    headerStyle: {
+                        backgroundColor: colors.primary
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold'
+                    }
+                }}
             />
             <Stack.Screen
                 name="Faq"
                 component={FaqScreen}
-                options={{ headerShown: true }}
+                options={{
+                    headerShown: true,
+                    headerStyle: {
+                        backgroundColor: colors.primary
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold'
+                    }
+                }}
+            />
+            <Stack.Screen
+                name="Error"
+                component={ErrorScreen}
+                options={{
+                    headerShown: true,
+                    headerStyle: {
+                        backgroundColor: colors.primary
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold'
+                    }
+                }}
             />
         </Stack.Navigator>
     );

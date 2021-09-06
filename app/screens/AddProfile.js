@@ -199,10 +199,10 @@ const AddProfile = ({ navigation, setAddProfile, setIsUpdate }) => {
                                     }
                                 }).then((res) => {
                                     ctx.setIsUpdated(true)
-                                    // navigation.navigate("ProfileScreen")
+                                    navigation.navigate("ProfileScreen")
 
-                                    setIsUpdate(true)
-                                    setAddProfile(false)
+                                    // setIsUpdate(true)
+                                    // setAddProfile(false)
                                 }).catch(err => {
                                     console.error("🚀 ~ file: AddProfile.js ~ line 202 ~ onPress={ ~ err", err)
                                     alert("Failed to Add Child")

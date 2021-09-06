@@ -12,6 +12,7 @@ export const AppProvider = (props) => {
     const [isUpdated, setIsUpdated] = React.useState(false)
 
     React.useEffect(() => console.log("CONTEXT CHANGE | child", child), [child])
+    React.useEffect(() => console.log("CONTEXT CHANGE | isUpdated", isUpdated), [isUpdated])
 
     return (
         <AppContext.Provider value={{
