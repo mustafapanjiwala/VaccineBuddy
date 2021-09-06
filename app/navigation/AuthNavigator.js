@@ -26,7 +26,16 @@ const AuthNavigator = () => {
             <Stack.Screen
                 name="OTPVerification"
                 component={OTPVerification}
-                options={{ headerShown: false }}
+                options={{
+                    headerShown: true,
+                    headerStyle: {
+                        backgroundColor: colors.primary
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold'
+                    }
+                }}
             />
             <Stack.Screen
                 name="UserDetails"
@@ -36,7 +45,16 @@ const AuthNavigator = () => {
             <Stack.Screen
                 name="UserDetails2"
                 component={UserDetails2}
-                options={{ headerShown: false }}
+                options={{
+                    headerShown: true,
+                    headerStyle: {
+                        backgroundColor: colors.primary
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold'
+                    }
+                }}
             />
             <Stack.Screen
                 name="Home"
