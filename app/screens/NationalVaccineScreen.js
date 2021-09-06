@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
-import { Permissions } from 'expo-permissions';
+import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 import * as Sharing from 'expo-sharing';
@@ -13,35 +13,39 @@ import ParaText from '../components/ParaText';
 import AppButton2 from '../components/AppButton2';
 import img from '../assets/NationalVaccine.png';
 
-const NationalVaccineScreen = () => {
-    // saveToCamerRoll = async (img) => {
-    //     let cameraPermissions = await Permissions.getAsync(
-    //         Permissions.CAMERA_ROLL
-    //     );
-    //     if (cameraPermissions.status != 'granted') {
-    //         cameraPermissions = await Permissions.askAsync(
-    //             Permissions.CAMERA_ROLL
-    //         );
-    //     }
 
-    //     if (cameraPermissions.status === 'granted') {
-    //         FileSystem.downloadAsync(
-    //             img,
-    //             FileSystem.DocumentDirectory +
-    //                 'National Vaccine Schedule' +
-    //                 '.jpg'
-    //         )
-    //             .then(({ uri }) => {
-    //                 CameraRoll.saveToCameraRoll(uri);
-    //                 alert('Saved to photos');
-    //             })
-    //             .catch((error) => {
-    //                 console.log(error);
-    //             });
-    //     } else {
-    //         alert('Requires camer roll Permission');
-    //     }
-    // };
+const NationalVaccineScreen = () => {
+    const [error, setError] = useState()
+
+    const downloadImage = async () => {
+        const filename = "National Vaccination Schedule.jpg"
+        const fileUri = `${FileSystem.documentDirectory}${filename}`;
+        const uri = "https://www.indianpediatrics.net/dec2013/images/IMM-33--1.gif"
+        const downloadedFile = await FileSystem.downloadAsync(uri, fileUri);
+        if (downloadedFile.status !== 200) setError("Falied To Download Image")
+        else {
+            //for ios and android -- works only on image files
+            const permission = await MediaLibrary.requestPermissionsAsync();
+            if (!permission.granted) {
+                alert("Need Permissions to download image")
+            }
+            else {
+                try {
+                    const asset = await MediaLibrary.createAssetAsync(downloadedFile.uri);
+                    const album = await MediaLibrary.getAlbumAsync('Download');
+                    if (album == null) {
+                        await MediaLibrary.createAlbumAsync('Download', asset, false);
+                    } else {
+                        await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
+                    }
+                    alert("Image Downloaded!")
+                } catch (e) {
+                    setError("Failed To Download Image")
+                    console.log("DOWNLOAD ERROR NationalVaccineScreen, ", e)
+                }
+            }
+        }
+    }
 
     const createAndSavePDF = async () => {
         if (Platform.OS === 'ios') {
@@ -55,31 +59,7 @@ const NationalVaccineScreen = () => {
             }
         }
     }
-
-    const htmlContent = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Pdf Content</title>
-        <style>
-            body {
-                font-size: 16px;
-                color: rgb(255, 196, 0);
-            }
-
-            h1 {
-                text-align: center;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>Hello, UppLabs!</h1>
-    </body>
-    </html>
-`;
-
+    if (error) alert(error)
     return (
         <Screen>
             <View style={styles.container}>
@@ -96,7 +76,7 @@ const NationalVaccineScreen = () => {
                     title="Download"
                     name="download"
                     onPress={() => {
-                        createAndSavePDF();
+                        downloadImage();
                     }}
                 />
             </View>

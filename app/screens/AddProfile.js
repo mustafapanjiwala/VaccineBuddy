@@ -23,7 +23,7 @@ import LoadingScreen from '../components/LoadingScreen';
 //TODO
 // -[x] Store date in Firestore timestamp formate
 
-const AddProfile = ({ navigation, setUpdate, setAddProfile }) => {
+const AddProfile = ({ navigation, setAddProfile, setIsUpdate }) => {
     const ctx = useContext(AppContext)
     const addChild = useAddChild();
 
@@ -198,14 +198,15 @@ const AddProfile = ({ navigation, setUpdate, setAddProfile }) => {
                                         dob: dob.toString() ?? ""
                                     }
                                 }).then((res) => {
-                                    // navigation.navigate("ProfileScreen", { updated: true })
-                                    setUpdate(true)
+                                    ctx.setIsUpdated(true)
+                                    // navigation.navigate("ProfileScreen")
+
+                                    setIsUpdate(true)
                                     setAddProfile(false)
                                 }).catch(err => {
                                     console.error("🚀 ~ file: AddProfile.js ~ line 202 ~ onPress={ ~ err", err)
                                     alert("Failed to Add Child")
                                 })
-                                ctx.addChildren
                                 // navigation.navigate('UserDetails2');
 
                             }}
