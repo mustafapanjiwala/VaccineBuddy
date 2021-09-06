@@ -1,8 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import AddProfile from '../../screens/AddProfile';
-import Home from '../../screens/Home';
-import ProfileScreen from '../../screens/ProfileScreen';
+import AddProfile from '../screens/AddProfile';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const Stack = createStackNavigator();
 
@@ -12,7 +11,7 @@ const ProfileScreenNavigator = () => {
             <Stack.Screen
                 name="ProfileScreen"
                 component={ProfileScreen}
-                options={{ headerShown: false }}
+                options={{ headerShown: true }}
             />
             <Stack.Screen
                 name="AddProfile"

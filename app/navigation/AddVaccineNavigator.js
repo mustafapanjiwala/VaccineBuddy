@@ -1,6 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import CheckListScreen from '../screens/CheckListScreen';
+import EditableVaccine from '../screens/EditableTableScreen';
 import Home from '../screens/Home';
 import PreviewScreen from '../screens/PreviewScreen';
 import SelectVaccine from '../screens/SelectVaccine';
@@ -21,8 +22,8 @@ const AddVaccineNavigator = () => {
                 options={{ headerShown: true }}
             />
             <Stack.Screen
-                name="PreviewScreen"
-                component={PreviewScreen}
+                name="Editable"
+                component={EditableVaccine}
                 options={{ headerShown: true }}
             />
         </Stack.Navigator>

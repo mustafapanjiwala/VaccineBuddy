@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+    View,
+    Text,
+    Image,
+    StyleSheet,
+    TouchableOpacity,
+    ScrollView
+} from 'react-native';
 
 import Screen from '../components/Screen';
 import CardHeading from '../components/CardHeading';
@@ -13,46 +20,56 @@ import * as ImagePicker from 'expo-image-picker';
 import CardPara from '../components/CardPara';
 import { useGetUser } from '../queries/Users/getUser';
 import { useGetChild } from '../queries/Child/getChild';
-import { AppContext } from "../context/AppContext"
+import { AppContext } from '../context/AppContext';
 import { Picker } from '@react-native-picker/picker';
-import { UploadImage } from "../queries/Image/UploadImage"
-import { useUpdateUser } from "../queries/Users/updateUser"
+import { UploadImage } from '../queries/Image/UploadImage';
+import { useUpdateUser } from '../queries/Users/updateUser';
 import { Modal } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { Button } from 'react-native-paper';
 import { updateImage } from '../queries/Image/updateImage';
-import { useGetUserMutate } from "../queries/Users/getUsersMutate"
-import { useGetChildMutate } from '../queries/Child/getChildMutate'
+import { useGetUserMutate } from '../queries/Users/getUsersMutate';
+import { useGetChildMutate } from '../queries/Child/getChildMutate';
 import LoadingScreen from '../components/LoadingScreen';
 import AddProfile from './AddProfile';
 
 const ProfileScreen = ({ route, navigation }) => {
-    const ctx = useContext(AppContext)
+    const ctx = useContext(AppContext);
     const getUSer = useGetUserMutate();
     const getChild = useGetChildMutate();
 
-    const [update, setUpdate] = useState(false)
-    const [isModalVisible, setModalVisible] = useState(false)
-    const [addProfile, setAddProfile] = useState(false)
-    const [error, setError] = useState()
-    const [isLoading, setIsLoading] = useState(false)
-    const images = [{
-        // Simplest usage.
-        url: ctx.user ? ctx.user.image ?? "" : "",
+    const [update, setUpdate] = useState(false);
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [addProfile, setAddProfile] = useState(false);
+    const [error, setError] = useState();
+    const [isLoading, setIsLoading] = useState(false);
+    const images = [
+        {
+            // Simplest usage.
+            url: ctx.user ? ctx.user.image ?? '' : '',
 
-        // width: number
-        // height: number
-        // Optional, if you know the image size, you can set the optimization performance
+            // width: number
+            // height: number
+            // Optional, if you know the image size, you can set the optimization performance
 
-        // You can pass props to <Image />.
-        props: {
-            // headers: ...
+            // You can pass props to <Image />.
+            props: {
+                // headers: ...
+            }
         }
-    }]
+    ];
 
-    const closeModal = () => { if (isModalVisible) { setModalVisible(false) } }
+    const closeModal = () => {
+        if (isModalVisible) {
+            setModalVisible(false);
+        }
+    };
 
-    const openModal = () => { if (!isModalVisible) { setModalVisible(true) } }
+    const openModal = () => {
+        if (!isModalVisible) {
+            setModalVisible(true);
+        }
+    };
 
     const [image, setImage] = useState(null);
     const updateUser = useUpdateUser();
@@ -73,39 +90,67 @@ const ProfileScreen = ({ route, navigation }) => {
         })();
     }, []);
 
-
     useEffect(() => {
         if (update) {
             (async () => {
                 try {
-                    console.log("UPDATING DATA")
-                    const user = await getUSer.mutateAsync(ctx.uid)
-                    let userData = user.data()
-                    ctx.setUser({ ...userData, id: ctx.uid, uid: ctx.uid })
+                    console.log('UPDATING DATA');
+                    const user = await getUSer.mutateAsync(ctx.uid);
+                    let userData = user.data();
+                    ctx.setUser({ ...userData, id: ctx.uid, uid: ctx.uid });
                     if (userData) {
                         if (userData.children) {
-                            const Promises = userData.children.map(async child => {
-                                const childData = await getChild.mutateAsync(child)
-                                return { ...childData.data(), id: child }
-                            })
-                            Promise.all(Promises).then(res => {
-                                ctx.setChild(res[0])
-                                ctx.setChildren(res)
-                                ctx.setShowUserDetails(false)
-                                setIsLoading(false)
-                                setUpdate(false)
-                            }).catch(err => { setError("Child Data could not be loaded"); console.error("UseEffect ProfileScreen.js: ", err); setUpdate(false); setIsLoading(false) })
-                        } else { setError("Child Data could not be loaded"); console.error("UseEffect ProfileScreen.js : " + "UserData.children is undefined"); setIsLoading(false); setUpdate(false) }
-                    } else { setError("User not found"); console.error("UseEffect ProfileScreen.js : ", "UserData is undefined"); setIsLoading(false); setUpdate(false) }
+                            const Promises = userData.children.map(
+                                async (child) => {
+                                    const childData =
+                                        await getChild.mutateAsync(child);
+                                    return { ...childData.data(), id: child };
+                                }
+                            );
+                            Promise.all(Promises)
+                                .then((res) => {
+                                    ctx.setChild(res[0]);
+                                    ctx.setChildren(res);
+                                    ctx.setShowUserDetails(false);
+                                    setIsLoading(false);
+                                    setUpdate(false);
+                                })
+                                .catch((err) => {
+                                    setError('Child Data could not be loaded');
+                                    console.error(
+                                        'UseEffect ProfileScreen.js: ',
+                                        err
+                                    );
+                                    setUpdate(false);
+                                    setIsLoading(false);
+                                });
+                        } else {
+                            setError('Child Data could not be loaded');
+                            console.error(
+                                'UseEffect ProfileScreen.js : ' +
+                                    'UserData.children is undefined'
+                            );
+                            setIsLoading(false);
+                            setUpdate(false);
+                        }
+                    } else {
+                        setError('User not found');
+                        console.error(
+                            'UseEffect ProfileScreen.js : ',
+                            'UserData is undefined'
+                        );
+                        setIsLoading(false);
+                        setUpdate(false);
+                    }
                 } catch (e) {
-                    setIsLoading(false)
-                    setError(e)
-                    console.error("UseEffect ProfileScreen.js : " + e)
-                    setUpdate(false)
+                    setIsLoading(false);
+                    setError(e);
+                    console.error('UseEffect ProfileScreen.js : ' + e);
+                    setUpdate(false);
                 }
             })();
         }
-    }, [update])
+    }, [update]);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -120,35 +165,52 @@ const ProfileScreen = ({ route, navigation }) => {
         if (!result.cancelled) {
             setImage(result.uri);
             if (!ctx.user.image) {
-                UploadImage(result.uri).then(async res => {
-                    await updateUser.mutateAsync({ userData: { image: res }, uid: ctx.user.uid })
-                    ctx.setUser({ ...ctx.user, image: res })
-                }).catch(err => {
-                    alert("Failed to Upload Image")
-                    console.error("pickImage ProfileScreen.js : ", err)
-                })
+                UploadImage(result.uri)
+                    .then(async (res) => {
+                        await updateUser.mutateAsync({
+                            userData: { image: res },
+                            uid: ctx.user.uid
+                        });
+                        ctx.setUser({ ...ctx.user, image: res });
+                    })
+                    .catch((err) => {
+                        alert('Failed to Upload Image');
+                        console.error('pickImage ProfileScreen.js : ', err);
+                    });
             } else {
                 //update image
-                updateImage(result.uri, ctx.user.image).then(async res => {
-                    if (res === "") alert("Failed to Update Image")
-                    await updateUser.mutateAsync({ userData: { image: res }, uid: ctx.user.uid })
-                    ctx.setUser({ ...ctx.user, image: res })
-                }).catch(err => {
-                    alert(err)
-                })
+                updateImage(result.uri, ctx.user.image)
+                    .then(async (res) => {
+                        if (res === '') alert('Failed to Update Image');
+                        await updateUser.mutateAsync({
+                            userData: { image: res },
+                            uid: ctx.user.uid
+                        });
+                        ctx.setUser({ ...ctx.user, image: res });
+                    })
+                    .catch((err) => {
+                        alert(err);
+                    });
             }
-
         }
     };
 
     // if (user.isLoading || child.isLoading) return <View><Text>Loading...</Text></View>
 
-
     const [selectedValue, setSelectedValue] = useState('');
 
-    if (updateUser.isLoading || getUSer.isLoading || getChild.isLoading || isLoading) return <LoadingScreen />
-    if (addProfile) return <AddProfile setUpdate={setUpdate} setAddProfile={setAddProfile} />
-    console.log("CHILDREN ", ctx.children)
+    if (
+        updateUser.isLoading ||
+        getUSer.isLoading ||
+        getChild.isLoading ||
+        isLoading
+    )
+        return <LoadingScreen />;
+    if (addProfile)
+        return (
+            <AddProfile setUpdate={setUpdate} setAddProfile={setAddProfile} />
+        );
+    console.log('CHILDREN ', ctx.children);
     return (
         <Screen style={styles.cointainer}>
             <View style={styles.top}>
@@ -165,13 +227,19 @@ const ProfileScreen = ({ route, navigation }) => {
                         selectedValue={selectedValue.id}
                         style={{ height: 60, width: 180 }}
                         onValueChange={(itemValue, itemIndex) => {
-                            console.log("SEECTING ONE")
-                            setSelectedValue(ctx.children[itemIndex])
-                            ctx.setChild(ctx.children[itemIndex])
-                        }
-                        }
+                            console.log('SEECTING ONE');
+                            setSelectedValue(ctx.children[itemIndex]);
+                            ctx.setChild(ctx.children[itemIndex]);
+                        }}
                     >
-                        {ctx.children && ctx.children.map((child, index) => <Picker.Item key={index} label={child.dob} value={child.id} />)}
+                        {ctx.children &&
+                            ctx.children.map((child, index) => (
+                                <Picker.Item
+                                    key={index}
+                                    label={child.dob}
+                                    value={child.id}
+                                />
+                            ))}
                     </Picker>
                     <View style={{ flexDirection: 'row' }}>
                         <Feather
@@ -189,7 +257,7 @@ const ProfileScreen = ({ route, navigation }) => {
                     <Image source={img} />
                 </View>
             </View>
-            <View style={styles.bottom}>
+            <ScrollView style={styles.bottom}>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Mother's Name</ParaText>
                     <ParaText style={styles.text2}>
@@ -198,7 +266,9 @@ const ProfileScreen = ({ route, navigation }) => {
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Child's Name</ParaText>
-                    <ParaText style={styles.text2}>{ctx.child?.childsName}</ParaText>
+                    <ParaText style={styles.text2}>
+                        {ctx.child?.childsName}
+                    </ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Father's name</ParaText>
@@ -208,9 +278,7 @@ const ProfileScreen = ({ route, navigation }) => {
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>D.O.B</ParaText>
-                    <ParaText style={styles.text2}>
-                        {ctx.child?.dob}
-                    </ParaText>
+                    <ParaText style={styles.text2}>{ctx.child?.dob}</ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Age (of Child)</ParaText>
@@ -239,20 +307,30 @@ const ProfileScreen = ({ route, navigation }) => {
                     {/* <ParaText style={styles.text2}>
                         {ctx.child?.last_vaccinated}
                     </ParaText> */}
-                    <Button mode="outlined" style={styles.text2} onPress={openModal}>Prescription</Button>
+                    <Button
+                        mode="outlined"
+                        style={styles.text2}
+                        onPress={openModal}
+                    >
+                        Prescription
+                    </Button>
                 </View>
                 <Modal visible={isModalVisible} transparent={true}>
-                    <ImageViewer enableSwipeDown={true} onSwipeDown={closeModal} imageUrls={images} />
+                    <ImageViewer
+                        enableSwipeDown={true}
+                        onSwipeDown={closeModal}
+                        imageUrls={images}
+                    />
                 </Modal>
-            </View>
+            </ScrollView>
             <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() => {
                     // navigation.navigate('AddProfile');
-                    setAddProfile(true)
+                    setAddProfile(true);
                 }}
             >
-                <View style={styles.addProfileButton}>
+                <TouchableOpacity style={styles.addProfileButton}>
                     <AntDesign
                         style={{ marginTop: 1 }}
                         name="adduser"
@@ -260,7 +338,7 @@ const ProfileScreen = ({ route, navigation }) => {
                         color="white"
                     />
                     <Text style={styles.addtext}>Add Profile</Text>
-                </View>
+                </TouchableOpacity>
             </TouchableOpacity>
         </Screen>
     );
@@ -341,7 +419,6 @@ const styles = StyleSheet.create({
         margin: 2
     },
     addProfileButton: {
-
         backgroundColor: colors.primary,
         flexDirection: 'row',
         // alignSelf: 'flex-start',

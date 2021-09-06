@@ -111,14 +111,7 @@ const Home = ({ navigation }) => {
                         );
                         setIsLoading(false);
                     }
-                } else {
-                    setError('User not found');
-                    console.error(
-                        'UseEffect Home.js : ',
-                        'UserData is undefined'
-                    );
-                    setIsLoading(false);
-                }
+                } else setIsLoading(false);
             } catch (e) {
                 setIsLoading(false);
                 setError(e.toString());
