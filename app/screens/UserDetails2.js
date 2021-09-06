@@ -188,10 +188,6 @@ const UserDetails2 = ({ navigation }) => {
                                         deliveryMode: userData.deliveryMode ?? ''
                                     }
                                 }).then(res => {
-                                    const dobObj = moment(userData.dob, "DD/MM/YYYY")
-                                    console.log("DATE OBJ ", dobObj)
-                                    const changedObj = moment(userData.dob, "DD/MM/YYYY").add(12, 'weeks')
-                                    console.log("CHANGED OBJ")
                                     navigation.navigate('Home');
                                 });
                             }).catch(err => {

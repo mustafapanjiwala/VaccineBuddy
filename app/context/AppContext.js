@@ -9,8 +9,10 @@ export const AppProvider = (props) => {
     const [child, setChild] = React.useState();
     const [children, setChildren] = React.useState()
     const [showUserDetails, setShowUserDetails] = React.useState(true)
+    const [isUpdated, setIsUpdated] = React.useState(false)
 
     React.useEffect(() => console.log("CONTEXT CHANGE | child", child), [child])
+    React.useEffect(() => console.log("CONTEXT CHANGE | isUpdated", isUpdated), [isUpdated])
 
     return (
         <AppContext.Provider value={{
@@ -19,7 +21,8 @@ export const AppProvider = (props) => {
             child, setChild,
             uid, setUid,
             children, setChildren,
-            showUserDetails, setShowUserDetails
+            showUserDetails, setShowUserDetails,
+            isUpdated, setIsUpdated
         }}>
             {props.children}
         </AppContext.Provider>

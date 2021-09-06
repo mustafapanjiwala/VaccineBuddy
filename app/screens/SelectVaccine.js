@@ -48,14 +48,11 @@ const SelectVaccine = (props) => {
                 // age: age
             };
             const res = await addVaccine.mutateAsync(load);
-            updateChild
-                .mutateAsync({
-                    id: ctx.child.id,
-                    data: { lastVaccinated: givenOnDate }
-                })
+            updateChild.mutateAsync({ id: ctx.child.id, data: { lastVaccinated: givenOnDate ?? "" } })
                 .then(() => {
-                    //navigation.navigate("EditableTable")
                     //NAVGITION HERE
+                    ctx.setIsUpdated(true)
+                    props.navigation.navigate("Editable")
                 })
                 .catch((err) =>
                     console.error('CATCHED IN selectVacicne.js', err)
@@ -139,7 +136,6 @@ const SelectVaccine = (props) => {
             </View>
             <AppButton
                 onPress={() => {
-                    props.navigation.navigate('Editable');
                     addVac(selectedVaccine, selectedBrand);
                 }}
             />

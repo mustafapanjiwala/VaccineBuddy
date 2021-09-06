@@ -30,6 +30,7 @@ import DatePicker from '../components/DatePicker';
 import { AppContext } from '../context/AppContext';
 import LoadingScreen from '../components/LoadingScreen';
 import { useAddTableToDB } from '../queries/Vaccines/addTableToDB';
+import * as FileSystem from 'expo-file-system';
 /*
  *    TODO
  *   - [x] Fix font size and table size in PDF
@@ -61,14 +62,35 @@ const createAndSavePDF = async (html) => {
         });
         console.log('URI ', uri);
         if (Platform.OS === 'ios') {
-            await Sharing.shareAsync(uri);
+            const UTI = 'public.pdf';
+            Sharing.shareAsync(downloadedFile.uri, { UTI }).then(() => {
+                alert("File Downloaded !")
+            }).catch(err => {
+                console.log("ERror downloading file, editabletable.js", err)
+                alert("Download Failed")
+            })
+
         } else {
             const permission = await MediaLibrary.requestPermissionsAsync();
 
             if (permission.granted) {
-                await MediaLibrary.createAssetAsync(uri);
-                return uri;
-            }
+                // const filename = "VaccineChart.pdf"
+                // const fileUri = `${FileSystem.documentDirectory}${filename}`;
+                // const downloadedFile = await FileSystem.downloadAsync(uri, fileUri);
+                try {
+                    const asset = await MediaLibrary.createAssetAsync(uri);
+                    const album = await MediaLibrary.getAlbumAsync('Download');
+                    if (album == null) {
+                        await MediaLibrary.createAlbumAsync('Download', asset, false);
+                    } else {
+                        await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
+                    }
+                    alert("File Downloaded !")
+                } catch (e) {
+                    setError("Failed To Download Image")
+                    console.log("DOWNLOAD ERROR Table PDF, ", e)
+                }
+            } else alert("Need Permissions to download file")
         }
     } catch (error) {
         console.error(error);
@@ -421,57 +443,42 @@ const EditableVaccine = () => {
                             )}
                         </Dialog.Content>
                         <Dialog.Actions>
-                            <Button
-                                onPress={() => {
-                                    if (changeParams) {
-                                        console.log(data[changeParams[1]]);
-                                        if (data[changeParams[1]] === '') {
-                                            console.log('CONDITION TRUE');
-                                            let temp = [...data];
-                                            console.log(
-                                                'HERE ',
-                                                temp,
-                                                changeParams[1],
-                                                temp[changeParams[1]]
-                                            );
-                                            temp[changeParams[1]] = {
-                                                id: vacs[changeParams[1]],
-                                                dueOn: '',
-                                                givenOn: '',
-                                                brand: ''
-                                            };
-                                            setData(temp);
-                                        } else {
-                                            if (changeParams[0] === 'dueOn') {
-                                                let temp = [...data];
-                                                temp[changeParams[1]].dueOn =
-                                                    newVal;
-                                                console.log(
-                                                    'HERE2 ',
-                                                    temp,
-                                                    changeParams[1],
-                                                    temp[changeParams[1]]
-                                                );
-                                                setChangeParams();
-                                                setNewVal('');
-                                                setData(temp);
-                                            }
-                                            if (changeParams[0] === 'givenOn') {
-                                                let temp = [...data];
-                                                temp[changeParams[1]].givenOn =
-                                                    newVal;
-                                                setChangeParams();
-                                                setNewVal('');
-                                                setData(temp);
-                                            }
-                                            if (changeParams[0] === 'brands') {
-                                                let temp = [...data];
-                                                temp[changeParams[1]].brand =
-                                                    newVal;
-                                                setChangeParams();
-                                                setNewVal('');
-                                                setData(temp);
-                                            }
+                            <Button onPress={() => {
+                                if (changeParams) {
+                                    console.log(data[changeParams[1]])
+                                    if (data[changeParams[1]] === "") {
+                                        console.log("CONDITION TRUE")
+                                        let temp = [...data]
+                                        console.log("HERE ", temp, changeParams[1], temp[changeParams[1]])
+                                        temp[changeParams[1]] = {
+                                            id: vacs[changeParams[1]],
+                                            dueOn: "",
+                                            givenOn: "",
+                                            brand: ""
+                                        };
+                                        setData(temp)
+                                    } else {
+                                        if (changeParams[0] === "dueOn") {
+                                            let temp = [...data]
+                                            temp[changeParams[1]].dueOn = newVal;
+                                            console.log("HERE2 ", temp, changeParams[1], temp[changeParams[1]])
+                                            setChangeParams()
+                                            setNewVal("")
+                                            setData(temp)
+                                        }
+                                        if (changeParams[0] === "givenOn") {
+                                            let temp = [...data]
+                                            temp[changeParams[1]].givenOn = newVal;
+                                            setChangeParams()
+                                            setNewVal("")
+                                            setData(temp)
+                                        }
+                                        if (changeParams[0] === "brands") {
+                                            let temp = [...data]
+                                            temp[changeParams[1]].brand = newVal
+                                            setChangeParams()
+                                            setNewVal("")
+                                            setData(temp)
                                         }
                                         // if (changeParams[0] === "dueOn") {
                                         //     let temp = [...data]
@@ -493,7 +500,9 @@ const EditableVaccine = () => {
                                         // setNewVal("")
                                     }
                                     // hideDialog()
-                                }}
+                                }
+                            }
+                        }
                                 title="Ok"
                             >
                                 Done

@@ -23,6 +23,25 @@ const HomeNavigator = () => {
                 options={{ headerShown: false }}
             />
             <Stack.Screen
+                name="UserDetails"
+                component={UserDetails1}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="UserDetails2"
+                component={UserDetails2}
+                options={{
+                    headerShown: true,
+                    headerStyle: {
+                        backgroundColor: colors.primary
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold'
+                    }
+                }}
+            />
+            <Stack.Screen
                 name="AddVaccine"
                 component={AddVaccineNavigator}
                 options={{ headerShown: false }}

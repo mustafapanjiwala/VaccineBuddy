@@ -4,6 +4,7 @@ import LandingScreen from '../screens/LandingScreen';
 import PhoneNumberScreen from '../screens/PhoneNumberScreen';
 import UserDetails1 from '../screens/UserDetails1';
 import UserDetails2 from '../screens/UserDetails2';
+import colors from "../constants/colors"
 import Home from '../screens/Home';
 import HomeNavigator from './HomeNavigator';
 import AppNavigator from './AppNavigator';
