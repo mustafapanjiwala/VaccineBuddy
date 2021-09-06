@@ -94,7 +94,7 @@ const Home = ({ navigation }) => {
                             setIsLoading(false)
                         }).catch(err => { setError("Child Data could not be loaded"); console.error("UseEffect Home.js: ", err); setIsLoading(false) })
                     } else { setError("Child Data could not be loaded"); console.error("UseEffect Home.js : " + "UserData.children is undefined"); setIsLoading(false) }
-                } else { setError("User not found"); console.error("UseEffect Home.js : ", "UserData is undefined"); setIsLoading(false) }
+                } else setIsLoading(false)
             } catch (e) {
                 setIsLoading(false)
                 setError(e.toString())
