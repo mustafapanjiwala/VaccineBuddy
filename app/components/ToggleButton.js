@@ -7,20 +7,19 @@ const ToggleButton = (props) => {
     const [status, setStatus] = React.useState('unchecked');
 
         const onButtonToggle = value => {
-            setStatus(status === 'checked' ? 'unchecked' : 'checked');
-            console.log("ISSELECTED", props.selected)
+            // setStatus(status === 'checked' ? 'unchecked' : 'checked');
             props.onSelect();
         };
     
     return (
             <TouchableOpacity
-            style={[styles.toggle, (status=='checked') ? styles.toggleCheck : styles.toggleUncheck ]}
+            style={[styles.toggle, (props.selected) ? styles.toggleCheck : styles.toggleUncheck]}
             // style={[styles.toggle, props.selected ? styles.toggleCheck : styles.toggleUncheck]}
                 activeOpacity={0.8}
                 status={status}
                 onPress={onButtonToggle}
             >
-            <Text style={[styles.text, (status == 'checked') ? { color: 'white' } : { color: '#0A8C94' }]}>{props.textData}</Text>
+            <Text style={[styles.text, (props.selected) ? { color: 'white' } : { color: '#0A8C94' }]}>{props.textData}</Text>
             </TouchableOpacity>
     )
 }

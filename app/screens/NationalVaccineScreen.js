@@ -43,6 +43,19 @@ const NationalVaccineScreen = () => {
     //     }
     // };
 
+    const createAndSavePDF = async () => {
+        if (Platform.OS === 'ios') {
+            await Sharing.shareAsync("../assets/NationalVaccine.png");
+        } else {
+            const permission = await MediaLibrary.requestPermissionsAsync();
+
+            if (permission.granted) {
+                await MediaLibrary.createAssetAsync("../assets/NationalVaccine.png");
+                return uri
+            }
+        }
+    }
+
     const htmlContent = `
     <!DOCTYPE html>
     <html lang="en">

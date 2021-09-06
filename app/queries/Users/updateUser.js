@@ -5,17 +5,11 @@ import { COLLECTIONS } from "../../constants/collections"
 
 const process = async (load) => {
     if (load.userData) {
-        console.log("IN QUERY LOAD.UID ---> ", load)
         const collectionref = firebase.firestore().collection(COLLECTIONS.USERS);
-        return collectionref.doc(load.uid).set({
-            mothersName: load.userData.mothersName ?? '',
-            fathersName: load.userData.fathersName ?? '',
-            address: load.userData.address ?? '',
-            image: ""
-        })
+        return collectionref.doc(load.uid).update({ ...load.userData })
     }
 }
 
-export const useAddUser = () => {
+export const useUpdateUser = () => {
     return useMutation((load) => process(load))
 }

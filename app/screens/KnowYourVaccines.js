@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, View, Text, Button, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import ParaText from '../components/ParaText';
@@ -7,13 +7,20 @@ import AppButton from '../components/AppButton';
 import colors from '../constants/colors';
 import { vaccineInfo } from '../constants/VaccineInfo';
 import { useGetAllvaccines } from "../queries/Vaccines/getVaccines"
+import LoadingScreen from '../components/LoadingScreen';
 
 const KnowYourVaccines = ({ key }) => {
-    const [selectedValue, setSelectedValue] = useState({ name: "", full_form: "", age: [""] });
+    const [selectedValue, setSelectedValue] = useState("");
 
     const getVaccines = useGetAllvaccines();
 
-    if (getVaccines.isLoading) return <View><Text>Loading...</Text></View>
+    useEffect(() => {
+        if (selectedValue === "" && getVaccines.data) {
+            setSelectedValue(getVaccines.data[0])
+        }
+    }, [getVaccines])
+
+    if (getVaccines.isLoading) return <LoadingScreen />
     return (
         <Screen>
             <ScrollView>
@@ -54,12 +61,12 @@ const KnowYourVaccines = ({ key }) => {
                 <View style={styles.bottom}>
                     <View style={styles.list}>
                         <ParaText style={styles.text}>Name</ParaText>
-                        <ParaText style={styles.text2}>{selectedValue.name}</ParaText>
+                            <ParaText style={styles.text2}>{selectedValue.name ?? ""}</ParaText>
                     </View>
                     <View style={styles.list}>
                         <ParaText style={styles.text}>Full Name</ParaText>
                         <ParaText style={styles.text2}>
-                            {selectedValue.full_form}
+                                {selectedValue.full_form ?? ""}
                         </ParaText>
                     </View>
                     <View style={styles.list}>
@@ -67,15 +74,15 @@ const KnowYourVaccines = ({ key }) => {
                             Age of Administration
                         </ParaText>
                         <ParaText style={styles.text2}>
-                            {selectedValue.age.join(", ")}
+                                {selectedValue.age ? selectedValue.age.join(", ") : ""}
                         </ParaText>
                     </View>
                     <View style={styles.list}>
-                        <ParaText style={styles.text}>
+                            <ParaText style={styles.text ?? ""}>
                            Doses
                         </ParaText>
                         <ParaText style={styles.text2}>
-                            {result.doses}
+                                {selectedValue.doses ?? ""}
                         </ParaText>
                     </View>
                     <View style={styles.list}>
@@ -83,7 +90,7 @@ const KnowYourVaccines = ({ key }) => {
                            No of Doses
                         </ParaText>
                         <ParaText style={styles.text2}>
-                            {result.noOFDoses}
+                                {selectedValue.noOFDoses ?? ""}
                         </ParaText>
                     </View>
                     <View style={styles.list}>
@@ -91,7 +98,7 @@ const KnowYourVaccines = ({ key }) => {
                         Mode
                         </ParaText>
                         <ParaText style={styles.text2}>
-                            {result.mode}
+                                {selectedValue.mode ?? ""}
                         </ParaText>
                     </View>
                     <View style={styles.list}>
@@ -99,7 +106,7 @@ const KnowYourVaccines = ({ key }) => {
                         Body Part
                         </ParaText>
                         <ParaText style={styles.text2}>
-                            {result.bodyPart}
+                                {selectedValue.bodyPart ?? ""}
                         </ParaText>
                     </View>
                     <View style={styles.list}>
@@ -107,7 +114,7 @@ const KnowYourVaccines = ({ key }) => {
                         Fever
                         </ParaText>
                         <ParaText style={styles.text2}>
-                            {result.fever}
+                                {selectedValue.fever ?? ""}
                         </ParaText>
                     </View>
                     <View style={styles.list}>
@@ -115,7 +122,7 @@ const KnowYourVaccines = ({ key }) => {
                         Pain
                         </ParaText>
                         <ParaText style={styles.text2}>
-                            {result.pain}
+                                {selectedValue.pain ?? ""}
                         </ParaText>
                     </View>
                     <View style={styles.list}>
@@ -123,7 +130,7 @@ const KnowYourVaccines = ({ key }) => {
                         Disease
                         </ParaText>
                         <ParaText style={styles.text2}>
-                            {result.disease}
+                                {selectedValue.disease ?? ""}
                         </ParaText>
                     </View>
                     <View style={styles.list}>
@@ -131,7 +138,7 @@ const KnowYourVaccines = ({ key }) => {
                         Side Effects
                         </ParaText>
                         <ParaText style={styles.text2}>
-                            {result.effects}
+                                {selectedValue.effects ?? ""}
                         </ParaText>
                     </View>
                     <View style={styles.list}>
@@ -139,7 +146,7 @@ const KnowYourVaccines = ({ key }) => {
                         Efficacy
                         </ParaText>
                         <ParaText style={styles.text2}>
-                            {result.efficacy}
+                                {selectedValue.efficacy ?? ""}
                         </ParaText>
                     </View>
                     <View style={styles.list}>
@@ -147,7 +154,7 @@ const KnowYourVaccines = ({ key }) => {
                         Brands
                         </ParaText>
                         <ParaText style={styles.text2}>
-                            {result.brands + "," + " "}
+                                {selectedValue.brands ? selectedValue.brands.join(", ") : ""}
                         </ParaText>
                     </View>
                     <View style={styles.list}>
@@ -155,7 +162,7 @@ const KnowYourVaccines = ({ key }) => {
                         Compulsory
                         </ParaText>
                         <ParaText style={styles.text2}>
-                            {result.compulsory}
+                                {selectedValue.compulsory ?? ""}
                         </ParaText>
                     </View>
                     <View style={styles.list}>
@@ -163,7 +170,7 @@ const KnowYourVaccines = ({ key }) => {
                         Other
                         </ParaText>
                         <ParaText style={styles.text2}>
-                            {result.other}
+                                {selectedValue.other ?? ""}
                         </ParaText>
                     </View>
                 </View>

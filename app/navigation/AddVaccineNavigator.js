@@ -13,17 +13,17 @@ const AddVaccineNavigator = () => {
             <Stack.Screen
                 name="CheckList"
                 component={CheckListScreen}
-                options={{ headerShown: false }}
+                options={{ headerShown: true }}
             />
             <Stack.Screen
                 name="SelectVaccine"
                 component={SelectVaccine}
-                options={{ headerShown: false }}
+                options={{ headerShown: true }}
             />
             <Stack.Screen
                 name="PreviewScreen"
                 component={PreviewScreen}
-                options={{ headerShown: false }}
+                options={{ headerShown: true }}
             />
         </Stack.Navigator>
     );

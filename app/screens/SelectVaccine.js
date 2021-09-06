@@ -12,11 +12,14 @@ import { useGetVaccinatedVaccines } from "../queries/Vaccines/getVaccinatedVacci
 import { useRemoveVaccine } from "../queries/Vaccines/removeVaccine";
 import { useQueryClient } from "react-query"
 import colors from '../constants/colors';
+import LoadingScreen from "../components/LoadingScreen"
+import { useUpdateChild } from "../queries/Child/updateChild"
 
 const SelectVaccine = (props) => {
     const [selectedVaccine, setSelectedVaccine] = useState();
     const [isVacSelected, setIsVacSelected] = useState(false);
     const [selectedBrand, setSelectedBrand] = useState("");
+    const [nextScreen, setNextScreen] = useState("")
     const ctx = useContext(AppContext)
     const queryClient = useQueryClient();
 
@@ -32,6 +35,7 @@ const SelectVaccine = (props) => {
     const getVac = useGetVaccines(age); //six is age in weeks it will return all vaccines that are to be admintrd at 6 weeks
     const addVaccine = useAddVaccine();
     const removeVaccine = useRemoveVaccine();
+    const updateChild = useUpdateChild()
     // console.log("VACCINATED DATA", vaccinatedVaccines.data)
 
     const addVac = async (vaccine, brand) => {
@@ -44,6 +48,12 @@ const SelectVaccine = (props) => {
                 // age: age
             }
             const res = await addVaccine.mutateAsync(load);
+            updateChild.mutateAsync({ id: ctx.child.id, data: { lastVaccinated: givenOnDate } })
+                .then(() => {
+                    //navigation.navigate("EditableTable")
+                    //NAVGITION HERE
+                })
+                .catch(err => console.error("CATCHED IN selectVacicne.js", err))
             queryClient.invalidateQueries(["useGetVaccinatedVaccines"])
         }
     }
@@ -64,10 +74,12 @@ const SelectVaccine = (props) => {
 
     if (getVac.isLoading ||
         addVaccine.isLoading ||
-        vaccinatedVaccines.isLoading
-    ) return <View><Text>Loading...</Text></View>
+        vaccinatedVaccines.isLoading ||
+        updateChild.isLoading
+    ) return <LoadingScreen />
 
     if (!props.route.age) props.navigation.navigate("AddVaccine")
+    if (nextScreen) props.navigation.navigate(nextScreen)
 
     return (
         <View style={styles.container}>
@@ -80,11 +92,12 @@ const SelectVaccine = (props) => {
                                 setSelectedVaccine(vac)
                                 setSelectedBrand("")
                                 // setIsVacSelected(selectedVaccine && selectedVaccine.id === vac.id || Boolean(vaccinatedVaccines.data.find((val) => val.vaccine === vac.id)))
-                                const vacExist = vaccinatedVaccines.data.find((val) => val.vaccine === vac.id)
-                                setIsVacSelected(Boolean(vacExist))
-                                vacExist && setSelectedBrand(vacExist.brand)
+                                // const vacExist = vaccinatedVaccines.data.find((val) => val.vaccine === vac.id)
+                                // setIsVacSelected(Boolean(vacExist))
+                                // vacExist && setSelectedBrand(vacExist.brand)
                             }}
-                            selected={selectedVaccine && selectedVaccine.id === vac.id || Boolean(vaccinatedVaccines.data.find((val) => val.vaccine === vac.id))}
+                            // selected={selectedVaccine && selectedVaccine.id === vac.id || Boolean(vaccinatedVaccines.data.find((val) => val.vaccine === vac.id))}
+                            selected={selectedVaccine && selectedVaccine.id === vac.id}
                             textData={vac.name}
                         />
                     )
@@ -95,15 +108,19 @@ const SelectVaccine = (props) => {
                     return (<ToggleButton
                         textData={brand}
                         onSelect={() => {
-                            if (selectedBrand === brand) setSelectedBrand("");
-                            else setSelectedBrand(brand)
+                            // if (selectedBrand === brand) setSelectedBrand("");
+                            // else setSelectedBrand(brand)
+                            setSelectedBrand(brand)
+                            console.log("SELECTED BRANDS", selectedBrand)
                         }}
                         selected={selectedBrand && brand === selectedBrand}
                     />)
                 })}
             </View>
-            {/* <AppButton /> */}
-            {!isVacSelected && <TouchableOpacity
+            <AppButton onPress={() => {
+                addVac(selectedVaccine, selectedBrand)
+            }} />
+            {/* {!isVacSelected && <TouchableOpacity
                 activeOpacity={0.8}
                 style={styles.button}
                 onPress={() => {
@@ -131,7 +148,7 @@ const SelectVaccine = (props) => {
                 >
                     <Text>Update </Text>
                 </TouchableOpacity>
-            </View>}
+            </View>} */}
         </View>
     )
 }

@@ -13,7 +13,17 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { useGetUserMutate } from './app/queries/Users/getUsersMutate';
 import { useGetChildMutate } from './app/queries/Child/getChildMutate';
 import { AppContext, AppProvider } from './app/context/AppContext';
+import OTPSCREEN from './app/screens/OTPVerification';
+import EditableTable from './app/screens/EditableTableScreen';
+import HomeNavigator from './app/navigation/HomeNavigator';
+import ProfileScreen from './app/screens/ProfileScreen';
+import CheckListScreen from './app/screens/CheckListScreen';
 import AppNavigator from './app/navigation/AppNavigator';
+import SetReminderScreen from './app/screens/SetReminderScreen';
+import FaqScreen from './app/screens/FaqScreen';
+import KnowYourVaccines from './app/screens/KnowYourVaccines';
+import SelectVaccine from './app/screens/SelectVaccine';
+import { LogBox, YellowBox } from 'react-native';
 
 const fontConfig = {
     web: {
@@ -55,6 +65,13 @@ try {
 const queryClient = new QueryClient();
 
 export default function App() {
+    // console.disableYellowBox = true;
+    LogBox.ignoreLogs([
+        'Setting a timer for a long period of time, i.e. multiple minutes, is a performance and correctness issue on Android as it keeps the timer module awake, and timers can only be called when the app is in the foreground. See https://github.com/facebook/react-native/issues/12981 for more info.(Saw setTimeout with duration 300000ms)'
+    ]);
+
+    // useEffect(() => firebase.auth().signOut(), [])
+
     let [fontsLoaded] = useFonts({
         'OpenSans-Bold': require('./assets/fonts/OpenSans-Bold.ttf'),
         'OpenSans-SemiBold': require('./assets/fonts/OpenSans-SemiBold.ttf'),
@@ -70,7 +87,11 @@ export default function App() {
         return (
             <QueryClientProvider client={queryClient}>
                 <AppProvider>
-                    <Main />
+                    <NavigationContainer>
+                        <PaperProvider theme={theme}>
+                            <Main />
+                        </PaperProvider>
+                    </NavigationContainer>
                 </AppProvider>
             </QueryClientProvider>
         );
@@ -78,39 +99,20 @@ export default function App() {
 }
 
 const Main = (props) => {
-    const getUser = useGetUserMutate();
-    const getChild = useGetChildMutate();
     const { setUid, setIsAuthenticated, isAuthenticated } =
         useContext(AppContext);
 
     firebase.auth().onAuthStateChanged(async function (user) {
-        try {
-            console.log('USER UID', user.uid);
-            setUid(user.uid);
-            if (user) {
+        if (user) {
+            try {
+                console.log('SIGNING IN');
                 setIsAuthenticated(true);
-                try {
-                    // const userFetched = await getUser.mutateAsync(user.uid);
-                    // const childFetched = await getChild.mutateAsync(userFetched.children[0])
-                    // console.log("HERE", userFetched)
-                    // setChild(childFetched)
-                    // setUser(userFetched)
-                    // console.log("SETTING USER ID ----> ", user.displayName, userFetched)
-                    setUid(user.uid);
-                } catch (e) {
-                    console.error('CATCHEDI IN ', e);
-                }
+                setUid(user.uid);
+            } catch (e) {
+                console.error('CATCHED IN ', e);
             }
-        } catch (e) {
-            console.error('CATCHED ', e);
         }
     });
-    console.log('isAuthenticated', isAuthenticated);
-    return (
-        <NavigationContainer>
-            <PaperProvider theme={theme}>
-                {!isAuthenticated ? <AuthNavigator /> : <AppNavigator />}
-            </PaperProvider>
-        </NavigationContainer>
-    );
+    if (isAuthenticated) return <AppNavigator />;
+    else return <AuthNavigator />;
 };

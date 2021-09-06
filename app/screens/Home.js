@@ -17,6 +17,8 @@ import CardPara from '../components/CardPara';
 import { AppContext } from '../context/AppContext';
 import { useGetUserMutate } from '../queries/Users/getUsersMutate';
 import { useGetChildMutate } from '../queries/Child/getChildMutate';
+import LoadingScreen from '../components/LoadingScreen';
+import ErrorScreen from '../components/ErrorScreen';
 
 const Home = ({ navigation }) => {
     goToNextScreen = (screen) => {
@@ -25,6 +27,8 @@ const Home = ({ navigation }) => {
     const getUSer = useGetUserMutate();
     const getChild = useGetChildMutate();
     const ctx = useContext(AppContext);
+    const [error, setError] = useState();
+    const [isLoading, setIsLoading] = useState(true);
 
     const [cardInfo, setCardInfo] = useState([
         {
@@ -76,34 +80,69 @@ const Home = ({ navigation }) => {
             try {
                 const user = await getUSer.mutateAsync(ctx.uid);
                 let userData = user.data();
-                console.log('USERDATA ', userData);
                 ctx.setUser({ ...userData, id: ctx.uid, uid: ctx.uid });
-                if (userData.children) {
-                    const childData = await getChild.mutateAsync(
-                        userData.children[0]
+                if (userData) {
+                    if (userData.children) {
+                        const Promises = userData.children.map(
+                            async (child) => {
+                                const childData = await getChild.mutateAsync(
+                                    child
+                                );
+                                return { ...childData.data(), id: child };
+                            }
+                        );
+                        Promise.all(Promises)
+                            .then((res) => {
+                                ctx.setChild(res[0]);
+                                ctx.setChildren(res);
+                                ctx.setShowUserDetails(false);
+                                setIsLoading(false);
+                            })
+                            .catch((err) => {
+                                setError('Child Data could not be loaded');
+                                console.error('UseEffect Home.js: ', err);
+                                setIsLoading(false);
+                            });
+                    } else {
+                        setError('Child Data could not be loaded');
+                        console.error(
+                            'UseEffect Home.js : ' +
+                                'UserData.children is undefined'
+                        );
+                        setIsLoading(false);
+                    }
+                } else {
+                    setError('User not found');
+                    console.error(
+                        'UseEffect Home.js : ',
+                        'UserData is undefined'
                     );
-                    ctx.setChild({
-                        ...childData.data(),
-                        id: userData.children[0]
-                    });
+                    setIsLoading(false);
                 }
-            } catch (e) {}
+            } catch (e) {
+                setIsLoading(false);
+                setError(e.toString());
+                console.error('UseEffect Home.js : ' + e);
+            }
         })();
     }, []);
 
-    console.log('CONTEXT --> ', ctx);
+    if (error) return <ErrorScreen />;
+    if (getUSer.isLoading || getChild.isLoading || isLoading)
+        return <LoadingScreen />;
+    if (!isLoading && ctx.showUserDetails) navigation.navigate('UserDetails');
 
     return (
         <Screen>
             <View style={styles.container}>
                 <View style={styles.helloBox}>
                     <Text style={styles.helloText}>Hello There!</Text>
-                    <View style={styles.nextVaccineContainer}>
+                    {/* <View style={styles.nextVaccineContainer}>
                         <Text style={styles.nextVaccineText}>
                             Your next vaccine
                         </Text>
                         <Text style={styles.nextVaccineText}>PCV 1</Text>
-                    </View>
+                    </View> */}
                 </View>
 
                 <FlatList

@@ -16,12 +16,16 @@ import CardPara from '../components/CardPara';
 import { useAddUser } from "../queries/Users/addUser"
 import { useAddChild } from "../queries/Child/addChild"
 import { AppContext } from '../context/AppContext';
+import LoadingScreen from '../components/LoadingScreen';
+import ErrorScreen from '../components/ErrorScreen';
+import moment from 'moment';
 
 const UserDetails2 = ({ navigation }) => {
     const [birthWeight, setBirthWeight] = React.useState('');
     const [gender, setGender] = React.useState('');
     const [firstChild, setFirstChild] = React.useState('');
     const [deliveryMode, setDeliveryMode] = React.useState('');
+    const [error, setError] = useState()
 
     const addUser = useAddUser();
     const addChild = useAddChild();
@@ -35,7 +39,8 @@ const UserDetails2 = ({ navigation }) => {
         global.userData.deliveryMode = deliveryMode;
     }
 
-    if (addUser.isLoading || addChild.isLoading) return <View><Text>Loading...</Text></View>
+    if (addUser.isLoading || addChild.isLoading) return <LoadingScreen />
+    if (error) return <ErrorScreen />
     return (
         <Screen>
             <View style={styles.container}>
@@ -167,7 +172,7 @@ const UserDetails2 = ({ navigation }) => {
                 <AppButton
                     onPress={() => {
                         setData();
-                        console.log("GONIG TO UPDATE USER ", userData, ctx)
+                        console.log("GONIG TO UPDATE USER ", global.userData, ctx)
                         addUser.mutateAsync({
                             uid: ctx.uid ?? "wYQA7c8yPCXOFX0BOdLPTu0jrA63", userData: userData
                         })
@@ -183,9 +188,16 @@ const UserDetails2 = ({ navigation }) => {
                                         deliveryMode: userData.deliveryMode ?? ''
                                     }
                                 }).then(res => {
+                                    const dobObj = moment(userData.dob, "DD/MM/YYYY")
+                                    console.log("DATE OBJ ", dobObj)
+                                    const changedObj = moment(userData.dob, "DD/MM/YYYY").add(12, 'weeks')
+                                    console.log("CHANGED OBJ")
                                     navigation.navigate('Home');
                                 });
-                            }).catch(err => console.log("ADDING USERDATA TO DB FAILED", err))
+                            }).catch(err => {
+                                console.error("Could not add userdetails to database UserDetils2.js")
+                                setError("Could not add connect")
+                            })
                     }}
                 />
             </View>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, KeyboardAvoidingView, StyleSheet, Text } from 'react-native';
 import {
     CodeField,
@@ -14,6 +14,7 @@ import Screen from '../components/Screen';
 import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from "expo-firebase-recaptcha";
 import CardPara from '../components/CardPara';
 import colors from '../constants/colors';
+import { AppContext } from '../context/AppContext';
 
 
 // try {
@@ -48,6 +49,7 @@ const OTPVerification = ({ route, navigation }) => {
         verificationCode,
         setVerificationCode
     });
+    const ctx = useContext(AppContext)
     
 
     useEffect(() => {
@@ -118,9 +120,8 @@ const OTPVerification = ({ route, navigation }) => {
                                 verificationId,
                                 verificationCode
                             );
-                            await firebase.auth().signInWithCredential(credential);
-                            navigation.navigate('UserDetails', phoneNumber)
-                            console.log(credential);
+                            const res = await firebase.auth().signInWithCredential(credential);
+                            // if (res && res.additionalUserInfo) navigation.navigate('UserDetails', phoneNumber)
                         } catch (err) {
                             console.log(err)
                         }
