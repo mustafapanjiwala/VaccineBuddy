@@ -13,14 +13,7 @@ const ProfileScreenNavigator = () => {
                 name="ProfileScreen"
                 component={ProfileScreen}
                 options={{
-                    headerShown: true,
-                    headerStyle: {
-                        backgroundColor: colors.primary
-                    },
-                    headerTintColor: '#fff',
-                    headerTitleStyle: {
-                        fontWeight: 'bold'
-                    }
+                    headerShown: false
                 }}
             />
             <Stack.Screen

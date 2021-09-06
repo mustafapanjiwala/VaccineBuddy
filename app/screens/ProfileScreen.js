@@ -39,7 +39,7 @@ const ProfileScreen = ({ route, navigation }) => {
     const getUSer = useGetUserMutate();
     const getChild = useGetChildMutate();
 
-    const [isUpdate, setIsUpdate] = useState(false)
+    const [isUpdate, setIsUpdate] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
     const [addProfile, setAddProfile] = useState(false);
     const [error, setError] = useState();
@@ -68,51 +68,59 @@ const ProfileScreen = ({ route, navigation }) => {
 
     const updateContext = async () => {
         try {
-            console.log("UPDATING DATA")
-            const user = await getUSer.mutateAsync(ctx.uid)
-            let userData = user.data()
-            ctx.setUser({ ...userData, id: ctx.uid, uid: ctx.uid })
+            console.log('UPDATING DATA');
+            const user = await getUSer.mutateAsync(ctx.uid);
+            let userData = user.data();
+            ctx.setUser({ ...userData, id: ctx.uid, uid: ctx.uid });
             if (userData) {
                 if (userData.children) {
-                    const Promises = userData.children.map(async child => {
-                        const childData = await getChild.mutateAsync(child)
-                        return { ...childData.data(), id: child }
-                    })
-                    Promise.all(Promises).then(res => {
-                        ctx.setChild(res[0])
-                        ctx.setChildren(res)
-                        setIsLoading(false)
-                        ctx.setIsUpdated(false)
-                        setIsUpdate(false)
-                    }).catch(err => {
-                        setError("Child Data could not be loaded");
-                        console.error("UseEffect ProfileScreen.js: ", err);
-                        ctx.setIsUpdated(false);
-                        setIsLoading(false)
-                        setIsUpdate(false)
-                    })
+                    const Promises = userData.children.map(async (child) => {
+                        const childData = await getChild.mutateAsync(child);
+                        return { ...childData.data(), id: child };
+                    });
+                    Promise.all(Promises)
+                        .then((res) => {
+                            ctx.setChild(res[0]);
+                            ctx.setChildren(res);
+                            setIsLoading(false);
+                            ctx.setIsUpdated(false);
+                            setIsUpdate(false);
+                        })
+                        .catch((err) => {
+                            setError('Child Data could not be loaded');
+                            console.error('UseEffect ProfileScreen.js: ', err);
+                            ctx.setIsUpdated(false);
+                            setIsLoading(false);
+                            setIsUpdate(false);
+                        });
                 } else {
-                    setError("Child Data could not be loaded");
-                    console.error("UseEffect ProfileScreen.js : " + "UserData.children is undefined");
+                    setError('Child Data could not be loaded');
+                    console.error(
+                        'UseEffect ProfileScreen.js : ' +
+                        'UserData.children is undefined'
+                    );
                     setIsLoading(false);
-                    setIsUpdate(false)
-                    ctx.setIsUpdated(false)
+                    setIsUpdate(false);
+                    ctx.setIsUpdated(false);
                 }
             } else {
-                setError("User not found");
-                console.error("UseEffect ProfileScreen.js : ", "UserData is undefined");
+                setError('User not found');
+                console.error(
+                    'UseEffect ProfileScreen.js : ',
+                    'UserData is undefined'
+                );
                 setIsLoading(false);
-                setIsUpdate(true)
-                ctx.setIsUpdated(false)
+                setIsUpdate(true);
+                ctx.setIsUpdated(false);
             }
         } catch (e) {
-            setIsLoading(false)
-            setError(e)
-            console.error("UseEffect ProfileScreen.js : " + e)
-            setIsUpdate(true)
-            ctx.setIsUpdated(false)
+            setIsLoading(false);
+            setError(e);
+            console.error('UseEffect ProfileScreen.js : ' + e);
+            setIsUpdate(true);
+            ctx.setIsUpdated(false);
         }
-    }
+    };
     const openModal = () => {
         if (!isModalVisible) {
             setModalVisible(true);
@@ -124,14 +132,16 @@ const ProfileScreen = ({ route, navigation }) => {
     // const user = useGetUser(ctx.user.id);
     // const child = useGetChild(ctx.child.id);
 
-    useFocusEffect(React.useCallback(() => {
-        console.log("EFFECT CALLED ", ctx.isUpdated)
-        if (ctx.isUpdated) {
-            console.log("PASSED ")
-            updateContext();
-            // ctx.setIsUpdated(false)
-        }
-    }, []))
+    useFocusEffect(
+        React.useCallback(() => {
+            console.log('EFFECT CALLED ', ctx.isUpdated);
+            if (ctx.isUpdated) {
+                console.log('PASSED ');
+                updateContext();
+                // ctx.setIsUpdated(false)
+            }
+        }, [])
+    );
 
     useEffect(() => {
         (async () => {
@@ -148,9 +158,8 @@ const ProfileScreen = ({ route, navigation }) => {
     }, []);
 
     useEffect(() => {
-        if (isUpdate) updateContext()
-    }, [isUpdate])
-
+        if (isUpdate) updateContext();
+    }, [isUpdate]);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -159,7 +168,6 @@ const ProfileScreen = ({ route, navigation }) => {
             aspect: [3, 5],
             quality: 1
         });
-
 
         if (!result.cancelled) {
             setImage(result.uri);
@@ -193,7 +201,6 @@ const ProfileScreen = ({ route, navigation }) => {
             }
         }
     };
-
 
     const [selectedValue, setSelectedValue] = useState('');
 
@@ -296,7 +303,13 @@ const ProfileScreen = ({ route, navigation }) => {
                     <ParaText style={styles.text2}>
                         {ctx.child?.last_vaccinated}
                     </ParaText>
-                    <Button mode="outlined" style={styles.text2} onPress={openModal}>Prescription</Button>
+                    <Button
+                        mode="outlined"
+                        style={styles.text2}
+                        onPress={openModal}
+                    >
+                        Prescription
+                    </Button>
                 </View>
                 <Modal visible={isModalVisible} transparent={true}>
                     <ImageViewer
@@ -330,7 +343,7 @@ const ProfileScreen = ({ route, navigation }) => {
                     setAddProfile(true)
                 }}
             >
-                <TouchableOpacity style={styles.addProfileButton}>
+                <View style={styles.addProfileButton}>
                     <AntDesign
                         style={{ marginTop: 1 }}
                         name="adduser"
@@ -338,7 +351,7 @@ const ProfileScreen = ({ route, navigation }) => {
                         color="white"
                     />
                     <Text style={styles.addtext}>Add Profile</Text>
-                </TouchableOpacity>
+                </View>
             </TouchableOpacity> */}
         </Screen>
     );
