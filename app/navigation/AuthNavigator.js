@@ -8,7 +8,6 @@ import Home from '../screens/Home';
 import HomeNavigator from './HomeNavigator';
 import AppNavigator from './AppNavigator';
 import OTPVerification from '../screens/OTPVerification';
-
 const Stack = createStackNavigator();
 
 const AuthNavigator = () => {
@@ -29,7 +28,7 @@ const AuthNavigator = () => {
                 component={OTPVerification}
                 options={{ headerShown: false }}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
                 name="UserDetails"
                 component={UserDetails1}
                 options={{ headerShown: false }}
@@ -38,7 +37,7 @@ const AuthNavigator = () => {
                 name="UserDetails2"
                 component={UserDetails2}
                 options={{ headerShown: false }}
-            />
+            /> */}
             <Stack.Screen
                 name="Home"
                 component={AppNavigator}

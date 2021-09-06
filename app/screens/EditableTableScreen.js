@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import {
     StyleSheet,
     TouchableOpacity,
-    View,
     Text,
+    View,
     Button,
     ScrollView
 } from 'react-native';
@@ -18,7 +18,8 @@ import {
     Rows,
     Col,
     Cell,
-    Cols
+    Cols,
+
 } from 'react-native-table-component';
 import { useGetVaccinatedVaccines } from '../queries/Vaccines/getVaccinatedVaccines';
 import * as Print from 'expo-print';
@@ -28,7 +29,8 @@ import { createTable } from './Table';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import DatePicker from '../components/DatePicker';
 import { AppContext } from '../context/AppContext';
-
+import LoadingScreen from "../components/LoadingScreen"
+import { useAddTableToDB } from '../queries/Vaccines/addTableToDB';
 /*
  *    TODO
  *   - [x] Fix font size and table size in PDF
@@ -82,13 +84,15 @@ const EditableVaccine = () => {
     const [changeParams, setChangeParams] = useState();
     const [downloadedFileURI, setDownloadedFileURI] = useState()
     const ctx = useContext(AppContext)
+    const addTableToDb = useAddTableToDB()
 
     //FOR TESTING
     //START
     const child = { id: '' };
     //END
 
-    const vaccinatedVaccines = useGetVaccinatedVaccines({ child: ctx.child });
+    // const vaccinatedVaccines = useGetVaccinatedVaccines({ child: ctx.child });
+    const vaccinatedVaccines = useGetVaccinatedVaccines({ child: ctx.child })
 
     const [vacs, setVacs] = useState([
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
@@ -98,6 +102,8 @@ const EditableVaccine = () => {
     const [dueOn, setDueOn] = useState([]);
     const [givenOn, setGivenOn] = useState([]);
     const [brands, setBrands] = useState([]);
+
+    const [data, setData] = useState([])
 
     const [state, setState] = useState({
         age: [
@@ -156,44 +162,73 @@ const EditableVaccine = () => {
     });
 
     useEffect(() => {
-        if (dueOn.length === 0 || givenOn.length === 0 || brands.length === 0) {
+        // if (dueOn.length === 0 || givenOn.length === 0 || brands.length === 0) {
+        if (data.length === 0) {
             if (vaccinatedVaccines.data) {
                 // console.log("VACCINATE_VACCINS", vaccinatedVaccines.data)
                 // (async () => console.log(await mapData(vaccinatedVaccines.data, vacs)))()
                 const data = mapData(vaccinatedVaccines.data, vacs);
-                let due_on = [];
-                let given_on = [];
-                let brands = [];
-                data.forEach((d, i) => {
-                    if (d === '') {
-                        due_on.push('');
-                        given_on.push('');
-                        brands.push('');
-                    } else {
-                        due_on.push(d.due_on.toLocaleDateString());
-                        given_on.push(d.given_on.toLocaleDateString());
-                        brands.push(d.brand);
-                    }
-                });
+                // let due_on = [];
+                // let given_on = [];
+                // let brands = [];
+                // data.forEach((d, i) => {
+                //     if (d === '') {
+                //         due_on.push('');
+                //         given_on.push('');
+                //         brands.push('');
+                //     } else {
+                //         due_on.push(d.dueOn)
+                //         given_on.push(d.givenOn);
+                //         brands.push(d.brand);
+                //     }
+                // });
 
-                setDueOn(due_on);
-                setGivenOn(given_on);
-                setBrands(brands);
+                // console.log("DATA ", data)
 
-                console.log("SETTING STATES --_> ", dueOn, givenOn, brands)
+                // setDueOn(due_on);
+                // setGivenOn(given_on);
+                // setBrands(brands);
+                setData(data)
             }
         }
     }, [vaccinatedVaccines]);
 
-    if (vaccinatedVaccines.isLoading) {
+    useEffect(() => {
+        if (changeParams) {
+            if (changeParams[0] === "dueOn") {
+                let temp = [...data]
+                temp[changeParams[1]].dueOn = newVal;
+                console.log("HERE2 ", temp, changeParams[1], temp[changeParams[1]])
+                setChangeParams()
+                setNewVal("")
+                setData(temp)
+            }
+            if (changeParams[0] === "givenOn") {
+                let temp = [...data]
+                temp[changeParams[1]].givenOn = newVal;
+                setChangeParams()
+                setNewVal("")
+                setData(temp)
+            }
+            if (changeParams[0] === "brands") {
+                let temp = [...data]
+                temp[changeParams[1]].brand = newVal
+                setChangeParams()
+                setNewVal("")
+                setData(temp)
+            }
+        }
+        hideDialog()
+    }, [data])
+
+    const hideDialog = () => setVisible(false)
+
+    if (vaccinatedVaccines.isLoading || addTableToDb.isLoading) {
         return (
-            <View>
-                <Text>Loading...</Text>
-            </View>
+            <LoadingScreen />
         );
     }
 
-    const hideDialog = () => setVisible(false)
 
     return (
         <ScrollView>
@@ -213,7 +248,7 @@ const EditableVaccine = () => {
                                 'Due Date',
                                 'Given on',
                                 'Brand Name'
-                            ]}
+                            ]} givenOn
                             widthArr={[60, 110, 70, 70, 90]}
                         />
                         <TableWrapper style={{ flexDirection: 'row' }}>
@@ -223,7 +258,27 @@ const EditableVaccine = () => {
                             <TableWrapper>
                                 {state.vaccines.map((data) => <Cell width={110} height={height} data={data} />)}
                             </TableWrapper>
+
                             <TableWrapper>
+                                {data.map((data, i) => <Cell width={70} height={height} data={<View ><Text onPress={() => {
+                                    setChangeParams(["dueOn", i])
+                                    setVisible(true)
+                                }}>{data.dueOn}</Text></View>} />)}
+                            </TableWrapper>
+                            <TableWrapper>
+                                {data.map((data, i) => <Cell width={70} height={height} data={<View><Text onPress={() => {
+                                    setChangeParams(["givenOn", i])
+                                    setVisible(true)
+                                }}>{data.givenOn}</Text></View>} />)}
+
+                            </TableWrapper>
+                            <TableWrapper>
+                                {data.map((data, i) => <Cell width={90} height={height} data={<View><Text onPress={() => {
+                                    setChangeParams(["brands", i])
+                                    setVisible(true)
+                                }}>{data.brand}</Text></View>} />)}
+                            </TableWrapper>
+                            {/* <TableWrapper>
                                 {dueOn.map((data, i) => <Cell width={70} height={height} data={<View ><Text onPress={() => {
                                     setChangeParams(["dueOn", i])
                                     setVisible(true)
@@ -243,45 +298,7 @@ const EditableVaccine = () => {
                                     setChangeParams(["brands", i])
                                     setVisible(true)
                                 }}>{data}</Text></View>} />)}
-                            </TableWrapper>
-
-                            {/* <Col
-                                data={state.age}
-                                style={styles.head}
-                                heightArr={state.vac_back.map(
-                                    (v) => v.length * height
-                                )}
-                                width={60}
-                                textStyle={styles.text}
-                            />
-                            <Col
-                                data={state.vaccines}
-                                style={styles.title}
-                                height={height}
-                                width={110}
-                                textStyle={styles.titleText}
-                            ></Col>
-                            <Col
-                                data={dueOn}
-                                style={styles.title}
-                                height={height}
-                                width={70}
-                                textStyle={styles.titleText}
-                            ></Col>
-                            <Col
-                                data={givenOn}
-                                style={styles.title}
-                                height={height}
-                                width={70}
-                                textStyle={styles.titleText}
-                            ></Col>
-                            <Col
-                                data={brands}
-                                style={styles.title}
-                                height={height}
-                                width={90}
-                                textStyle={styles.titleText}
-                            ></Col> */}
+                            </TableWrapper> */}
                         </TableWrapper>
                     </TableWrapper>
                 </Table>
@@ -301,6 +318,17 @@ const EditableVaccine = () => {
                         // console.log(table)
                         const that = await createAndSavePDF(table);
                         setDownloadedFileURI(that)
+
+                    }}
+                />
+                <AppButton2
+                    title="update"
+                    name="update"
+                    onPress={async () => {
+                        console.log("ADDDING TO DB ", data)
+                        data.map(d => {
+                            d !== "" && addTableToDb.mutate({ id: ctx.child.id, data: d })
+                        })
 
                     }}
                 />
@@ -325,25 +353,62 @@ const EditableVaccine = () => {
                         <Dialog.Actions>
                             <Button onPress={() => {
                                 if (changeParams) {
-                                    if (changeParams[0] === "dueOn") {
-                                        let temp = [...dueOn]
-                                        temp[changeParams[1]] = newVal.toLocaleDateString();
-                                        setDueOn(temp)
+                                    console.log(data[changeParams[1]])
+                                    if (data[changeParams[1]] === "") {
+                                        console.log("CONDITION TRUE")
+                                        let temp = [...data]
+                                        console.log("HERE ", temp, changeParams[1], temp[changeParams[1]])
+                                        temp[changeParams[1]] = {
+                                            id: vacs[changeParams[1]],
+                                            dueOn: "",
+                                            givenOn: "",
+                                            brand: ""
+                                        };
+                                        setData(temp)
+                                    } else {
+                                        if (changeParams[0] === "dueOn") {
+                                            let temp = [...data]
+                                            temp[changeParams[1]].dueOn = newVal;
+                                            console.log("HERE2 ", temp, changeParams[1], temp[changeParams[1]])
+                                            setChangeParams()
+                                            setNewVal("")
+                                            setData(temp)
+                                        }
+                                        if (changeParams[0] === "givenOn") {
+                                            let temp = [...data]
+                                            temp[changeParams[1]].givenOn = newVal;
+                                            setChangeParams()
+                                            setNewVal("")
+                                            setData(temp)
+                                        }
+                                        if (changeParams[0] === "brands") {
+                let temp = [...data]
+                temp[changeParams[1]].brand = newVal
+                setChangeParams()
+                setNewVal("")
+                                            setData(temp)
+                                        }
                                     }
-                                    if (changeParams[0] === "givenOn") {
-                                        let temp = [...givenOn]
-                                        temp[changeParams[1]] = newVal.toLocaleDateString();
-                                        setDueOn(temp)
-                                    }
-                                    if (changeParams[0] === "brands") {
-                                        let temp = [...brands]
-                                        temp[changeParams[1]] = newVal
-                                        setDueOn(temp)
-                                    }
-                                    setChangeParams()
-                                    setNewVal("")
+                                    // if (changeParams[0] === "dueOn") {
+                                    //     let temp = [...data]
+                                    //     temp[changeParams[1]].dueOn = newVal;
+                                    //     console.log("HERE2 ", temp, changeParams[1], temp[changeParams[1]])
+                                    //     // setData(temp)
+                                    // }
+                                    // if (changeParams[0] === "givenOn") {
+                                    //     let temp = [...data]
+                                    //     temp[changeParams[1]].givenOn = newVal;
+                                    //     setData(temp)
+                                    // }
+                                    // if (changeParams[0] === "brands") {
+                                    //     let temp = [...data]
+                                    //     temp[changeParams[1]].brand = newVal
+                                    //     setData(temp)
+                                    // }
+                                    // setChangeParams()
+                                    // setNewVal("")
                                 }
-                                hideDialog()
+                                // hideDialog()
                             }} title="Ok">Done</Button>
                         </Dialog.Actions>
                     </Dialog>

@@ -7,6 +7,7 @@ import AppButton from '../components/AppButton';
 import colors from '../constants/colors';
 import { vaccineInfo } from '../constants/VaccineInfo';
 import { useGetAllvaccines } from "../queries/Vaccines/getVaccines"
+import LoadingScreen from '../components/LoadingScreen';
 
 const KnowYourVaccines = ({ key }) => {
     const [selectedValue, setSelectedValue] = useState("");
@@ -19,7 +20,7 @@ const KnowYourVaccines = ({ key }) => {
         }
     }, [getVaccines])
 
-    if (getVaccines.isLoading) return <View><Text>Loading...</Text></View>
+    if (getVaccines.isLoading) return <LoadingScreen />
     return (
         <Screen>
             <ScrollView>

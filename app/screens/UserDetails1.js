@@ -36,10 +36,10 @@ const UserDetails1 = ({ navigation }) => {
     const [address, setAddress] = React.useState('');
 
     function setData() {
-        userData.mothersName = ref.current.values.mothersName;
-        userData.childsName = childsName;
-        userData.fathersName = fathersName;
-        userData.address = address;
+        global.userData.mothersName = ref.current.values.mothersName;
+        global.userData.childsName = childsName;
+        global.userData.fathersName = fathersName;
+        global.userData.address = address;
     }
 
     return (
@@ -109,6 +109,7 @@ const UserDetails1 = ({ navigation }) => {
                         <AppButton
                             // onPress={props.handleSubmit}
                             onPress={() => {
+                                setData()
                                 // console.log(values)
                                 navigation.navigate('UserDetails2');
                                 {

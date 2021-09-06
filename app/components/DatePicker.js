@@ -12,9 +12,9 @@ const DatePicker = (props) => {
     global.userData.dob = moment(date).format("DD/MM/YYYY");
 
     const onChange = (event, selectedDate) => {
-      const currentDate = selectedDate || date;
+        const currentDate = moment(selectedDate).format("DD/MM/YYYY") || moment(date).format("DD/MM/YYYY");
       setShow(Platform.OS === 'ios');
-      setDate(currentDate);
+        setDate(selectedDate ?? date);
         props.datecb(currentDate)
     };
   

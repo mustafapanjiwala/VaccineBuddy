@@ -11,6 +11,8 @@ import * as yup from 'yup';
 import CardPara from '../components/CardPara';
 import { AppContext } from "../context/AppContext"
 import { useAddChild } from "../queries/Child/addChild"
+import moment from 'moment';
+import LoadingScreen from '../components/LoadingScreen';
 // import { withTheme } from 'react-native-paper';
 // import colors from '../constants/colors';
 // import DateTimePicker from '@react-native-community/datetimepicker';
@@ -21,7 +23,7 @@ import { useAddChild } from "../queries/Child/addChild"
 //TODO
 // -[x] Store date in Firestore timestamp formate
 
-const AddProfile = () => {
+const AddProfile = ({ navigation, setUpdate, setAddProfile }) => {
     const ctx = useContext(AppContext)
     const addChild = useAddChild();
 
@@ -47,7 +49,7 @@ const AddProfile = () => {
     const [childName, setChildName] = React.useState('')
     const [dob, setDob] = React.useState('')
 
-    if (addChild.isLoading) return <View><Text>LOading...</Text></View>
+    if (addChild.isLoading) return <LoadingScreen />
 
     return (
         <Screen>
@@ -187,15 +189,23 @@ const AddProfile = () => {
                         <AppButton
                             // onPress={props.handleSubmit}
                             onPress={() => {
-                                addChild.mutate({
+                                addChild.mutateAsync({
                                     user: ctx.user, child: {
                                         childsName: childName,
                                         gender: gender,
                                         firstChild: firstChild,
                                         deliveryMode: deliveryMode,
-                                        dob: dob
+                                        dob: dob.toString() ?? ""
                                     }
+                                }).then((res) => {
+                                    // navigation.navigate("ProfileScreen", { updated: true })
+                                    setUpdate(true)
+                                    setAddProfile(false)
+                                }).catch(err => {
+                                    console.error("🚀 ~ file: AddProfile.js ~ line 202 ~ onPress={ ~ err", err)
+                                    alert("Failed to Add Child")
                                 })
+                                ctx.addChildren
                                 // navigation.navigate('UserDetails2');
 
                             }}

@@ -17,6 +17,8 @@ import CardPara from '../components/CardPara';
 import { AppContext } from "../context/AppContext"
 import { useGetUserMutate } from "../queries/Users/getUsersMutate"
 import { useGetChildMutate } from '../queries/Child/getChildMutate'
+import LoadingScreen from "../components/LoadingScreen"
+import ErrorScreen from '../components/ErrorScreen';
 
 const Home = ({ navigation }) => {
     goToNextScreen = (screen) => {
@@ -26,6 +28,7 @@ const Home = ({ navigation }) => {
     const getChild = useGetChildMutate();
     const ctx = useContext(AppContext)
     const [error, setError] = useState()
+    const [isLoading, setIsLoading] = useState(true)
 
     const [cardInfo, setCardInfo] = useState([
         {
@@ -78,34 +81,44 @@ const Home = ({ navigation }) => {
                 const user = await getUSer.mutateAsync(ctx.uid)
                 let userData = user.data()
                 ctx.setUser({ ...userData, id: ctx.uid, uid: ctx.uid })
-                if (userData.children) {
-                    const Promises = userData.children.map(async child => {
-                        const childData = await getChild.mutateAsync(child)
-                        return { ...childData.data(), id: child }
-                    })
-                    Promise.all(Promises).then(res => {
-                        ctx.setChild(res[0])
-                        ctx.setChildren(res)
-                    }).catch(err => { setError("Child Data could not be loaded") })
-                } else setError("Child Data could not be loaded")
-            } catch (e) { }
+                if (userData) {
+                    if (userData.children) {
+                        const Promises = userData.children.map(async child => {
+                            const childData = await getChild.mutateAsync(child)
+                            return { ...childData.data(), id: child }
+                        })
+                        Promise.all(Promises).then(res => {
+                            ctx.setChild(res[0])
+                            ctx.setChildren(res)
+                            ctx.setShowUserDetails(false)
+                            setIsLoading(false)
+                        }).catch(err => { setError("Child Data could not be loaded"); console.error("UseEffect Home.js: ", err); setIsLoading(false) })
+                    } else { setError("Child Data could not be loaded"); console.error("UseEffect Home.js : " + "UserData.children is undefined"); setIsLoading(false) }
+                } else { setError("User not found"); console.error("UseEffect Home.js : ", "UserData is undefined"); setIsLoading(false) }
+            } catch (e) {
+                setIsLoading(false)
+                setError(e.toString())
+                console.error("UseEffect Home.js : " + e)
+            }
         })();
     }, [])
 
-    if (error) return <View><Text>{error}</Text></View>
-    if (getUSer.isLoading || getChild.isLoading) return <View><Text>Loading...</Text></View>
+
+    if (error) return <ErrorScreen />
+    if (getUSer.isLoading || getChild.isLoading || isLoading) return <LoadingScreen />
+    if (!isLoading && ctx.showUserDetails) navigation.navigate("UserDetails")
 
     return (
         <Screen>
             <View style={styles.container}>
                 <View style={styles.helloBox}>
                     <Text style={styles.helloText}>Hello There!</Text>
-                    <View style={styles.nextVaccineContainer}>
+                    {/* <View style={styles.nextVaccineContainer}>
                         <Text style={styles.nextVaccineText}>
                             Your next vaccine
                         </Text>
                         <Text style={styles.nextVaccineText}>PCV 1</Text>
-                    </View>
+                    </View> */}
                 </View>
 
                 <FlatList
@@ -140,7 +153,7 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // backgroundColor: colors.grey3,
+        backgroundColor: colors.grey3,
         padding: 20
     },
     helloBox: {
