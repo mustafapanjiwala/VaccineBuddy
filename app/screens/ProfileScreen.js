@@ -198,7 +198,7 @@ const ProfileScreen = ({ route, navigation }) => {
     const [selectedValue, setSelectedValue] = useState('');
 
     if (updateUser.isLoading || getUSer.isLoading || getChild.isLoading || isLoading) return <LoadingScreen />
-    // if (addProfile) return <AddProfile setIsUpdate={setIsUpdate} setAddProfile={setAddProfile} />
+    if (addProfile) return <AddProfile setIsUpdate={setIsUpdate} setAddProfile={setAddProfile} />
     console.log("CHILDREN ", ctx.children)
     return (
         <Screen style={styles.cointainer}>
@@ -307,10 +307,27 @@ const ProfileScreen = ({ route, navigation }) => {
                 </Modal>
             </ScrollView>
             <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => {
+                    // navigation.navigate('AddProfile');
+                    setAddProfile(true)
+                }}
+            >
+                <View style={styles.addProfileButton}>
+                    <AntDesign
+                        style={{ marginTop: 1 }}
+                        name="adduser"
+                        size={21}
+                        color="white"
+                    />
+                    <Text style={styles.addtext}>Add Profile</Text>
+                </View>
+            </TouchableOpacity>
+            {/* <TouchableOpacity
                 onPress={() => {
                     console.log("AT LEAST CLICKED")
-                    props.navigation.navigate('AddProfile');
-                    // setAddProfile(true)
+                    // props.navigation.navigate('AddProfile');
+                    setAddProfile(true)
                 }}
             >
                 <TouchableOpacity style={styles.addProfileButton}>
@@ -322,7 +339,7 @@ const ProfileScreen = ({ route, navigation }) => {
                     />
                     <Text style={styles.addtext}>Add Profile</Text>
                 </TouchableOpacity>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </Screen>
     );
 };

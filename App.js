@@ -55,6 +55,16 @@ const firebaseConfig = {
     messagingSenderId: '151343793466',
     appId: '1:151343793466:web:a01eb512c9c455a3cdbc03'
 };
+// const firebaseConfig = {
+//     apiKey: "AIzaSyBdr_7Oi85DJrP6Xx6o3V12REYedBT_x8c",
+//     authDomain: "vacseen-1ffe9.firebaseapp.com",
+//     projectId: "vacseen-1ffe9",
+//     storageBucket: "vacseen-1ffe9.appspot.com",
+//     messagingSenderId: "285369646875",
+//     appId: "1:285369646875:web:be10274fe7fdffde219dbe",
+//     measurementId: "G-Z4R2SV08RZ"
+// };
+
 
 try {
     firebase.initializeApp(firebaseConfig);
