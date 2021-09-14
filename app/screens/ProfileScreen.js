@@ -97,7 +97,7 @@ const ProfileScreen = ({ route, navigation }) => {
                     setError('Child Data could not be loaded');
                     console.error(
                         'UseEffect ProfileScreen.js : ' +
-                        'UserData.children is undefined'
+                            'UserData.children is undefined'
                     );
                     setIsLoading(false);
                     setIsUpdate(false);
@@ -204,9 +204,21 @@ const ProfileScreen = ({ route, navigation }) => {
 
     const [selectedValue, setSelectedValue] = useState('');
 
-    if (updateUser.isLoading || getUSer.isLoading || getChild.isLoading || isLoading) return <LoadingScreen />
-    if (addProfile) return <AddProfile setIsUpdate={setIsUpdate} setAddProfile={setAddProfile} />
-    console.log("CHILDREN ", ctx.children)
+    if (
+        updateUser.isLoading ||
+        getUSer.isLoading ||
+        getChild.isLoading ||
+        isLoading
+    )
+        return <LoadingScreen />;
+    if (addProfile)
+        return (
+            <AddProfile
+                setIsUpdate={setIsUpdate}
+                setAddProfile={setAddProfile}
+            />
+        );
+    console.log('CHILDREN ', ctx.children);
     return (
         <Screen style={styles.cointainer}>
             <View style={styles.top}>
@@ -323,7 +335,7 @@ const ProfileScreen = ({ route, navigation }) => {
                 activeOpacity={0.8}
                 onPress={() => {
                     // navigation.navigate('AddProfile');
-                    setAddProfile(true)
+                    setAddProfile(true);
                 }}
             >
                 <View style={styles.addProfileButton}>
