@@ -46,14 +46,7 @@ const AuthNavigator = () => {
                 name="UserDetails2"
                 component={UserDetails2}
                 options={{
-                    headerShown: true,
-                    headerStyle: {
-                        backgroundColor: colors.primary
-                    },
-                    headerTintColor: '#fff',
-                    headerTitleStyle: {
-                        fontWeight: 'bold'
-                    }
+                    headerShown: false
                 }}
             />
             <Stack.Screen

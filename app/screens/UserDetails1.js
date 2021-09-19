@@ -34,6 +34,7 @@ const UserDetails1 = ({ navigation }) => {
     const [childsName, setChildsName] = React.useState('');
     const [fathersName, setFathersName] = React.useState('');
     const [address, setAddress] = React.useState('');
+    const [disable, setDisable] = React.useState(!mothersName);
 
     function setData() {
         global.userData.mothersName = ref.current.values.mothersName;
@@ -108,9 +109,10 @@ const UserDetails1 = ({ navigation }) => {
                         }} /> */}
                         <AppButton
                             // onPress={props.handleSubmit}
+                            disabled={disable}
                             onPress={() => {
                                 setData()
-                                // console.log(values)
+                                console.log("pressed")
                                 navigation.navigate('UserDetails2');
                                 {
                                     props.handleSubmit;

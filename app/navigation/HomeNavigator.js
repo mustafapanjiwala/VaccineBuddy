@@ -1,4 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
 import React from 'react';
 import EditableVaccine from '../screens/EditableTableScreen';
 import FaqScreen from '../screens/FaqScreen';
@@ -10,11 +11,20 @@ import AddVaccineNavigator from './AddVaccineNavigator';
 import UserDetails1 from '../screens/UserDetails1';
 import UserDetails2 from '../screens/UserDetails2';
 import ErrorScreen from '../components/ErrorScreen';
+import MyPrescriptionScreen from '../screens/MyPrescriptionScreen';
 import colors from '../constants/colors';
 
 const Stack = createStackNavigator();
 
-const HomeNavigator = () => {
+const HomeNavigator = ({ navigation, route }) => {
+    const tabHiddenRoutes = ['UserDetails', 'UserDetail2'];
+
+    if (tabHiddenRoutes.includes(getFocusedRouteNameFromRoute(route))) {
+        navigation.setOptions({ tabBarStyle: { display: 'none' } });
+    } else {
+        navigation.setOptions({ tabBarStyle: { display: 'flex' } });
+    }
+
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -31,14 +41,7 @@ const HomeNavigator = () => {
                 name="UserDetails2"
                 component={UserDetails2}
                 options={{
-                    headerShown: true,
-                    headerStyle: {
-                        backgroundColor: colors.primary
-                    },
-                    headerTintColor: '#fff',
-                    headerTitleStyle: {
-                        fontWeight: 'bold'
-                    }
+                    headerShown: false
                 }}
             />
             <Stack.Screen
@@ -58,6 +61,20 @@ const HomeNavigator = () => {
                     headerTitleStyle: {
                         fontWeight: 'bold'
                     }
+                }}
+            />
+            <Stack.Screen
+                name="MyPrescriptions"
+                component={MyPrescriptionScreen}
+                options={{
+                    headerShown: true,
+                    headerStyle: {
+                        backgroundColor: colors.primary
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: '300'
+                    },
                 }}
             />
             <Stack.Screen
