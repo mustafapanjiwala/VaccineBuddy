@@ -95,7 +95,7 @@ const ProfileScreen = ({ route, navigation }) => {
                     setError('Child Data could not be loaded');
                     console.error(
                         'UseEffect ProfileScreen.js : ' +
-                        'UserData.children is undefined'
+                            'UserData.children is undefined'
                     );
                     setIsLoading(false);
                     ctx.setIsUpdated(false);
@@ -131,12 +131,12 @@ const ProfileScreen = ({ route, navigation }) => {
             await updateContext();
             // ctx.setIsUpdated(false)
         }
-    })
+    });
 
     const unSubscribeBlur = navigation.addListener('blur', () => {
         unSubscribe();
         unSubscribeBlur();
-    })
+    });
     useEffect(() => {
         (async () => {
             if (Platform.OS !== 'web') {
@@ -150,7 +150,6 @@ const ProfileScreen = ({ route, navigation }) => {
             }
         })();
     }, []);
-
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -195,9 +194,15 @@ const ProfileScreen = ({ route, navigation }) => {
 
     const [selectedValue, setSelectedValue] = useState('');
 
-    if (updateUser.isLoading || getUSer.isLoading || getChild.isLoading || isLoading) return <LoadingScreen />
-    console.log("CHILDREN ", ctx.children)
-    if (!ctx.user || !ctx.child) return <ErrorScreen />
+    if (
+        updateUser.isLoading ||
+        getUSer.isLoading ||
+        getChild.isLoading ||
+        isLoading
+    )
+        return <LoadingScreen />;
+    console.log('CHILDREN ', ctx.children);
+    if (!ctx.user || !ctx.child) return <ErrorScreen />;
     return (
         <Screen style={styles.cointainer}>
             <View style={styles.top}>
@@ -244,9 +249,7 @@ const ProfileScreen = ({ route, navigation }) => {
                             size={17}
                             color="black"
                         />
-                        <Text style={styles.button}>
-                            Update Profile
-                        </Text>
+                        <Text style={styles.button}>Update Profile</Text>
                     </View>
                 </View>
                 <View style={styles.topImage}>
@@ -278,13 +281,16 @@ const ProfileScreen = ({ route, navigation }) => {
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Age (of Child)</ParaText>
-                    <ParaText style={styles.text2}>{(() => {
-                        const val = moment().diff(ctx.child.dob, "years")
-                        if (isNaN(val)) {
-                            return <Text>Not Borned Yet</Text>
-                        } else if (val === 0) return <Text>Born today, congrats!</Text>
-                        return <Text>{val}</Text>
-                    })()}</ParaText>
+                    <ParaText style={styles.text2}>
+                        {(() => {
+                            const val = moment().diff(ctx.child.dob, 'years');
+                            if (isNaN(val)) {
+                                return <Text>Not Borned Yet</Text>;
+                            } else if (val === 0)
+                                return <Text>Born today, congrats!</Text>;
+                            return <Text>{val}</Text>;
+                        })()}
+                    </ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Birth Weight</ParaText>
