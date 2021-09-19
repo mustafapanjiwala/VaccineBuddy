@@ -13,7 +13,7 @@ const process = async (load) => {
         if (docref.id) {
             return firebase.firestore().collection(COLLECTIONS.USERS).doc(load.user.id).get().then(res => {
                 const data = res.data();
-                console.log("DATA", data)
+                console.log("DATA IN ADD CHILD", data)
                 if (data.children) return firebase.firestore().collection(COLLECTIONS.USERS).doc(load.user.id).set({
                     ...data,
                     children: [...data.children, docref.id]

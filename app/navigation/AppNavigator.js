@@ -24,7 +24,8 @@ const AppNavigator = () => {
                     backgroundColor: '#79d1d7',
                     height: 60,
                     paddingBottom: 5
-                }
+                },
+
             }}
         >
             <Tab.Screen

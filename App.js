@@ -112,6 +112,7 @@ const Main = (props) => {
     const { setUid, setIsAuthenticated, isAuthenticated } =
         useContext(AppContext);
 
+    console.log("IS AUTHENTICATED ", isAuthenticated)
     firebase.auth().onAuthStateChanged(async function (user) {
         if (user) {
             try {

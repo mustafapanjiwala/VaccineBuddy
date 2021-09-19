@@ -33,15 +33,15 @@ import { useGetChildMutate } from '../queries/Child/getChildMutate';
 import LoadingScreen from '../components/LoadingScreen';
 import AddProfile from './AddProfile';
 import { useFocusEffect } from '@react-navigation/native';
+import moment from 'moment';
+import ErrorScreen from '../components/ErrorScreen';
 
 const ProfileScreen = ({ route, navigation }) => {
     const ctx = useContext(AppContext);
     const getUSer = useGetUserMutate();
     const getChild = useGetChildMutate();
 
-    const [isUpdate, setIsUpdate] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
-    const [addProfile, setAddProfile] = useState(false);
     const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const images = [
@@ -84,14 +84,12 @@ const ProfileScreen = ({ route, navigation }) => {
                             ctx.setChildren(res);
                             setIsLoading(false);
                             ctx.setIsUpdated(false);
-                            setIsUpdate(false);
                         })
                         .catch((err) => {
                             setError('Child Data could not be loaded');
                             console.error('UseEffect ProfileScreen.js: ', err);
                             ctx.setIsUpdated(false);
                             setIsLoading(false);
-                            setIsUpdate(false);
                         });
                 } else {
                     setError('Child Data could not be loaded');
@@ -100,7 +98,6 @@ const ProfileScreen = ({ route, navigation }) => {
                         'UserData.children is undefined'
                     );
                     setIsLoading(false);
-                    setIsUpdate(false);
                     ctx.setIsUpdated(false);
                 }
             } else {
@@ -110,14 +107,12 @@ const ProfileScreen = ({ route, navigation }) => {
                     'UserData is undefined'
                 );
                 setIsLoading(false);
-                setIsUpdate(true);
                 ctx.setIsUpdated(false);
             }
         } catch (e) {
             setIsLoading(false);
             setError(e);
             console.error('UseEffect ProfileScreen.js : ' + e);
-            setIsUpdate(true);
             ctx.setIsUpdated(false);
         }
     };
@@ -129,20 +124,19 @@ const ProfileScreen = ({ route, navigation }) => {
 
     const [image, setImage] = useState(null);
     const updateUser = useUpdateUser();
-    // const user = useGetUser(ctx.user.id);
-    // const child = useGetChild(ctx.child.id);
 
-    useFocusEffect(
-        React.useCallback(() => {
-            console.log('EFFECT CALLED ', ctx.isUpdated);
-            if (ctx.isUpdated) {
+    const unSubscribe = navigation.addListener('focus', async () => {
+        if (ctx.isUpdated) {
                 console.log('PASSED ');
-                updateContext();
+            await updateContext();
                 // ctx.setIsUpdated(false)
             }
-        }, [])
-    );
+    })
 
+    const unSubscribeBlur = navigation.addListener('blur', () => {
+        unSubscribe();
+        unSubscribeBlur();
+    })
     useEffect(() => {
         (async () => {
             if (Platform.OS !== 'web') {
@@ -157,9 +151,6 @@ const ProfileScreen = ({ route, navigation }) => {
         })();
     }, []);
 
-    useEffect(() => {
-        if (isUpdate) updateContext();
-    }, [isUpdate]);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -205,8 +196,8 @@ const ProfileScreen = ({ route, navigation }) => {
     const [selectedValue, setSelectedValue] = useState('');
 
     if (updateUser.isLoading || getUSer.isLoading || getChild.isLoading || isLoading) return <LoadingScreen />
-    if (addProfile) return <AddProfile setIsUpdate={setIsUpdate} setAddProfile={setAddProfile} />
     console.log("CHILDREN ", ctx.children)
+    if (!ctx.user || !ctx.child) return <ErrorScreen />
     return (
         <Screen style={styles.cointainer}>
             <View style={styles.top}>
@@ -278,7 +269,13 @@ const ProfileScreen = ({ route, navigation }) => {
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Age (of Child)</ParaText>
-                    <ParaText style={styles.text2}>{'calculate here'}</ParaText>
+                    <ParaText style={styles.text2}>{(() => {
+                        const val = moment().diff(ctx.child.dob, "years")
+                        if (isNaN(val)) {
+                            return <Text>Not Borned Yet</Text>
+                        } else if (val === 0) return <Text>Born today, congrats!</Text>
+                        return <Text>{val}</Text>
+                    })()}</ParaText>
                 </View>
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Birth Weight</ParaText>
@@ -322,8 +319,7 @@ const ProfileScreen = ({ route, navigation }) => {
             <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() => {
-                    // navigation.navigate('AddProfile');
-                    setAddProfile(true)
+                    navigation.navigate('AddProfile');
                 }}
             >
                 <View style={styles.addProfileButton}>
@@ -336,23 +332,6 @@ const ProfileScreen = ({ route, navigation }) => {
                     <Text style={styles.addtext}>Add Profile</Text>
                 </View>
             </TouchableOpacity>
-            {/* <TouchableOpacity
-                onPress={() => {
-                    console.log("AT LEAST CLICKED")
-                    // props.navigation.navigate('AddProfile');
-                    setAddProfile(true)
-                }}
-            >
-                <View style={styles.addProfileButton}>
-                    <AntDesign
-                        style={{ marginTop: 1 }}
-                        name="adduser"
-                        size={21}
-                        color="white"
-                    />
-                    <Text style={styles.addtext}>Add Profile</Text>
-                </View>
-            </TouchableOpacity> */}
         </Screen>
     );
 };
