@@ -53,6 +53,13 @@ const Home = ({ navigation }) => {
             onpress: 'EditableTable'
         },
         {
+            id: '7',
+            title: 'My Prescriptions',
+            para: 'Keep all your prescriptions at one place.',
+            img: require('../../assets/illustrations/7.png'),
+            onpress: 'MyPrescriptions'
+        },
+        {
             id: '4',
             title: 'Vaccination Schedule',
             para: 'Latest national vaccination schedule.',

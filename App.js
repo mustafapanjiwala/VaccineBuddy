@@ -25,6 +25,9 @@ import KnowYourVaccines from './app/screens/KnowYourVaccines';
 import SelectVaccine from './app/screens/SelectVaccine';
 import { LogBox, YellowBox } from 'react-native';
 import UpdateProfile from './app/screens/UpdateProfile';
+import Home from './app/screens/Home';
+import UserDetails2 from './app/screens/UserDetails2';
+import UserDetails1 from './app/screens/UserDetails1';
 
 const fontConfig = {
     web: {
@@ -100,7 +103,7 @@ export default function App() {
                 <AppProvider>
                     <NavigationContainer>
                         <PaperProvider theme={theme}>
-                            <UpdateProfile />
+                          <Main />
                         </PaperProvider>
                     </NavigationContainer>
                 </AppProvider>

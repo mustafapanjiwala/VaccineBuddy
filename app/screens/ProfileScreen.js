@@ -14,8 +14,8 @@ import ParaText from '../components/ParaText';
 import img from '../assets/Profile.png';
 import colors from '../constants/colors';
 import AppHeading from '../components/AppHeading';
-import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons'; 
 import * as ImagePicker from 'expo-image-picker';
 import CardPara from '../components/CardPara';
 import { useGetUser } from '../queries/Users/getUser';
@@ -238,7 +238,7 @@ const ProfileScreen = ({ route, navigation }) => {
                             ))}
                     </Picker>
                     <View style={{ flexDirection: 'row' }}>
-                        <Feather
+                        {/* <Feather
                             style={{ marginTop: 3 }}
                             name="camera"
                             size={18}
@@ -246,6 +246,15 @@ const ProfileScreen = ({ route, navigation }) => {
                         />
                         <Text onPress={pickImage} style={styles.button}>
                             Add Prescription
+                        </Text> */}
+                        <FontAwesome5 
+                            style={{ marginTop: 2 }}
+                            name="edit" 
+                            size={17} 
+                            color="black" 
+                        />
+                        <Text style={styles.button}>
+                            Update Profile
                         </Text>
                     </View>
                 </View>

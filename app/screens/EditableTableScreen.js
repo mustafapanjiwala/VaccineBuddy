@@ -255,6 +255,7 @@ const EditableVaccine = () => {
     return (
         <ScrollView>
             <View style={styles.container}>
+                <ScrollView>
                 <Table
                     style={{ flexDirection: 'row' }}
                     borderStyle={{ borderWidth: 1, borderColor: '#C1C0B9' }}
@@ -263,7 +264,7 @@ const EditableVaccine = () => {
                     <TableWrapper style={{ width: 80 }}>
                         {/* <Cell data="Age" style={styles.singleHead} /> */}
                         <Row
-                            style={{ backgroundColor: '#c8e1ff' }}
+                            style={{ backgroundColor: '#c8e1ff'}}
                             data={[
                                 'AGE',
                                 'VACCINES',
@@ -389,6 +390,7 @@ const EditableVaccine = () => {
                         </TableWrapper>
                     </TableWrapper>
                 </Table>
+                </ScrollView>
             </View>
             <View style={styles.Appbtn}>
                 <AppButton2
@@ -558,8 +560,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#c8e1ff',
         borderRadius: 2
     },
-    Appbtn: { alignSelf: 'center', marginVertical: 20 },
-    btnText: { textAlign: 'center' }
+    Appbtn: { 
+        display: 'flex',
+        flexDirection: 'row-reverse',
+        justifyContent: 'space-evenly',
+        marginVertical: 40 
+    },
+    btnText: { 
+        textAlign: 'center'
+     }
 });
 // const styles = StyleSheet.create({
 //     container: {

@@ -10,6 +10,7 @@ import AddVaccineNavigator from './AddVaccineNavigator';
 import UserDetails1 from '../screens/UserDetails1';
 import UserDetails2 from '../screens/UserDetails2';
 import ErrorScreen from '../components/ErrorScreen';
+import MyPrescriptionScreen from '../screens/MyPrescriptionScreen';
 import colors from '../constants/colors';
 
 const Stack = createStackNavigator();
@@ -58,6 +59,20 @@ const HomeNavigator = () => {
                     headerTitleStyle: {
                         fontWeight: 'bold'
                     }
+                }}
+            />
+            <Stack.Screen
+                name="MyPrescriptions"
+                component={MyPrescriptionScreen}
+                options={{
+                    headerShown: true,
+                    headerStyle: {
+                        backgroundColor: colors.primary
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: '300'
+                    },
                 }}
             />
             <Stack.Screen
