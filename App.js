@@ -28,6 +28,7 @@ import UpdateProfile from './app/screens/UpdateProfile';
 import Home from './app/screens/Home';
 import UserDetails2 from './app/screens/UserDetails2';
 import UserDetails1 from './app/screens/UserDetails1';
+import ErrorScreen from './app/components/ErrorScreen';
 
 const fontConfig = {
     web: {
@@ -69,7 +70,6 @@ const firebaseConfig = {
 //     measurementId: "G-Z4R2SV08RZ"
 // };
 
-
 try {
     firebase.initializeApp(firebaseConfig);
 } catch (Error) {
@@ -103,7 +103,7 @@ export default function App() {
                 <AppProvider>
                     <NavigationContainer>
                         <PaperProvider theme={theme}>
-                          <Main />
+                            <Main />
                         </PaperProvider>
                     </NavigationContainer>
                 </AppProvider>
@@ -116,7 +116,7 @@ const Main = (props) => {
     const { setUid, setIsAuthenticated, isAuthenticated } =
         useContext(AppContext);
 
-    console.log("IS AUTHENTICATED ", isAuthenticated)
+    console.log('IS AUTHENTICATED ', isAuthenticated);
     firebase.auth().onAuthStateChanged(async function (user) {
         if (user) {
             try {

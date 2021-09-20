@@ -7,7 +7,6 @@ import {
     KeyboardAvoidingView,
     TouchableOpacity
 } from 'react-native';
-import moment from 'moment';
 import Screen from '../components/Screen';
 import DatePicker from '../components/DatePicker';
 
@@ -18,6 +17,11 @@ import ParaText from '../components/ParaText';
 import img from '../assets/calendar.png';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
+import colors from '../constants/colors';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { FontAwesome5 } from '@expo/vector-icons';
+import moment from 'moment';
+import { date } from 'yup/lib/locale';
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -28,6 +32,26 @@ Notifications.setNotificationHandler({
   });
 
 const SetReminderScreen = () => {
+
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = moment(selectedDate).format("DD/MM/YYYY") || moment(date).format("DD/MM/YYYY");
+  setShow(Platform.OS === 'ios');
+    setDate(selectedDate ?? date);
+    props.datecb(currentDate)
+};
+
+const showMode = (currentMode) => {
+  setShow(true);
+  setMode(currentMode);
+};
+
+const showDatepicker = () => {
+  showMode('date');
+};
 
     const [visible, setVisible] = React.useState(false);
 
@@ -71,9 +95,31 @@ const SetReminderScreen = () => {
                     </CardHeading>
 
                     <ParaText style={{ marginBottom: 30, fontSize: 12 }}>
-                        Your child’s next vaccine will be on:
+                        Select your vaccination date:
                     </ParaText>
-                    <DatePicker />
+                    <View>
+                    <View>
+
+                        <TouchableOpacity
+                        activeOpacity={0.8}
+                        onPress={showDatepicker}
+                        style={styles.datePicker}
+                        >
+                            <Text style={styles.selectedDate}>{moment(date).format("DD/MM/YYYY")}</Text>
+                            <FontAwesome5 name="calendar-alt" size={24} color="#515151" />
+                        </TouchableOpacity>
+                    </View>
+                        {show && (
+                            <DateTimePicker
+                                testID="dateTimePicker"
+                                value={date}
+                                mode={date}
+                                is24Hour={true}
+                                display="default"
+                                onChange={onChange}
+                            />
+                        )}
+                    </View>
                     {/* <Button onPress={async () => {
                     await schedulePushNotification();
                   }}>sned</Button> */}
@@ -116,8 +162,8 @@ async function schedulePushNotification() {
     await Notifications.scheduleNotificationAsync({
       content: {
         title: "Vaccine Reminder 💉",
-        body: 'Your scheduled vaccination is on 29/08/21',
-        data: { data: 'goes here' },
+        body: 'Your scheduled vaccination is on ' + {date},
+        data: { data: date },
       },
       trigger: { 
         seconds: 2,
@@ -200,7 +246,21 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         position: 'absolute',
         right: 0
-    }
+    },
+    datePicker:{
+      width:'55%',
+      borderRadius: 5,
+      backgroundColor: '#f4f4f4',
+      display:'flex',
+      flexDirection: 'row',
+      justifyContent:'space-between',
+      paddingHorizontal:14,
+      paddingVertical:12,
+  },
+  selectedDate:{
+      fontFamily: 'PublicSans-Light',
+      color: colors.textGrey
+  }
 });
 
 export default SetReminderScreen;
