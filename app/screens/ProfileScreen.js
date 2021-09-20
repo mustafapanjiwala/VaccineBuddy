@@ -151,48 +151,6 @@ const ProfileScreen = ({ route, navigation }) => {
         })();
     }, []);
 
-
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [3, 5],
-            quality: 1
-        });
-
-        if (!result.cancelled) {
-            setImage(result.uri);
-            if (!ctx.user.image) {
-                UploadImage(result.uri)
-                    .then(async (res) => {
-                        await updateUser.mutateAsync({
-                            userData: { image: res },
-                            uid: ctx.user.uid
-                        });
-                        ctx.setUser({ ...ctx.user, image: res });
-                    })
-                    .catch((err) => {
-                        alert('Failed to Upload Image');
-                        console.error('pickImage ProfileScreen.js : ', err);
-                    });
-            } else {
-                //update image
-                updateImage(result.uri, ctx.user.image)
-                    .then(async (res) => {
-                        if (res === '') alert('Failed to Update Image');
-                        await updateUser.mutateAsync({
-                            userData: { image: res },
-                            uid: ctx.user.uid
-                        });
-                        ctx.setUser({ ...ctx.user, image: res });
-                    })
-                    .catch((err) => {
-                        alert(err);
-                    });
-            }
-        }
-    };
-
     const [selectedValue, setSelectedValue] = useState('');
 
     if (updateUser.isLoading || getUSer.isLoading || getChild.isLoading || isLoading) return <LoadingScreen />

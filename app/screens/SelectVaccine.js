@@ -140,8 +140,11 @@ const SelectVaccine = (props) => {
             </View>
             <AppButton
                 onPress={() => {
-                    props.navigation.navigate('Editable');
-                    addVac(selectedVaccine, selectedBrand);
+                    addVac(selectedVaccine, selectedBrand).then(() => {
+                        props.navigation.navigate('Editable');
+
+                    })
+                        .catch(err => alert("Failed to add Vaccine"));
                 }}
             />
             {/* {!isVacSelected && <TouchableOpacity

@@ -109,7 +109,6 @@ const UserDetails1 = ({ navigation }) => {
                         }} /> */}
                         <AppButton
                             // onPress={props.handleSubmit}
-                            disabled={disable}
                             onPress={() => {
                                 setData()
                                 console.log("pressed")

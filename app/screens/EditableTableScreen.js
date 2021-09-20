@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useQueryClient } from "react-query"
 import {
     StyleSheet,
     TouchableOpacity,
@@ -98,7 +99,7 @@ const createAndSavePDF = async (html) => {
 };
 
 const EditableVaccine = ({ navigation }) => {
-
+    const queryClient = useQueryClient();
     // const unSubscribe = navigation.addListener("focus", async () => {
     //     if (ctx.isUpdated) {
 
@@ -119,7 +120,8 @@ const EditableVaccine = ({ navigation }) => {
     //END
 
     // const vaccinatedVaccines = useGetVaccinatedVaccines({ child: ctx.child });
-    const vaccinatedVaccines = useGetVaccinatedVaccines({ child: ctx.child });
+    // const vaccinatedVaccines = useGetVaccinatedVaccines({ child: ctx.child });
+    const vaccinatedVaccines = useGetVaccinatedVaccines()
 
     const [vacs, setVacs] = useState([
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
@@ -188,37 +190,46 @@ const EditableVaccine = ({ navigation }) => {
         ]
     });
 
-    useEffect(() => {
-        // if (dueOn.length === 0 || givenOn.length === 0 || brands.length === 0) {
-        if (data.length === 0) {
-            if (vaccinatedVaccines.data) {
-                // console.log("VACCINATE_VACCINS", vaccinatedVaccines.data)
-                // (async () => console.log(await mapData(vaccinatedVaccines.data, vacs)))()
-                const data = mapData(vaccinatedVaccines.data, vacs);
-                // let due_on = [];
-                // let given_on = [];
-                // let brands = [];
-                // data.forEach((d, i) => {
-                //     if (d === '') {
-                //         due_on.push('');
-                //         given_on.push('');
-                //         brands.push('');
-                //     } else {
-                //         due_on.push(d.dueOn)
-                //         given_on.push(d.givenOn);
-                //         brands.push(d.brand);
-                //     }
-                // });
+    const unSub = navigation.addListener('focus', async () => {
+        const vacVacines = await vaccinatedVaccines.mutateAsync({ child: ctx.child })
+        console.log("VACCAVINES", vacVacines)
+        const data = mapData(vacVacines, vacs);
+        setData(data);
+    })
 
-                // console.log("DATA ", data)
+    // useEffect(() => {
+    //     // if (dueOn.length === 0 || givenOn.length === 0 || brands.length === 0) {
+    //     console.log("DATA LENGTH ", data)
+    //     console.log("VACIN VACS", vaccinatedVaccines.data)
+    //     if (data.length === 0) {
+    //         if (vaccinatedVaccines.data && vaccinatedVaccines.data.length > 0) {
+    //             // console.log("VACCINATE_VACCINS", vaccinatedVaccines.data)
+    //             // (async () => console.log(await mapData(vaccinatedVaccines.data, vacs)))()
+    //             const data = mapData(vaccinatedVaccines.data, vacs);
+    //             // let due_on = [];
+    //             // let given_on = [];
+    //             // let brands = [];
+    //             // data.forEach((d, i) => {
+    //             //     if (d === '') {
+    //             //         due_on.push('');
+    //             //         given_on.push('');
+    //             //         brands.push('');
+    //             //     } else {
+    //             //         due_on.push(d.dueOn)
+    //             //         given_on.push(d.givenOn);
+    //             //         brands.push(d.brand);
+    //             //     }
+    //             // });
 
-                // setDueOn(due_on);
-                // setGivenOn(given_on);
-                // setBrands(brands);
-                setData(data);
-            }
-        }
-    }, [vaccinatedVaccines]);
+    //             // console.log("DATA ", data)
+
+    //             // setDueOn(due_on);
+    //             // setGivenOn(given_on);
+    //             // setBrands(brands);
+    //             setData(data);
+    //         }
+    //     }
+    // }, [vaccinatedVaccines]);
 
     useEffect(() => {
         if (changeParams) {
@@ -404,12 +415,11 @@ const EditableVaccine = ({ navigation }) => {
                     title="Download"
                     name="download"
                     onPress={async () => {
+                        console.log("PDF ", data)
                         const table = createTable(
                             state.age,
                             state.vac_back,
-                            dueOn,
-                            givenOn,
-                            brands
+                            data
                         );
                         // console.log(table)
                         const that = await createAndSavePDF(table);

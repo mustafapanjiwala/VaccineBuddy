@@ -1,4 +1,4 @@
-export const createTable = (age, vaccines, due_on, given_on, brands) => {
+export const createTable = (age, vaccines, data) => {
   let count = 0;
   return `
   <!DOCTYPE html>
@@ -34,18 +34,18 @@ export const createTable = (age, vaccines, due_on, given_on, brands) => {
   <tr>
     <td class="tg-nrix" rowspan="${vaccines[i].length}">${a}</td>
     <td class="tg-0lax">${vaccines[i][0]}</td>
-    <td class="tg-0lax">${due_on[count]}</td>
-    <td class="tg-0lax">${given_on[count]}</td>
-    <td class="tg-0lax">${brands[count]}</td>
+    <td class="tg-0lax">${data[count].dueOn ?? ""}</td>
+    <td class="tg-0lax">${data[count].givenOn ?? ""}</td>
+    <td class="tg-0lax">${data[count].brand ?? ""}</td>
   </tr>
   ${vaccines[i].map((vac, index) => {
     if (index !== 0) {
       let markup = `
       <tr>
         <td class="tg-0lax">${vaccines[i][index]}</td>
-        <td class="tg-0lax">${due_on[count]}</td>
-        <td class="tg-0lax">${given_on[count]}</td>
-        <td class="tg-0lax">${brands[count]}</td>
+        <td class="tg-0lax">${data[count].dueOn ?? ""}</td>
+        <td class="tg-0lax">${data[count].givenOn ?? ""}</td>
+        <td class="tg-0lax">${data[count].brand ?? ""}</td>
       </tr>
       `
       count++
