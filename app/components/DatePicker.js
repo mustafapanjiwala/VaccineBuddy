@@ -10,6 +10,7 @@ const DatePicker = (props) => {
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
     global.userData.dob = moment(date).format("DD/MM/YYYY");
+    console.log(date);
 
     const onChange = (event, selectedDate) => {
         const currentDate = moment(selectedDate).format("DD/MM/YYYY") || moment(date).format("DD/MM/YYYY");

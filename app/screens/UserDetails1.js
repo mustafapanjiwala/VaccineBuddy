@@ -7,6 +7,9 @@ import AppButton from '../components/AppButton';
 import AppHeading from '../components/AppHeading';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import colors from '../constants/colors';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
 // import { withTheme } from 'react-native-paper';
 // import colors from '../constants/colors';
@@ -28,19 +31,42 @@ const profileSchema = yup.object({
 const userData = {mothersName: '', childsName: '', fathersName: '' , address: '', dob: '', birthWeight: '', gender: '', firstChild: '', deliveryMode: ''};
 global.userData = userData;
 
+
 const UserDetails1 = ({ navigation }) => {
     const ref = useRef(null);
     const [mothersName, setMothersName] = React.useState('');
     const [childsName, setChildsName] = React.useState('');
     const [fathersName, setFathersName] = React.useState('');
     const [address, setAddress] = React.useState('');
-    const [disable, setDisable] = React.useState(!mothersName);
+    const [dob, setDob] = React.useState('');
+    
+    const [date, setDate] = useState(new Date());
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = moment(selectedDate).format("DD/MM/YYYY") || moment(date).format("DD/MM/YYYY");
+      setShow(Platform.OS === 'ios');
+        setDate(selectedDate ?? date);
+        props.datecb(currentDate)
+    };
+  
+    const showMode = (currentMode) => {
+      setShow(true);
+      setMode(currentMode);
+    };
+  
+    const showDatepicker = () => {
+      showMode('date');
+    };
+    
 
     function setData() {
         global.userData.mothersName = ref.current.values.mothersName;
         global.userData.childsName = childsName;
         global.userData.fathersName = fathersName;
         global.userData.address = address;
+        global.userData.dob = moment(date).format("DD/MM/YYYY");
     }
 
     return (
@@ -99,7 +125,29 @@ const UserDetails1 = ({ navigation }) => {
                                     onChangeText={setAddress}
                                 />
                             </View>
-                            <DatePicker />
+                            <View>
+                            <View>
+
+                                <TouchableOpacity
+                                activeOpacity={0.8}
+                                onPress={showDatepicker}
+                                style={styles.datePicker}
+                                >
+                                    <Text style={styles.selectedDate}>{moment(date).format("DD/MM/YYYY")}</Text>
+                                    <FontAwesome5 name="calendar-alt" size={24} color="#515151" />
+                                </TouchableOpacity>
+                            </View>
+                                {show && (
+                                    <DateTimePicker
+                                        testID="dateTimePicker"
+                                        value={date}
+                                        mode={date}
+                                        is24Hour={true}
+                                        display="default"
+                                        onChange={onChange}
+                                    />
+                                )}
+                            </View>
                             <Text style={styles.stepText}>Enter D.O.B*</Text>
 
                         </View>
@@ -109,10 +157,8 @@ const UserDetails1 = ({ navigation }) => {
                         }} /> */}
                         <AppButton
                             // onPress={props.handleSubmit}
-                            disabled={disable}
                             onPress={() => {
                                 setData()
-                                console.log("pressed")
                                 navigation.navigate('UserDetails2');
                                 {
                                     props.handleSubmit;
@@ -154,6 +200,20 @@ const styles = StyleSheet.create({
         fontFamily: 'PublicSans-Regular',
         fontSize: 13,
         color: '#676767'
+    },
+    datePicker:{
+        width:'55%',
+        borderRadius: 5,
+        backgroundColor: '#f4f4f4',
+        display:'flex',
+        flexDirection: 'row',
+        justifyContent:'space-between',
+        paddingHorizontal:14,
+        paddingVertical:12,
+    },
+    selectedDate:{
+        fontFamily: 'PublicSans-Light',
+        color: colors.textGrey
     }
 });
 
