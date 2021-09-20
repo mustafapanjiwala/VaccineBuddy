@@ -197,40 +197,6 @@ const EditableVaccine = ({ navigation }) => {
         setData(data);
     })
 
-    // useEffect(() => {
-    //     // if (dueOn.length === 0 || givenOn.length === 0 || brands.length === 0) {
-    //     console.log("DATA LENGTH ", data)
-    //     console.log("VACIN VACS", vaccinatedVaccines.data)
-    //     if (data.length === 0) {
-    //         if (vaccinatedVaccines.data && vaccinatedVaccines.data.length > 0) {
-    //             // console.log("VACCINATE_VACCINS", vaccinatedVaccines.data)
-    //             // (async () => console.log(await mapData(vaccinatedVaccines.data, vacs)))()
-    //             const data = mapData(vaccinatedVaccines.data, vacs);
-    //             // let due_on = [];
-    //             // let given_on = [];
-    //             // let brands = [];
-    //             // data.forEach((d, i) => {
-    //             //     if (d === '') {
-    //             //         due_on.push('');
-    //             //         given_on.push('');
-    //             //         brands.push('');
-    //             //     } else {
-    //             //         due_on.push(d.dueOn)
-    //             //         given_on.push(d.givenOn);
-    //             //         brands.push(d.brand);
-    //             //     }
-    //             // });
-
-    //             // console.log("DATA ", data)
-
-    //             // setDueOn(due_on);
-    //             // setGivenOn(given_on);
-    //             // setBrands(brands);
-    //             setData(data);
-    //         }
-    //     }
-    // }, [vaccinatedVaccines]);
-
     useEffect(() => {
         if (changeParams) {
             if (changeParams[0] === 'dueOn') {

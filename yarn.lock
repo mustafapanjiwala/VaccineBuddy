@@ -1185,6 +1185,26 @@
     xcode "^3.0.1"
     xml2js "^0.4.23"
 
+"@expo/config-plugins@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-3.1.0.tgz#0752ff33c5eab21cf42034a44e79df97f0f867f8"
+  integrity sha512-V5qxaxCAExBM0TXmbU1QKiZcAGP3ecu7KXede8vByT15cro5PkcWu2sSdJCYbHQ/gw6Vf/i8sr8gKlN8V8TSLg==
+  dependencies:
+    "@expo/config-types" "^42.0.0"
+    "@expo/json-file" "8.2.33"
+    "@expo/plist" "0.0.14"
+    chalk "^4.1.2"
+    debug "^4.3.1"
+    find-up "~5.0.0"
+    fs-extra "9.0.0"
+    getenv "^1.0.0"
+    glob "7.1.6"
+    resolve-from "^5.0.0"
+    semver "^7.3.5"
+    slash "^3.0.0"
+    xcode "^3.0.1"
+    xml2js "^0.4.23"
+
 "@expo/config-types@^40.0.0-beta.2":
   version "40.0.0-beta.2"
   resolved "https://registry.yarnpkg.com/@expo/config-types/-/config-types-40.0.0-beta.2.tgz#4fea4ef5654d02218b02b0b3772529a9ce5b0471"
@@ -1202,6 +1222,23 @@
   dependencies:
     "@babel/code-frame" "~7.10.4"
     "@expo/config-plugins" "3.0.8"
+    "@expo/config-types" "^42.0.0"
+    "@expo/json-file" "8.2.33"
+    getenv "^1.0.0"
+    glob "7.1.6"
+    require-from-string "^2.0.2"
+    resolve-from "^5.0.0"
+    semver "7.3.2"
+    slugify "^1.3.4"
+    sucrase "^3.20.0"
+
+"@expo/config@5.0.9":
+  version "5.0.9"
+  resolved "https://registry.yarnpkg.com/@expo/config/-/config-5.0.9.tgz#5221af5394599d861515ef8513731f21fbb322db"
+  integrity sha512-eZj+cf03wkQQdHSpYvrmiqAsn2dJV10uhHIwXyeFBaFvhds0NgThOldJZfOppQ4QUaGobB/vaJ7UqUa3B0PCMw==
+  dependencies:
+    "@babel/code-frame" "~7.10.4"
+    "@expo/config-plugins" "3.1.0"
     "@expo/config-types" "^42.0.0"
     "@expo/json-file" "8.2.33"
     getenv "^1.0.0"
@@ -1313,6 +1350,16 @@
     json5 "^1.0.1"
     write-file-atomic "^2.3.0"
 
+"@expo/metro-config@^0.1.16":
+  version "0.1.84"
+  resolved "https://registry.yarnpkg.com/@expo/metro-config/-/metro-config-0.1.84.tgz#ddcc7b4f1087c29f86bc9d916933d29bacd2c726"
+  integrity sha512-xWSfM0+AxcKw0H8mc1RuKs4Yy4JT4SJfn4yDnGLAlKkHlEC+D2seZvb/Tdd173e/LANmcarNd+OcDYu03AmVWA==
+  dependencies:
+    "@expo/config" "5.0.9"
+    chalk "^4.1.0"
+    getenv "^1.0.0"
+    metro-react-native-babel-transformer "^0.59.0"
+
 "@expo/metro-config@^0.1.63":
   version "0.1.83"
   resolved "https://registry.yarnpkg.com/@expo/metro-config/-/metro-config-0.1.83.tgz#0ce8234fb84ecab701bc773fafbdd73942691ff6"
@@ -1331,6 +1378,15 @@
     base64-js "^1.2.3"
     xmlbuilder "^14.0.0"
     xmldom "~0.5.0"
+
+"@expo/plist@0.0.14":
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/@expo/plist/-/plist-0.0.14.tgz#a756903bd28aabe0a961222df2e7858a39a218c9"
+  integrity sha512-bb4Ua1M/OdNgS8KiGdSDUjZ/bbPfv3xdPY/lz8Ctp/adlj/QgB8xA7tVPeqSSfJPZqFRwU0qLCnRhpUOnP51VQ==
+  dependencies:
+    "@xmldom/xmldom" "~0.7.0"
+    base64-js "^1.2.3"
+    xmlbuilder "^14.0.0"
 
 "@expo/prebuild-config@^2.0.0":
   version "2.0.8"
@@ -2346,6 +2402,11 @@
   dependencies:
     invariant "^2.2.4"
 
+"@xmldom/xmldom@~0.7.0":
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.7.5.tgz#09fa51e356d07d0be200642b0e4f91d8e6dd408d"
+  integrity sha512-V3BIhmY36fXZ1OtVcI9W+FxQqxVLsPKcNjWigIaa81dLC9IolJl5Mt4Cvhmr0flUnjSpTdrbMTSbXqYqV5dT6A==
+
 abort-controller@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/abort-controller/-/abort-controller-3.0.0.tgz#eaf54d53b62bae4138e809ca225c8439a6efb392"
@@ -2927,7 +2988,7 @@ chalk@^3.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
-chalk@^4.0.0, chalk@^4.1.0:
+chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
   integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
@@ -3698,6 +3759,15 @@ expo-status-bar@~1.0.4:
   resolved "https://registry.yarnpkg.com/expo-status-bar/-/expo-status-bar-1.0.4.tgz#d8a4c4418b5868c1606969b12bdee85b6fa7d8a4"
   integrity sha512-s7nc496D/Zn1NGiMJ5wu6HyIdXxbgGtmZZtbHm7rpbcmLdf28GmMSNHDx7M0t00BMhky7VAurTCUo+BJs8ugsw==
 
+expo-updates@^0.4.1:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/expo-updates/-/expo-updates-0.4.2.tgz#15862bc209fa3fb98d3fa16b7aac4edfcc33f182"
+  integrity sha512-89bvwemgmWWPGAHHnzSFCryWW3TmPNozcShwi7976KAlNcXM7Aitv7uifxtkdBt85TECFm5N6LY278psjyt8Dg==
+  dependencies:
+    "@expo/metro-config" "^0.1.16"
+    fbemitter "^2.1.1"
+    uuid "^3.4.0"
+
 expo@~41.0.1:
   version "41.0.1"
   resolved "https://registry.yarnpkg.com/expo/-/expo-41.0.1.tgz#2689003212dcc948d010f86dadf055721a6314b4"
@@ -3866,6 +3936,13 @@ fbjs@^3.0.0:
     promise "^7.1.1"
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.18"
+
+fiction-expo-restart@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/fiction-expo-restart/-/fiction-expo-restart-1.1.0.tgz#c8be9a5aa523c733071abd73ffd86ba506656662"
+  integrity sha512-I/c5w2zrG9IAtS1p5ETOJMh+omGrCZ4ANir37MrKCdwDCeR3zv9q6ofNAe/381Byhbox7yTVXU3un+0MAJJ6mw==
+  dependencies:
+    expo-updates "^0.4.1"
 
 figures@^2.0.0:
   version "2.0.0"
@@ -6170,11 +6247,6 @@ react-native-reanimated@~2.1.0:
     fbjs "^3.0.0"
     mockdate "^3.0.2"
     string-hash-64 "^1.0.3"
-
-react-native-restart@0.0.22:
-  version "0.0.22"
-  resolved "https://registry.yarnpkg.com/react-native-restart/-/react-native-restart-0.0.22.tgz#81fcb7f31e35951d85410c68b9556acf3ab88705"
-  integrity sha512-XwCqAMAKsO8yCM3xACPFKvkDQZe41lcavOuO0gUEu803IuTLtciualCq/qs83ryRDCDh1jkXYRqFjsGjLMCN3Q==
 
 react-native-safe-area-context@3.2.0:
   version "3.2.0"
