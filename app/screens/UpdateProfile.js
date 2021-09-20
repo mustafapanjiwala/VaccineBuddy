@@ -100,10 +100,6 @@ const UpdateProfile = () => {
                                 onBlur={props.handleBlur('birthWeight')}
                             />
                             <View>
-                            <DatePicker />
-                            <Text style={styles.stepText}>D.O.B</Text>
-                            </View>
-                            <View>
                             <CardPara
                                 style={{
                                     fontSize: 14,

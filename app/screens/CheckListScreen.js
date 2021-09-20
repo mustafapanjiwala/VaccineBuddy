@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { StyleSheet, TouchableOpacity, View, Text, Button } from 'react-native';
 import AppHeading from '../components/AppHeading';
 import Screen from '../components/Screen';
@@ -9,26 +9,66 @@ import CardPara from '../components/CardPara';
 import SelectVaccine from './SelectVaccine';
 import { RadioButton } from 'react-native-paper';
 import ToggleButton from '../components/ToggleButton';
+import colors from '../constants/colors';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { FontAwesome5 } from '@expo/vector-icons';
+import moment from 'moment';
 
 
 const CheckListScreen = ({ navigation }) => {
+
+    const [date, setDate] = useState(new Date());
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = moment(selectedDate).format("DD/MM/YYYY") ?? moment(date).format("DD/MM/YYYY");
+      setShow(Platform.OS === 'ios');
+        setDate(selectedDate ?? date);
+        setGivenOnDate(currentDate);
+    };
+  
+    const showMode = (currentMode) => {
+      setShow(true);
+      setMode(currentMode);
+    };
+  
+    const showDatepicker = () => {
+      showMode('date');
+    };
+
+
     const [checked, setChecked] = React.useState('');
-    const [givenOnDate, setGivenOnDate] = React.useState()
+    const [givenOnDate, setGivenOnDate] = React.useState(moment(date).format("DD/MM/YYYY"))
 
     return (
         <Screen>
             <View style={styles.container}>
                 <View style={styles.selectFlex}>
                     <AppHeading>Select Your Vaccination</AppHeading>
-                    <DatePicker
-                        datecb={(date) => {
-                            setGivenOnDate(date)
-                        }}
-                        style={{
-                            paddingHorizontal: 10,
-                            paddingVertical: 8
-                        }}
-                    />
+                    <View>
+                <View>
+
+                <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={showDatepicker}
+                style={styles.datePicker}
+                >
+                    <Text style={styles.selectedDate}>{moment(date).format("DD/MM/YYYY")}</Text>
+                    <FontAwesome5 name="calendar-alt" size={24} color="#515151" />
+                </TouchableOpacity>
+                </View>
+                    {show && (
+                        <DateTimePicker
+                            testID="dateTimePicker"
+                            value={date}
+                            mode={date}
+                            is24Hour={true}
+                            display="default"
+                            onChange={onChange}
+                        />
+                    )}
+                </View>
                 </View>
                 <View style={styles.cont}>
                     <View style={styles.checkboxContain}>
@@ -192,6 +232,20 @@ const styles = StyleSheet.create({
     radio: {
         flexDirection: 'row',
         alignItems: 'center'
+    },
+    datePicker:{
+        width:'55%',
+        borderRadius: 5,
+        backgroundColor: '#f4f4f4',
+        display:'flex',
+        flexDirection: 'row',
+        justifyContent:'space-between',
+        paddingHorizontal:12,
+        paddingVertical:12,
+    },
+    selectedDate:{
+        fontFamily: 'PublicSans-Light',
+        color: colors.textGrey
     }
 });
 

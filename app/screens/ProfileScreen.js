@@ -310,19 +310,6 @@ const ProfileScreen = ({ route, navigation }) => {
                         {ctx.child?.lastVaccinated}
                     </ParaText>
                 </View>
-                <View style={styles.list}>
-                    <ParaText style={styles.text}>Your Prescription</ParaText>
-                    <ParaText style={styles.text2}>
-                        {ctx.child?.last_vaccinated}
-                    </ParaText>
-                    <Button
-                        mode="outlined"
-                        style={styles.text2}
-                        onPress={openModal}
-                    >
-                        Prescription
-                    </Button>
-                </View>
                 <Modal visible={isModalVisible} transparent={true}>
                     <ImageViewer
                         enableSwipeDown={true}
@@ -439,6 +426,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
         shadowOffset: { width: 2, height: 6 },
         shadowColor: '#AAD2D4',
+        marginBottom: 12,
         shadowOpacity: 0.21,
         shadowRadius: 100,
         elevation: 2
