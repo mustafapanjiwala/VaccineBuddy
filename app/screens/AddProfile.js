@@ -185,6 +185,7 @@ const AddProfile = ({ navigation, setAddProfile, setIsUpdate }) => {
                             </View>
                             <View style={{ height: 15 }}></View>
                             <DatePicker datecb={(date) => setDob(date)} />
+                            <Text style={styles.stepText}>Enter D.O.B*</Text>
                         </View>
                         <AppButton
                             // onPress={props.handleSubmit}
@@ -225,11 +226,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingBottom: Platform.OS === 'ios' ? 40 : 20,
         paddingHorizontal: 20,
-        paddingTop: Platform.OS === 'ios' ? 40 : 50
+
     },
     inputs: {
         // marginTop: 10,
-        height: 460,
+        height: 480,
         display: 'flex',
         justifyContent: 'space-evenly',
         marginBottom: 70
@@ -248,7 +249,13 @@ const styles = StyleSheet.create({
     radio: {
         flexDirection: 'row',
         alignItems: 'center'
-    }
+    },
+    stepText: {
+        marginTop: 12,
+        fontFamily: 'PublicSans-Regular',
+        fontSize: 13,
+        color: '#676767'
+    },
 });
 
 export default AddProfile;

@@ -78,7 +78,7 @@
         },
         {
             name: 'DwPT B 2 / DTap B 2',
-            gap: '24',
+            gap: '96',
             fullForm: 'Diphtheria Tetanus Pertussis ( w= whole cell )',
             ageOfAdministration: 'Starts at 6 weeks',
             doses: '6wks, 10wks, 14wks, 1.5(1 & 1/2)yr, 5yr(can be replaced by DTaP)',
@@ -108,13 +108,14 @@
             disease: '',
             effects: 'Besides pain and fever few children main develop seizures or abnormal behaviour, If so then these children to be administered DTaP for the next dose.',
             efficacy: '9/10',
-            brands: ['Easy five','Pentavac','Combie 5','Quadravac','Easy four','Easy six'],
+            brands: ['Infanrix Hexa','Pentaxim','Hexaxim','Infanrix'],
             compulsory: 'Yes',
-            other: 'Mostly administered as combination vaccine with Hep B and HiB and /or IPV.',
+            other: 'Not yet the no 1 recommended choice in India as DTwP ( whole cell Pertussis) is whats the choice at mass level.',
             key: '6'
         },
         {
-            name: 'Hep A',
+            name: 'Hep A 1',
+            gap: '12',
             fullForm: 'Hepatitis A Vaccine',
             ageOfAdministration: 'Starts at 12 months to 23 months. Unvaccinated older children and adults can also take the Vaccine.',
             doses: '12 months upto 23 months with 2nd dose six months after the first.',
@@ -130,6 +131,25 @@
             compulsory: 'Yes',
             other: 'Mostly administered as combination vaccine with Hep B and HiB and /or IPV.',
             key: '7'
+        },
+        {
+            name: 'Hep A 2',
+            gap: '8',
+            fullForm: 'Hepatitis A Vaccine',
+            ageOfAdministration: 'Starts at 12 months to 23 months. Unvaccinated older children and adults can also take the Vaccine.',
+            doses: '12 months upto 23 months with 2nd dose six months after the first.',
+            noOFDoses: '2(Maybe a single dose in a few brands)',
+            mode: 'SC/IM',
+            bodyPart: 'Depends on the brand',
+            fever: 'No',
+            pain: 'No',
+            disease: 'polio',
+            effects: 'Besides pain and fever few children main develop seizures or abnormal behaviour, If so then these children to be administered DTaP for the next dose.',
+            efficacy: '9/10',
+            brands: 'Bio vac A (wochhardt), Avaxim (sanofi), Havrix 720 (GSK) ',
+            compulsory: 'Yes',
+            other: 'Mostly administered as combination vaccine with Hep B and HiB and /or IPV.',
+            key: '71'
         },
         {
             name: 'Hib 1',
@@ -247,7 +267,7 @@
         },
         {
             name: 'HepB 3',
-            gap: '12',
+            gap: '10',
             fullForm: 'Hepatitis B',
             ageOfAdministration: 'Recommended at 6 weeks, 10 weeks 14 weeks and 1 1/2 years ( booster ) ',
             doses: '6wks, 10wks, 14wks',
@@ -416,6 +436,7 @@
         },
         {
             name: 'HPV',
+            gap: '312',
             fullForm: 'Human Papilloma Virus',
             ageOfAdministration: '9 years to 14 years',
             doses: 'Currently recommended for all females upto 45 years of age',
@@ -506,6 +527,25 @@
             compulsory: 'Yes',
             other: 'None',
             key: '27'
+        },
+        {
+            name: 'PCV Booster',
+            gap: '12',
+            fullForm: 'Pneumococcal Conjugate Vaccine (also commonly called pneumonia vaccine)',
+            ageOfAdministration: '6 weeks, 8 weeks, 10 weeks, booster at 15 or 18 months of age.',
+            doses: '',
+            noOFDoses: '2 doses between 9 to 14 years, 6 months apart,In children above 14 years three doses to be given ',
+            mode: 'INTRAMUSCULAR',
+            bodyPart: 'ANTEROLATERAL THIGH',
+            fever: 'No',
+            pain: 'No',
+            disease: 'Prevents against streptococcus pneumonia infections and pneumonia',
+            effects: 'None',
+            efficacy: '9/10',
+            brands: ['Synflorix(GSK)','Prevenar 13(pfizer)', 'Pneumosil (sii)'],
+            compulsory: 'Yes',
+            other: 'None',
+            key: '277'
         },
         {
             name: 'Varicella 1',
@@ -660,7 +700,7 @@
         },
         {
             name: 'OPV 1',
-            gap: '12',
+            gap: '10',
             fullForm: 'Oral polio vaccine',
             ageOfAdministration: 'Recommended at birth, 10 weeks and 6 months',
             doses: '',
@@ -735,8 +775,8 @@
             key: '39'
         },
         {
-            name: 'TCV 2',
-            gap: '26',
+            name: 'Typhoid Booster',
+            gap: '24',
             fullForm: 'Typhoid conjugate vaccine',
             ageOfAdministration: 'Recommended at 6 months to 9 months of age',
             doses: 'Second dose maybe at 2 years age',

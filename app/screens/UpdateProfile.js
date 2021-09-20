@@ -22,7 +22,7 @@ const profileSchema = yup.object({
 
 const UpdateProfile = () => {
 
-    const [gender, setGender] = React.useState('male');
+    const [gender, setGender] = React.useState('');
     const [firstChild, setFirstChild] = React.useState('');
     const [deliveryMode, setDeliveryMode] = React.useState('');
 
@@ -30,7 +30,7 @@ const UpdateProfile = () => {
     return (
 
             <Formik
-                initialValues={{ mothersName: 'ayushi', childsName: '', fathersName: '' , address: '', dob: '', birthWeight: '', gender: gender, firstChild: firstChild, deliveryMode: deliveryMode }}
+                initialValues={{ mothersName: '', childsName: '', fathersName: '' , address: '', dob: '', birthWeight: '', gender: gender, firstChild: firstChild, deliveryMode: deliveryMode }}
                 validationSchema={profileSchema}
                 onSubmit={async values => {
                     await new Promise(resolve => setTimeout(resolve, 500));
@@ -191,17 +191,20 @@ const UpdateProfile = () => {
                             </RadioButton.Group>
                             </View>
                         </View>
-                        </ScrollView>
+                        
                     
                     <AppButton
                         onPress={props.handleSubmit}
                         loading={props.isSubmitting}
                         disabled={props.isSubmitting}
                     />
+                    </ScrollView>
                        
                     </View>
                 )}
+                
                 </Formik>
+                
         
     )
 }

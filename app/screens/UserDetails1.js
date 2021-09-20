@@ -167,12 +167,7 @@ const UserDetails1 = ({ navigation }) => {
                         <AppButton
                             // onPress={props.handleSubmit}
                             onPress={() => {
-<<<<<<< HEAD
                                 setData()
-=======
-                                setData();
-                                console.log('pressed');
->>>>>>> d422a5ce6be8e94ba8017dfb28dc7f6689869a3b
                                 navigation.navigate('UserDetails2');
                                 {
                                     props.handleSubmit;
