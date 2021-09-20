@@ -97,7 +97,14 @@ const createAndSavePDF = async (html) => {
     }
 };
 
-const EditableVaccine = () => {
+const EditableVaccine = ({ navigation }) => {
+
+    // const unSubscribe = navigation.addListener("focus", async () => {
+    //     if (ctx.isUpdated) {
+
+    //     }
+    // })
+
     const height = 30;
     const [visible, setVisible] = useState(false);
     const [newVal, setNewVal] = useState('');

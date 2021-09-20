@@ -28,7 +28,17 @@ const profileSchema = yup.object({
     // phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
     // country: yup.string().required().min(4).max(30)
 });
-const userData = {mothersName: '', childsName: '', fathersName: '' , address: '', dob: '', birthWeight: '', gender: '', firstChild: '', deliveryMode: ''};
+const userData = {
+    mothersName: '',
+    childsName: '',
+    fathersName: '',
+    address: '',
+    dob: '',
+    birthWeight: '',
+    gender: '',
+    firstChild: '',
+    deliveryMode: ''
+};
 global.userData = userData;
 
 
@@ -84,7 +94,7 @@ const UserDetails1 = ({ navigation }) => {
                                 <Text style={styles.stepText}>Step: 1/2</Text>
                             </View>
                             <View style={styles.inputs}>
-                                <Text style={{fontSize: 9, color: 'crimson'}}>
+                                <Text style={{ fontSize: 9, color: 'crimson' }}>
                                     {props.touched.mothersName &&
                                         props.errors.mothersName}
                                 </Text>
@@ -149,7 +159,6 @@ const UserDetails1 = ({ navigation }) => {
                                 )}
                             </View>
                             <Text style={styles.stepText}>Enter D.O.B*</Text>
-
                         </View>
                         {/* <Button title="hi"onPress={() => {
                             setData();
@@ -158,7 +167,12 @@ const UserDetails1 = ({ navigation }) => {
                         <AppButton
                             // onPress={props.handleSubmit}
                             onPress={() => {
+<<<<<<< HEAD
                                 setData()
+=======
+                                setData();
+                                console.log('pressed');
+>>>>>>> d422a5ce6be8e94ba8017dfb28dc7f6689869a3b
                                 navigation.navigate('UserDetails2');
                                 {
                                     props.handleSubmit;

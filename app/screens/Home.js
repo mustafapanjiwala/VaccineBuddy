@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import {
     StyleSheet,
     TouchableOpacity,
@@ -19,9 +19,11 @@ import { useGetUserMutate } from '../queries/Users/getUsersMutate';
 import { useGetChildMutate } from '../queries/Child/getChildMutate';
 import LoadingScreen from '../components/LoadingScreen';
 import ErrorScreen from '../components/ErrorScreen';
-
+import { useFocusEffect } from '@react-navigation/native';
+import UserDetailsNavigator from '../navigation/UserDetailsNavigator';
 const Home = ({ navigation }) => {
     goToNextScreen = (screen) => {
+        unSubscribe()
         return navigation.navigate(screen);
     };
     const getUSer = useGetUserMutate();
@@ -82,12 +84,13 @@ const Home = ({ navigation }) => {
         }
     ]);
 
-    useEffect(() => {
-        (async () => {
-            try {
-                const user = await getUSer.mutateAsync(ctx.uid);
-                let userData = user.data();
-                ctx.setUser({ ...userData, id: ctx.uid, uid: ctx.uid });
+    const getAndMutateUser = async () => {
+        console.log("CTX ", ctx)
+        try {
+            const user = await getUSer.mutateAsync(ctx.uid);
+            let userData = user.data();
+            console.log("SHOULD BE HERE", userData)
+            if (userData) ctx.setUser({ ...userData, id: ctx.uid, uid: ctx.uid });
                 if (userData) {
                     if (userData.children) {
                         const Promises = userData.children.map(
@@ -100,6 +103,7 @@ const Home = ({ navigation }) => {
                         );
                         Promise.all(Promises)
                             .then((res) => {
+                                console.log("EXECTUION FINISHED")
                                 ctx.setChild(res[0]);
                                 ctx.setChildren(res);
                                 ctx.setShowUserDetails(false);
@@ -124,13 +128,35 @@ const Home = ({ navigation }) => {
                 setError(e.toString());
                 console.error('UseEffect Home.js : ' + e);
             }
-        })();
-    }, []);
+    }
+
+    // useFocusEffect(useCallback(() => {
+    //     console.log("FROM FOCUS EFFECT", !isLoading && ctx.showUserDetails)
+    //     getAndMutateUser()
+    // }, [])
+    // )
+
+    const unSubscribe = navigation.addListener('focus', async () => {
+
+        console.log("FROM LISTENER")
+        if (!ctx.user || !ctx.child) await getAndMutateUser()
+    })
+    const unSubscribeBlur = navigation.addListener('blur', () => {
+        unSubscribe();
+        unSubscribeBlur();
+    })
+
+
+
 
     if (error) return <ErrorScreen />;
-    if (getUSer.isLoading || getChild.isLoading || isLoading)
+    if (getUSer.isLoading || getChild.isLoading)
         return <LoadingScreen />;
-    if (!isLoading && ctx.showUserDetails) navigation.navigate('UserDetails');
+    if (!ctx.user || !ctx.child) {
+        console.log("ctx.showUserDetails", ctx.showUserDetails)
+        // navigation.navigate('UserDetails');
+        return <UserDetailsNavigator />
+    }
 
     return (
         <Screen>

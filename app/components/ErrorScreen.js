@@ -4,7 +4,7 @@ import ParaText from './ParaText';
 import error from '../../assets/illustrations/error.png';
 import { Button } from 'react-native-paper';
 import colors from '../constants/colors';
-import RNRestart from 'react-native-restart';
+import { Restart } from 'fiction-expo-restart';
 
 const ErrorScreen = ({ route, navigation }) => {
     return (
@@ -17,7 +17,7 @@ const ErrorScreen = ({ route, navigation }) => {
                 mode="outlined"
                 color="#CD5F70"
                 onPress={() => {
-                    RNRestart.Restart();
+                    Restart();
                 }}
             >
                 Try Again

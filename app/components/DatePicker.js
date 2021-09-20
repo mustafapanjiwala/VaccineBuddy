@@ -13,7 +13,7 @@ const DatePicker = (props) => {
     console.log(date);
 
     const onChange = (event, selectedDate) => {
-        const currentDate = moment(selectedDate).format("DD/MM/YYYY") || moment(date).format("DD/MM/YYYY");
+        const currentDate = moment(selectedDate).format("DD/MM/YYYY") ?? moment(date).format("DD/MM/YYYY");
       setShow(Platform.OS === 'ios');
         setDate(selectedDate ?? date);
         props.datecb(currentDate)

@@ -19,6 +19,8 @@ import { AppContext } from '../context/AppContext';
 import LoadingScreen from '../components/LoadingScreen';
 import ErrorScreen from '../components/ErrorScreen';
 import moment from 'moment';
+import { useGetUserMutate } from '../queries/Users/getUsersMutate';
+import { useGetChildMutate } from '../queries/Child/getChildMutate';
 
 const UserDetails2 = ({ navigation }) => {
     const [birthWeight, setBirthWeight] = React.useState('');
@@ -31,7 +33,9 @@ const UserDetails2 = ({ navigation }) => {
     const addChild = useAddChild();
 
     const ctx = useContext(AppContext)
-
+    const getUSer = useGetUserMutate();
+    const getChild = useGetChildMutate();
+    const [isLoading, setIsLoading] = useState(true);
     function setData() {
         global.userData.birthWeight = birthWeight;
         global.userData.gender = gender;
@@ -39,8 +43,56 @@ const UserDetails2 = ({ navigation }) => {
         global.userData.deliveryMode = deliveryMode;
     }
 
+    const getAndMutateUser = async () => {
+        console.log("CTX ", ctx)
+        try {
+            const user = await getUSer.mutateAsync(ctx.uid);
+            let userData = user.data();
+            console.log("SHOULD BE HERE", userData)
+            if (userData) ctx.setUser({ ...userData, id: ctx.uid, uid: ctx.uid });
+            if (userData) {
+                if (userData.children) {
+                    const Promises = userData.children.map(
+                        async (child) => {
+                            const childData = await getChild.mutateAsync(
+                                child
+                            );
+                            return { ...childData.data(), id: child };
+                        }
+                    );
+                    Promise.all(Promises)
+                        .then((res) => {
+                            console.log("EXECTUION FINISHED")
+                            ctx.setChild(res[0]);
+                            ctx.setChildren(res);
+                            ctx.setShowUserDetails(false);
+                            setIsLoading(false);
+                        })
+                        .catch((err) => {
+                            setError('Child Data could not be loaded');
+                            console.error('UseEffect Home.js: ', err);
+                            setIsLoading(false);
+                        });
+                } else {
+                    setError('Child Data could not be loaded');
+                    console.error(
+                        'UseEffect Home.js : ' +
+                        'UserData.children is undefined'
+                    );
+                    setIsLoading(false);
+                }
+            } else setIsLoading(false);
+        } catch (e) {
+            setIsLoading(false);
+            setError(e.toString());
+            console.error('UseEffect Home.js : ' + e);
+        }
+    }
+
     if (addUser.isLoading || addChild.isLoading) return <LoadingScreen />
+    if (getUSer.isLoading || getChild.isLoading) return <LoadingScreen />;
     if (error) return <ErrorScreen />
+
     return (
         <Screen>
             <View style={styles.container}>
@@ -172,14 +224,13 @@ const UserDetails2 = ({ navigation }) => {
                 <AppButton
                     onPress={() => {
                         setData();
-                        console.log("GONIG TO UPDATE USER ", global.userData, ctx)
                         addUser.mutateAsync({
-                            uid: ctx.uid ?? "wYQA7c8yPCXOFX0BOdLPTu0jrA63", userData: userData
+                            uid: ctx.uid, userData: userData
                         })
                             .then(res => {
                                 console.log("ADDING CHILD ")
                                 addChild.mutateAsync({
-                                    user: { id: ctx.uid ?? "wYQA7c8yPCXOFX0BOdLPTu0jrA63" }, child: {
+                                    user: { id: ctx.uid }, child: {
                                         childsName: userData.childsName ?? '',
                                         dob: userData.dob ?? '',
                                         birthWeight: userData.birthWeight ?? '',
@@ -188,7 +239,8 @@ const UserDetails2 = ({ navigation }) => {
                                         deliveryMode: userData.deliveryMode ?? ''
                                     }
                                 }).then(res => {
-                                    navigation.navigate('Home');
+                                    // navigation.navigate('Home', { token: "justfortest" });
+                                    getAndMutateUser()
                                 });
                             }).catch(err => {
                                 console.error("Could not add userdetails to database UserDetils2.js")
