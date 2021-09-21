@@ -6,15 +6,64 @@ export const createTable = (age, vaccines, due_on, given_on, brands) => {
   <head>
   <title>PDF CONTENT</title>
   <style type="text/css">
-.tg  {border-collapse:collapse;border-color:#9ABAD9;border-spacing:0;}
-.tg td{background-color:#EBF5FF;border-color:#9ABAD9;border-style:solid;border-width:1px;color:#444;
-  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg th{background-color:#409cff;border-color:#9ABAD9;border-style:solid;border-width:1px;color:#fff;
-  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg .tg-cly1{text-align:left;vertical-align:middle}
-.tg .tg-lqy6{text-align:right;vertical-align:top}
-.tg .tg-0lax{text-align:left;vertical-align:top}
-.tg .tg-nrix{text-align:center;vertical-align:middle}
+  .tg {
+      border-collapse: collapse;
+      /* border-color: #2C5E93; */
+      border-spacing: 0;
+  }
+
+  .tg td {
+      background-color: #f8f8f8;
+      border-color: #000;
+      border-style: solid;
+      border-width: .5px;
+      border-top-width: 0px;
+      color: #444;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      overflow: hidden;
+      padding: 15px 40px;
+      word-break: normal;
+  }
+  td:nth-child(2){
+      background-color: #0a8d943a;
+  }
+
+  .tg th {
+      background-color: #0A8C94;
+      border-color: #2C5E93;
+      border-style: solid;
+      border-width: 0px;
+      color: rgb(255, 255, 255);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-weight: 300;
+      font-size: 14px;
+      font-weight: normal;
+      overflow: hidden;
+      padding: 10px 5px;
+      word-break: normal;
+  }
+
+  .tg .tg-cly1 {
+      text-align: center;
+      vertical-align: middle
+  }
+
+  .tg .tg-lqy6 {
+      text-align: center;
+      vertical-align: top
+  }
+
+  .tg .tg-0lax {
+      text-align: center;
+      vertical-align: top
+  }
+
+  .tg .tg-nrix {
+      text-align: center;
+      vertical-align: middle
+  }
 </style>
   </head>
   <body>
