@@ -13,6 +13,9 @@ import { AppContext } from "../context/AppContext"
 import { useAddChild } from "../queries/Child/addChild"
 import moment from 'moment';
 import LoadingScreen from '../components/LoadingScreen';
+import colors from '../constants/colors';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { FontAwesome5 } from '@expo/vector-icons';
 // import { withTheme } from 'react-native-paper';
 // import colors from '../constants/colors';
 // import DateTimePicker from '@react-native-community/datetimepicker';
@@ -47,7 +50,27 @@ const AddProfile = ({ navigation, setAddProfile, setIsUpdate }) => {
     const [firstChild, setFirstChild] = React.useState('');
     const [deliveryMode, setDeliveryMode] = React.useState('');
     const [childName, setChildName] = React.useState('')
-    const [dob, setDob] = React.useState('')
+    const [dob, setDob] = React.useState(moment(date).format("DD/MM/YYYY"))
+
+    const [date, setDate] = useState(new Date());
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = moment(selectedDate).format("DD/MM/YYYY") || moment(date).format("DD/MM/YYYY");
+      setShow(Platform.OS === 'ios');
+        setDate(selectedDate ?? date);
+        setDob(currentDate);
+    };
+  
+    const showMode = (currentMode) => {
+      setShow(true);
+      setMode(currentMode);
+    };
+  
+    const showDatepicker = () => {
+      showMode('date');
+    };
 
     if (addChild.isLoading) return <LoadingScreen />
 
@@ -184,7 +207,29 @@ const AddProfile = ({ navigation, setAddProfile, setIsUpdate }) => {
                                 <CardPara>Vaginal Delivery</CardPara>
                             </View>
                             <View style={{ height: 15 }}></View>
-                            <DatePicker datecb={(date) => setDob(date)} />
+                            <View>
+                            <View>
+
+                                <TouchableOpacity
+                                activeOpacity={0.8}
+                                onPress={showDatepicker}
+                                style={styles.datePicker}
+                                >
+                                    <Text style={styles.selectedDate}>{moment(date).format("DD/MM/YYYY")}</Text>
+                                    <FontAwesome5 name="calendar-alt" size={24} color="#515151" />
+                                </TouchableOpacity>
+                            </View>
+                                {show && (
+                                    <DateTimePicker
+                                        testID="dateTimePicker"
+                                        value={date}
+                                        mode={date}
+                                        is24Hour={true}
+                                        display="default"
+                                        onChange={onChange}
+                                    />
+                                )}
+                            </View>
                             <Text style={styles.stepText}>Enter D.O.B*</Text>
                         </View>
                         <AppButton
@@ -256,6 +301,20 @@ const styles = StyleSheet.create({
         fontSize: 13,
         color: '#676767'
     },
+    datePicker:{
+        width:'55%',
+        borderRadius: 5,
+        backgroundColor: '#f4f4f4',
+        display:'flex',
+        flexDirection: 'row',
+        justifyContent:'space-between',
+        paddingHorizontal:14,
+        paddingVertical:12,
+    },
+    selectedDate:{
+        fontFamily: 'PublicSans-Light',
+        color: colors.textGrey
+    }
 });
 
 export default AddProfile;

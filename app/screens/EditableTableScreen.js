@@ -284,7 +284,7 @@ const EditableVaccine = ({ navigation }) => {
                     <TableWrapper style={{ width: 80 }}>
                         {/* <Cell data="Age" style={styles.singleHead} /> */}
                         <Row
-                            style={{ backgroundColor: '#c8e1ff'}}
+                            style={{ backgroundColor: '#79D1D7'}}
                             data={[
                                 'AGE',
                                 'VACCINES',
