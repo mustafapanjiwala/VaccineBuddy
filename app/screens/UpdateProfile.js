@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native'
 import { Formik, useField } from 'formik';
 import * as yup from 'yup';
@@ -7,6 +7,10 @@ import { TextInput, RadioButton } from 'react-native-paper';
 import AppButton from '../components/AppButton';
 import AppHeading from '../components/AppHeading';
 import CardPara from '../components/CardPara';
+import { useUpdateUser } from "../queries/Users/updateUser"
+import LoadingScreen from '../components/LoadingScreen';
+import { useUpdateChild } from "../queries/Child/updateChild"
+import { AppContext } from "../context/AppContext"
 
 const profileSchema = yup.object({
     mothersName: yup
@@ -20,20 +24,41 @@ const profileSchema = yup.object({
     // country: yup.string().required().min(4).max(30)
 });
 
-const UpdateProfile = () => {
+const UpdateProfile = ({ navigation }) => {
+    const updateUser = useUpdateUser()
+    const updateChild = useUpdateChild();
+    const ctx = useContext(AppContext)
 
-    const [gender, setGender] = React.useState('male');
+    const [gender, setGender] = React.useState('');
     const [firstChild, setFirstChild] = React.useState('');
     const [deliveryMode, setDeliveryMode] = React.useState('');
 
-
+    if (updateUser.isLoading) return <LoadingScreen />
     return (
-
             <Formik
-                initialValues={{ mothersName: 'ayushi', childsName: '', fathersName: '' , address: '', dob: '', birthWeight: '', gender: gender, firstChild: firstChild, deliveryMode: deliveryMode }}
+                initialValues={{ mothersName: '', childsName: '', fathersName: '' , address: '', dob: '', birthWeight: '', gender: gender, firstChild: firstChild, deliveryMode: deliveryMode }}
                 validationSchema={profileSchema}
                 onSubmit={async values => {
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    const user = {
+                        address: values.address,
+                        mothersName: values.mothersName,
+                        fathersName: values.fathersName,
+                    }
+                    const child = {
+                        childsName: values.childsName,
+                        birthWeight: values.birthWeight,
+                        gender: values.gender,
+                        firstChild: values.firstChild,
+                        deliveryMode: values.deliveryMode
+                    }
+                    try {
+                        await updateUser.mutateAsync({ userData: user, uid: ctx.uid })
+                        await updateChild.mutateAsync({ data: child, id: ctx.child.id })
+                        navigation.navigate("ProfileScreen")
+                    } catch (error) {
+                        console.error("UPDATE PROFILE ", error)
+                        alert("Operation Failed!")
+                    }
                     console.log(values);
                   }}
             >
@@ -99,10 +124,10 @@ const UpdateProfile = () => {
                                 value={props.values.birthWeight}
                                 onBlur={props.handleBlur('birthWeight')}
                             />
-                            <View>
+                            {/* <View>
                             <DatePicker />
                             <Text style={styles.stepText}>D.O.B</Text>
-                            </View>
+                            </View> */}
                             <View>
                             <CardPara
                                 style={{
@@ -191,17 +216,20 @@ const UpdateProfile = () => {
                             </RadioButton.Group>
                             </View>
                         </View>
-                        </ScrollView>
+                        
                     
                     <AppButton
                         onPress={props.handleSubmit}
                         loading={props.isSubmitting}
                         disabled={props.isSubmitting}
                     />
+                    </ScrollView>
                        
                     </View>
                 )}
+                
                 </Formik>
+                
         
     )
 }

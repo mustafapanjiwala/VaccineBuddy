@@ -10,8 +10,8 @@ const process = async (load) => {
             const collectionref = firebase.firestore().collection(COLLECTIONS.CHILDREN);
             const mainCollectionref = await collectionref.doc(load.child.id).collection(COLLECTIONS.VACCINATED_VAC).get()
             const sorted_data = mainCollectionref.docs.map(doc => ({ ...doc.data(), id: doc.id })).sort((a, b) => {
-                if (a < b) return -1
-                if (a > b) return 1
+                if (parseInt(a.id) < parseInt(b.id)) return -1
+                if (parseInt(a.id) > parseInt(b.id)) return 1
                 return 0;
             })
             resolve(sorted_data)

@@ -21,7 +21,6 @@ import colors from '../constants/colors';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
-import { date } from 'yup/lib/locale';
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -36,6 +35,8 @@ const SetReminderScreen = () => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
+
+  global.daterem = date;
 
   const onChange = (event, selectedDate) => {
     const currentDate = moment(selectedDate).format("DD/MM/YYYY") || moment(date).format("DD/MM/YYYY");
@@ -162,8 +163,8 @@ async function schedulePushNotification() {
     await Notifications.scheduleNotificationAsync({
       content: {
         title: "Vaccine Reminder 💉",
-        body: 'Your scheduled vaccination is on ' + {date},
-        data: { data: date },
+        body: 'Your scheduled vaccination is on ' + moment(daterem).format("DD/MM/YYYY"),
+        data: { data: 'goes here' },
       },
       trigger: { 
         seconds: 2,

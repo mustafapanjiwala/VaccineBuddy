@@ -47,6 +47,7 @@ const SelectVaccine = (props) => {
                 givenOn: givenOnDate
                 // age: age
             };
+            console.log("ADDING ACCINE ")
             const res = await addVaccine.mutateAsync(load);
             updateChild
                 .mutateAsync({
@@ -101,6 +102,7 @@ const SelectVaccine = (props) => {
                         <ToggleButton
                             onSelect={() => {
                                 setSelectedVaccine(vac);
+                                console.log("SELECTED VACCINE ", vac)
                                 setSelectedBrand('');
                                 // setIsVacSelected(selectedVaccine && selectedVaccine.id === vac.id || Boolean(vaccinatedVaccines.data.find((val) => val.vaccine === vac.id)))
                                 // const vacExist = vaccinatedVaccines.data.find((val) => val.vaccine === vac.id)
@@ -128,7 +130,7 @@ const SelectVaccine = (props) => {
                                     setSelectedBrand(brand);
                                     console.log(
                                         'SELECTED BRANDS',
-                                        selectedBrand
+                                        brand
                                     );
                                 }}
                                 selected={
@@ -140,6 +142,7 @@ const SelectVaccine = (props) => {
             </View>
             <AppButton
                 onPress={() => {
+                    console.log("BOTH SELECTED ", selectedBrand, selectedVaccine)
                     addVac(selectedVaccine, selectedBrand).then(() => {
                         props.navigation.navigate('Editable');
 

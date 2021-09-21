@@ -41,6 +41,7 @@ import * as FileSystem from 'expo-file-system';
 const mapData = (data, map) => {
     let count = 0;
     let filled_data = map.map((_, i) => {
+        console.log("IN MAP ", Boolean(data[count]), data[count].id, i, data[count].id === i.toString())
         if (Boolean(data[count]) && data[count].id === i.toString()) {
             return data[count++];
         } else {
@@ -125,7 +126,7 @@ const EditableVaccine = ({ navigation }) => {
 
     const [vacs, setVacs] = useState([
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-        20, 21, 22, 23, 24, 25, 26, 27, 28
+        20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37
     ]);
 
     const [dueOn, setDueOn] = useState([]);
@@ -141,58 +142,93 @@ const EditableVaccine = ({ navigation }) => {
             '10 Weeks',
             '14 Weeks',
             '6 Months',
-            '5 Years'
+            '9 Months',
+            '9-12 Months',
+            '12 Months',
+            '15 Months',
+            '16-18 Months',
+            '18 Months',
+            '2 Years',
+            '4-6 Years',
+            '10-12 Years'
         ],
         vaccines: [
             'BCG',
-            'HB 1',
             'OPV 0',
-            'DTwP/DTaP 1',
-            'HiB 1',
+            'Hep-B 1',
+            'DTwP 1',
             'IPV 1',
-            'HB 2',
+            'Hep-B 2',
+            'Hib 1',
+            'Rotavirus 1',
             'PCV 1',
-            'Rota 1',
-            'DTwP/DTaP 2',
-            'HiB 2',
+            'DTwP 2',
             'IPV 2',
-            'HB 3',
+            'Hib 2',
+            'Rotavirus 2',
             'PCV 2',
-            'Rota 2',
-            'DTwP/DTaP 3',
-            'HiB 3',
+            'DTwP 3',
             'IPV 3',
-            'HB 4',
+            'Hib 3',
+            'Rotavirus 3',
             'PCV 3',
-            'Rota 3',
+            'OPV 1',
+            'Hep-B 3',
+            'OPV 2',
+            'MMR 1',
             'TCV',
-            'Influenza',
-            'Year 1 Dose 1',
-            'Year 2 Dose 2',
-            'Year 3',
-            'Year 4',
-            'Year 5'
+            'Hep-A 1',
+            'MMR 2',
+            'Varicella 1',
+            'PCV Booster',
+            'DTwP B 1/ DTaP B 1',
+            'IPV B 1',
+            "Hib B 1",
+            "Hep-A 2",
+            'Typhoid Booster',
+            'DTwP B 2 / DTaP B 2',
+            'OPV 3',
+            'Varicella 2',
+            'Tdap/Td',
+            'HPV'
+        ],
+        test: [
+            [0, 1, 2],
+            [3, 4, 5, 6, 7, 8],
+            [9, 10, 11, 12, 13],
+            [14, 15, 16, 17, 18],
+            [19, 20],
+            [21, 22],
+            [23],
+            [24],
+            [25, 26, 27],
+            [28, 29, 30],
+            [31],
+            [32],
+            [33, 34, 35]
+            [36, 37]
         ],
         vac_back: [
-            ['BCG', 'HB 1', 'OPV 0'],
-            ['DTwP/DTaP 1', 'HiB 1', 'IPV 1', 'HB 2', 'PCV 1', 'Rota 1'],
-            ['DTwP/DTaP 2', 'HiB 2', 'IPV 2', 'HB 3', 'PCV 2', 'Rota 2'],
-            ['DTwP/DTaP 3', 'HiB 3', 'IPV 3', 'HB 4', 'PCV 3', 'Rota 3'],
+            ['BCG', 'OPV 0', 'Hep-B 1'],
+            ['DTwP 1', 'IPV 1', 'Hep-B 2', 'Hib 1', 'Rotavirus 1', 'PCV 1'],
+            ['DTwP 2', 'IPV 2', 'Hib 2', 'Rotavirus 2', 'PCV 2'],
+            ['DTwP 3', 'IPV 3', 'Hib 3', 'Rotavirus 3', 'PCV 3'],
+            ['OPV 1', 'Hep-B 3'],
+            ['OPV 2', 'MMR 1'],
             ['TCV'],
-            [
-                'Influenza',
-                'Year 1 Dose 1',
-                'Year 2 Dose 2',
-                'Year 3',
-                'Year 4',
-                'Year 5'
-            ]
+            ['Hep-A 1'],
+            ['MMR 2', 'Varicella 1', 'PCV Booster'],
+            ['DTwPB1 / DTaPB1', 'IPV B1', 'Hib B1'],
+            ['Hep-A 2'],
+            ['Typhoid Booster'],
+            ['DTwP B2/DTaP B2', 'OPV 3', 'Varicella 2'],
+            ['Tdap/Td', 'HPV']
         ]
     });
 
     const unSub = navigation.addListener('focus', async () => {
         const vacVacines = await vaccinatedVaccines.mutateAsync({ child: ctx.child })
-        console.log("VACCAVINES", vacVacines)
+        // console.log("VACCAVINES", vacVacines)
         const data = mapData(vacVacines, vacs);
         setData(data);
     })
@@ -261,15 +297,17 @@ const EditableVaccine = ({ navigation }) => {
                         />
                         <TableWrapper style={{ flexDirection: 'row' }}>
                             <TableWrapper>
-                                {state.age.map((data, i) => (
-                                    <Cell
-                                        width={60}
-                                        height={
-                                            state.vac_back[i].length * height
-                                        }
-                                        data={data}
-                                    />
-                                ))}
+                                    {state.age.map((data, i) => {
+                                        return (
+                                            <Cell
+                                                width={60}
+                                                height={
+                                                    state.vac_back[i].length * height
+                                                }
+                                                data={data}
+                                            />
+                                        )
+                                    })}
                             </TableWrapper>
                             <TableWrapper>
                                 {state.vaccines.map((data) => (
@@ -282,7 +320,9 @@ const EditableVaccine = ({ navigation }) => {
                             </TableWrapper>
 
                             <TableWrapper>
-                                {data.map((data, i) => (
+                                    {data.map((data, i) => {
+                                        console.log("DUUON ", data.dueOn)
+                                        return (
                                     <Cell
                                         width={70}
                                         height={height}
@@ -302,7 +342,8 @@ const EditableVaccine = ({ navigation }) => {
                                             </View>
                                         }
                                     />
-                                ))}
+                                        )
+                                    })}
                             </TableWrapper>
                             <TableWrapper>
                                 {data.map((data, i) => (

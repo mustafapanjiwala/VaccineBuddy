@@ -3,6 +3,7 @@ import React from 'react';
 import AddProfile from '../screens/AddProfile';
 import ProfileScreen from '../screens/ProfileScreen';
 import colors from '../constants/colors';
+import UpdateProfile from '../screens/UpdateProfile';
 
 const Stack = createStackNavigator();
 
@@ -20,14 +21,14 @@ const ProfileScreenNavigator = () => {
                 name="AddProfile"
                 component={AddProfile}
                 options={{
-                    headerShown: true,
-                    headerStyle: {
-                        backgroundColor: colors.primary
-                    },
-                    headerTintColor: '#fff',
-                    headerTitleStyle: {
-                        fontWeight: 'bold'
-                    }
+                    headerShown: false
+                }}
+            />
+            <Stack.Screen
+                name="UpdateProfile"
+                component={UpdateProfile}
+                options={{
+                    headerShown: false
                 }}
             />
         </Stack.Navigator>

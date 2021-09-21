@@ -208,7 +208,7 @@ const ProfileScreen = ({ route, navigation }) => {
                             size={17}
                             color="black"
                         />
-                        <Text style={styles.button}>Update Profile</Text>
+                        <Text onPress={() => navigation.navigate('UpdateProfile')} style={styles.button}>Update Profile</Text>
                     </View>
                 </View>
                 <View style={styles.topImage}>
