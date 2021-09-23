@@ -4,6 +4,7 @@ import colors from '../constants/colors';
 import CheckListScreen from '../screens/CheckListScreen';
 import EditableVaccine from '../screens/EditableTableScreen';
 import Home from '../screens/Home';
+import { NewVaccineSelectScreen } from '../screens/NewVaccineSelectScreen';
 import PreviewScreen from '../screens/PreviewScreen';
 import SelectVaccine from '../screens/SelectVaccine';
 
@@ -53,6 +54,11 @@ const AddVaccineNavigator = () => {
                         fontWeight: 'bold'
                     }
                 }}
+            />
+            <Stack.Screen
+                name="NewSelectVaccine"
+                component={NewVaccineSelectScreen}
+
             />
         </Stack.Navigator>
     );
