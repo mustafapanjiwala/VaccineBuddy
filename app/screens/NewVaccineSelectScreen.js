@@ -14,14 +14,19 @@ import { useQueryClient } from 'react-query';
 import colors from '../constants/colors';
 import LoadingScreen from '../components/LoadingScreen';
 import { useUpdateChild } from '../queries/Child/updateChild';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 export const NewVaccineSelectScreen = (props) => {
     const [selectedBrands, setSelectedBrands] = useState([]);
 
-    return <View style={styles.container}>
+    return(
+        
+         <View style={styles.container}>
+             <ScrollView>
         {props.route.params.data.map((d, VacIndex) => {
             return (
+                
                 <View>
                     <ParaText style={{ marginTop: 35, marginBottom: 20, fontSize: 14 }}>
                         {d.name}
@@ -51,6 +56,7 @@ export const NewVaccineSelectScreen = (props) => {
                         })}
                     </View>
                 </View>
+                
             )
         })}
 
@@ -64,13 +70,16 @@ export const NewVaccineSelectScreen = (props) => {
                     .catch(err => alert("Failed to add Vaccine"));
             }}
         />
+        </ScrollView>
     </View>
+    
+    )
 }
 
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-        height: 500
+        flex: 1
     },
     vcontain: {
         flexDirection: 'row',
