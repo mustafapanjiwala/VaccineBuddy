@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { View, StyleSheet, Image, Platform } from 'react-native' 
 import { Button } from 'react-native-paper'
 import { Fontisto, MaterialIcons } from '@expo/vector-icons';
@@ -6,40 +6,21 @@ import * as ImagePicker from 'expo-image-picker';
 import { Modal } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import ParaText from '../components/ParaText';
+import { UploadImage } from '../queries/Image/UploadImage';
+import { useUpdateChild } from "../queries/Child/updateChild"
 
+import { AppContext } from '../context/AppContext';
+import LoadingScreen from '../components/LoadingScreen';
 const MyPrescriptionScreen = () => {
+  const updateChild = useUpdateChild();
 
+  const ctx = useContext(AppContext);
     const [isModalVisible, setModalVisible] = useState(false);
-    const images = [{
-        // Simplest usage.
-        url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
-
-        // width: number
-        // height: number
-        // Optional, if you know the image size, you can set the optimization performance
-     
-        // You can pass props to <Image />.
-        props: {
-            // headers: ...
-        }
-    },
-    {
-        // Simplest usage.
-        url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
-
-        // width: number
-        // height: number
-        // Optional, if you know the image size, you can set the optimization performance
-     
-        // You can pass props to <Image />.
-        props: {
-            // headers: ...
-        }
-    }
-    ]
+  const [isUploading, setIsUploading] = useState(false)
 
     const openModal = () => {
-        if (!isModalVisible) {
+      if (ctx.child.images.length === 0) alert("No prescriptions available for this child")
+      else if (!isModalVisible) {
             setModalVisible(true);
         }
     };
@@ -75,9 +56,26 @@ const MyPrescriptionScreen = () => {
 
     if (!result.cancelled) {
       setImage(result.uri);
+      setIsUploading(true)
+      UploadImage(result.uri)
+        .then(async (res) => {
+          await updateChild.mutateAsync({
+            data: { images: [...ctx.child.images, res] },
+            id: ctx.child.id
+          });
+          ctx.setChild({ ...ctx.child, images: [...ctx.child.images, res] });
+          //ctx.setChildren()
+          setIsUploading(false)
+        })
+        .catch((err) => {
+          setIsUploading(false)
+          alert('Failed to Upload Image');
+          console.error('pickImage ProfileScreen.js : ', err);
+        });
     }
   };
 
+  if (updateChild.isLoading || isUploading) return <LoadingScreen />
     return (
         <View style={styles.container}>
             <Button style={styles.text} mode="contained" onPress={pickImage}><MaterialIcons style={styles.icon} name="add-to-photos" size={14} color="white" />{' '}Add Prescription</Button>
@@ -87,7 +85,7 @@ const MyPrescriptionScreen = () => {
                     <ImageViewer
                         enableSwipeDown={true}
                         onSwipeDown={closeModal}
-                        imageUrls={images}
+            imageUrls={ctx.child.images.map(e => ({ url: e, props: {} }))}
                     />
                 </Modal>
         </View>

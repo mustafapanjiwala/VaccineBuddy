@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import AuthNavigator from './app/navigation/AuthNavigator';
@@ -9,7 +9,7 @@ import {
 } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import firebase from 'firebase/app';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider, useMutation } from 'react-query';
 import { useGetUserMutate } from './app/queries/Users/getUsersMutate';
 import { useGetChildMutate } from './app/queries/Child/getChildMutate';
 import { AppContext, AppProvider } from './app/context/AppContext';
@@ -29,7 +29,10 @@ import Home from './app/screens/Home';
 import UserDetails2 from './app/screens/UserDetails2';
 import UserDetails1 from './app/screens/UserDetails1';
 import ErrorScreen from './app/components/ErrorScreen';
-
+import "firebase/firestore"
+import { COLLECTIONS } from './app/constants/collections';
+import { vaccineInfo } from "./app/constants/VaccineInfo"
+import LoadingScreen from './app/components/LoadingScreen';
 const fontConfig = {
     web: {
         regular: {
@@ -51,24 +54,25 @@ const theme = {
         accent: '#ECECEC'
     }
 };
-
-const firebaseConfig = {
-    apiKey: 'AIzaSyDq38i04UZjDTi-WImzGUmI3JImbKRsGmQ',
-    authDomain: 'vaccinebuddy.firebaseapp.com',
-    projectId: 'vaccinebuddy',
-    storageBucket: 'vaccinebuddy.appspot.com',
-    messagingSenderId: '151343793466',
-    appId: '1:151343793466:web:a01eb512c9c455a3cdbc03'
-};
+//ANAND
 // const firebaseConfig = {
-//     apiKey: "AIzaSyBdr_7Oi85DJrP6Xx6o3V12REYedBT_x8c",
-//     authDomain: "vacseen-1ffe9.firebaseapp.com",
-//     projectId: "vacseen-1ffe9",
-//     storageBucket: "vacseen-1ffe9.appspot.com",
-//     messagingSenderId: "285369646875",
-//     appId: "1:285369646875:web:be10274fe7fdffde219dbe",
-//     measurementId: "G-Z4R2SV08RZ"
+//     apiKey: 'AIzaSyDq38i04UZjDTi-WImzGUmI3JImbKRsGmQ',
+//     authDomain: 'vaccinebuddy.firebaseapp.com',
+//     projectId: 'vaccinebuddy',
+//     storageBucket: 'vaccinebuddy.appspot.com',
+//     messagingSenderId: '151343793466',
+//     appId: '1:151343793466:web:a01eb512c9c455a3cdbc03'
 // };
+//PROD
+const firebaseConfig = {
+    apiKey: "AIzaSyBdr_7Oi85DJrP6Xx6o3V12REYedBT_x8c",
+    authDomain: "vacseen-1ffe9.firebaseapp.com",
+    projectId: "vacseen-1ffe9",
+    storageBucket: "vacseen-1ffe9.appspot.com",
+    messagingSenderId: "285369646875",
+    appId: "1:285369646875:web:be10274fe7fdffde219dbe",
+    measurementId: "G-Z4R2SV08RZ"
+};
 
 try {
     firebase.initializeApp(firebaseConfig);
@@ -77,6 +81,13 @@ try {
 }
 
 const queryClient = new QueryClient();
+
+const useImport = () => {
+    return useMutation(async () => {
+        const promises = vaccineInfo.map(e => firebase.firestore().collection(COLLECTIONS.VACCINES).add(e))
+        return await Promise.all(promises)
+    })
+}
 
 export default function App() {
     // console.disableYellowBox = true;
@@ -113,9 +124,14 @@ export default function App() {
 }
 
 const Main = (props) => {
+    const [t, setT] = useState(false)
+    // const importData = useImport();
     const { setUid, setIsAuthenticated, isAuthenticated } =
         useContext(AppContext);
-
+    // useEffect(() => {
+    //     console.log("t", t, importData)
+    //     if (!t) { importData.mutateAsync(); setT(true) }
+    // }, [importData])
     console.log('IS AUTHENTICATED ', isAuthenticated);
     firebase.auth().onAuthStateChanged(async function (user) {
         if (user) {
@@ -128,6 +144,7 @@ const Main = (props) => {
             }
         }
     });
+    // if (importData.isLoading) return <LoadingScreen />
     if (isAuthenticated) return <AppNavigator />;
     else return <AuthNavigator />;
 };

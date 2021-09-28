@@ -95,7 +95,7 @@ const ProfileScreen = ({ route, navigation }) => {
                     setError('Child Data could not be loaded');
                     console.error(
                         'UseEffect ProfileScreen.js : ' +
-                            'UserData.children is undefined'
+                        'UserData.children is undefined'
                     );
                     setIsLoading(false);
                     ctx.setIsUpdated(false);
@@ -150,47 +150,6 @@ const ProfileScreen = ({ route, navigation }) => {
             }
         })();
     }, []);
-
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [3, 5],
-            quality: 1
-        });
-
-        if (!result.cancelled) {
-            setImage(result.uri);
-            if (!ctx.user.image) {
-                UploadImage(result.uri)
-                    .then(async (res) => {
-                        await updateUser.mutateAsync({
-                            userData: { image: res },
-                            uid: ctx.user.uid
-                        });
-                        ctx.setUser({ ...ctx.user, image: res });
-                    })
-                    .catch((err) => {
-                        alert('Failed to Upload Image');
-                        console.error('pickImage ProfileScreen.js : ', err);
-                    });
-            } else {
-                //update image
-                updateImage(result.uri, ctx.user.image)
-                    .then(async (res) => {
-                        if (res === '') alert('Failed to Update Image');
-                        await updateUser.mutateAsync({
-                            userData: { image: res },
-                            uid: ctx.user.uid
-                        });
-                        ctx.setUser({ ...ctx.user, image: res });
-                    })
-                    .catch((err) => {
-                        alert(err);
-                    });
-            }
-        }
-    };
 
     const [selectedValue, setSelectedValue] = useState('');
 
@@ -266,7 +225,7 @@ const ProfileScreen = ({ route, navigation }) => {
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Child's Name</ParaText>
                     <ParaText style={styles.text2}>
-                        {ctx.child?.childsName}
+                        {ctx.child.childsName ?? ctx.user.mothersName}
                     </ParaText>
                 </View>
                 <View style={styles.list}>
@@ -286,8 +245,7 @@ const ProfileScreen = ({ route, navigation }) => {
                             const val = moment().diff(ctx.child.dob, 'years');
                             if (isNaN(val)) {
                                 return <Text>Not Borned Yet</Text>;
-                            } else if (val === 0)
-                                return <Text>Born today, congrats!</Text>;
+                            }
                             return <Text>{val}</Text>;
                         })()}
                     </ParaText>
