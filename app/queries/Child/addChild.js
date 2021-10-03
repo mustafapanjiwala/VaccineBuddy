@@ -9,7 +9,7 @@ const process = async (load) => {
 
     if (load.user && load.child) {
         const collectionref = firebase.firestore().collection(COLLECTIONS.CHILDREN);
-        const docref = await collectionref.add({ ...load.child, images: [] })
+        const docref = await collectionref.add({ ...load.child, images: [], lastVaccinated: "" })
         if (docref.id) {
             return firebase.firestore().collection(COLLECTIONS.USERS).doc(load.user.id).get().then(res => {
                 const data = res.data();

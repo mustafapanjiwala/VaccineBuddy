@@ -225,7 +225,7 @@ const ProfileScreen = ({ route, navigation }) => {
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Child's Name</ParaText>
                     <ParaText style={styles.text2}>
-                        {ctx.child.childsName ?? ctx.user.mothersName}
+                        {ctx.child.childsName == "" ? ctx.user.mothersName : ctx.child.childsName}
                     </ParaText>
                 </View>
                 <View style={styles.list}>
@@ -242,11 +242,17 @@ const ProfileScreen = ({ route, navigation }) => {
                     <ParaText style={styles.text}>Age (of Child)</ParaText>
                     <ParaText style={styles.text2}>
                         {(() => {
-                            const val = moment().diff(ctx.child.dob, 'years');
-                            if (isNaN(val)) {
-                                return <Text>Not Borned Yet</Text>;
+                            const val = moment().diff(moment(ctx.child.dob, "DD/MM/YYYY"), 'years');
+                            if (val == 0) {
+
+                                const months = moment().diff(moment(ctx.child.dob, "DD/MM/YYYY"), 'months');
+                                if (months > 31 || months == 0) {
+                                    const days = moment().diff(moment(ctx.child.dob, "DD/MM/YYYY"), 'days');
+                                    if (days == 0) return <Text>Borned Today</Text>
+                                    else return <Text>{days} days</Text>
+                                } else return <Text>{months} months</Text>
                             }
-                            return <Text>{val}</Text>;
+                            return <Text>{val} years</Text>;
                         })()}
                     </ParaText>
                 </View>
