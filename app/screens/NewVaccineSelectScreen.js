@@ -15,6 +15,7 @@ import colors from '../constants/colors';
 import LoadingScreen from '../components/LoadingScreen';
 import { useUpdateChild } from '../queries/Child/updateChild';
 import { callUpdateDueDates } from "../queries/Vaccines/helpers/callUpdateDueDates"
+import { ScrollView } from 'react-native-gesture-handler';
 
 import moment from 'moment';
 import ErrorScreen from '../components/ErrorScreen';
@@ -71,55 +72,59 @@ export const NewVaccineSelectScreen = (props) => {
     if (addVaccine.isLoading || updateChild.isLoading || manLoading) return <LoadingScreen />
     if (isError) return <ErrorScreen />
     return <View style={styles.container}>
-        {props.route.params.data.map((d, VacIndex) => {
-            return (
-                <View>
-                    <ParaText style={{ marginTop: 35, marginBottom: 20, fontSize: 14 }}>
-                        {d.name}
-                    </ParaText>
-                    <View style={styles.vcontain}>
-                        {d.brands.map((vac, i) => {
-                            return (
-                                <ToggleButton
-                                    onSelect={() => {
-                                        let temp = [...selectedBrands]
-                                        temp[VacIndex] = vac
-                                        setSelectedBrands(temp)
-                                        // setSelectedBrand('');
-                                        // setIsVacSelected(selectedVaccine && selectedVaccine.id === vac.id || Boolean(vaccinatedVaccines.data.find((val) => val.vaccine === vac.id)))
-                                        // const vacExist = vaccinatedVaccines.data.find((val) => val.vaccine === vac.id)
-                                        // setIsVacSelected(Boolean(vacExist))
-                                        // vacExist && setSelectedBrand(vacExist.brand)
-                                    }}
-                                    // selected={selectedVaccine && selectedVaccine.id === vac.id || Boolean(vaccinatedVaccines.data.find((val) => val.vaccine === vac.id))}
-                                    selected={
-                                        selectedBrands.length > 0 && selectedBrands[VacIndex] == vac
-                                    }
-                                    textData={vac}
-                                />
-                            );
-                        })}
-                    </View>
-                </View>
-            )
-        })}
+        <ScrollView>
+            {props.route.params.data.map((d, VacIndex) => {
+                return (
 
-        <AppButton
-            onPress={() => {
-                addVac().then(() => {
-                    // props.navigation.navigate('Editable');
-                    props.navigation.navigate("EditableTable")
-                })
-                    .catch(err => { setIsError(true); console.error("FAILED TO ADD VACCINE: ", err) });
-            }}
-        />
+                    <View>
+                        <ParaText style={{ marginTop: 35, marginBottom: 20, fontSize: 14 }}>
+                            {d.name}
+                        </ParaText>
+                        <View style={styles.vcontain}>
+                            {d.brands.map((vac, i) => {
+                                return (
+                                    <ToggleButton
+                                        onSelect={() => {
+                                            let temp = [...selectedBrands]
+                                            temp[VacIndex] = vac
+                                            setSelectedBrands(temp)
+                                            // setSelectedBrand('');
+                                            // setIsVacSelected(selectedVaccine && selectedVaccine.id === vac.id || Boolean(vaccinatedVaccines.data.find((val) => val.vaccine === vac.id)))
+                                            // const vacExist = vaccinatedVaccines.data.find((val) => val.vaccine === vac.id)
+                                            // setIsVacSelected(Boolean(vacExist))
+                                            // vacExist && setSelectedBrand(vacExist.brand)
+                                        }}
+                                        // selected={selectedVaccine && selectedVaccine.id === vac.id || Boolean(vaccinatedVaccines.data.find((val) => val.vaccine === vac.id))}
+                                        selected={
+                                            selectedBrands.length > 0 && selectedBrands[VacIndex] == vac
+                                        }
+                                        textData={vac}
+                                    />
+                                );
+                            })}
+                        </View>
+                    </View>
+
+                )
+            })}
+
+            <AppButton
+                onPress={() => {
+                    addVac().then(() => {
+                        // props.navigation.navigate('Editable');
+                        props.navigation.navigate("EditableTable")
+                    })
+                        .catch(err => { setIsError(true); console.error("FAILED TO ADD VACCINE: ", err) });
+                }}
+            />
+        </ScrollView>
     </View>
 }
 
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-        height: 500
+        flex: 1
     },
     vcontain: {
         flexDirection: 'row',

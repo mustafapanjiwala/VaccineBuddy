@@ -273,15 +273,16 @@ const EditableVaccine = ({ navigation }) => {
     }
     if (isError) return <ErrorScreen />
     return (
-        <ScrollView>
             <View style={styles.container}>
                 <ScrollView>
+                <ScrollView horizontal>
+                <View style={{width: 600}}>
                 <Table
-                    style={{ flexDirection: 'row' }}
+                    style={{ flexDirection: 'row'}}
                     borderStyle={{ borderWidth: 1, borderColor: '#C1C0B9' }}
                 >
                     {/* Left Wrapper */}
-                    <TableWrapper style={{ width: 80 }}>
+                    <TableWrapper>
                         {/* <Cell data="Age" style={styles.singleHead} /> */}
                         <Row
                             style={{ backgroundColor: '#79D1D7'}}
@@ -293,26 +294,24 @@ const EditableVaccine = ({ navigation }) => {
                                 'Brand Name'
                             ]}
                             givenOn
-                            widthArr={[60, 110, 70, 70, 90]}
+                            widthArr={[80, 130, 110, 110, 110]}
                         />
                         <TableWrapper style={{ flexDirection: 'row' }}>
                             <TableWrapper>
-                                    {state.age.map((data, i) => {
-                                        return (
-                                            <Cell
-                                                width={60}
-                                                height={
-                                                    state.vac_back[i].length * height
-                                                }
-                                                data={data}
-                                            />
-                                        )
-                                    })}
+                                {state.age.map((data, i) => (
+                                    <Cell
+                                        width={80}
+                                        height={
+                                            state.vac_back[i].length * height
+                                        }
+                                        data={data}
+                                    />
+                                ))}
                             </TableWrapper>
                             <TableWrapper>
                                 {state.vaccines.map((data) => (
                                     <Cell
-                                        width={110}
+                                        width={130}
                                         height={height}
                                         data={data}
                                     />
@@ -323,7 +322,7 @@ const EditableVaccine = ({ navigation }) => {
                                     {data.map((data, i) => {
                                         return (
                                     <Cell
-                                        width={70}
+                                        width={110}
                                         height={height}
                                         data={
                                             <View>
@@ -347,7 +346,7 @@ const EditableVaccine = ({ navigation }) => {
                             <TableWrapper>
                                 {data.map((data, i) => (
                                     <Cell
-                                        width={70}
+                                        width={110}
                                         height={height}
                                         data={
                                             <View>
@@ -370,7 +369,7 @@ const EditableVaccine = ({ navigation }) => {
                             <TableWrapper>
                                 {data.map((data, i) => (
                                     <Cell
-                                        width={90}
+                                        width={110}
                                         height={height}
                                         data={
                                             <View>
@@ -414,8 +413,8 @@ const EditableVaccine = ({ navigation }) => {
                         </TableWrapper>
                     </TableWrapper>
                 </Table>
+                </View>
                 </ScrollView>
-            </View>
             <View style={styles.Appbtn}>
                 <AppButton2
                     title="Download"
@@ -555,7 +554,8 @@ const EditableVaccine = ({ navigation }) => {
                     </Dialog>
                 </Portal>
             </View>
-        </ScrollView>
+            </ScrollView>
+            </View>
     );
 };
 
@@ -582,7 +582,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row-reverse',
         justifyContent: 'space-evenly',
-        marginVertical: 40 
+        marginVertical: 25 
     },
     btnText: { 
         textAlign: 'center'
