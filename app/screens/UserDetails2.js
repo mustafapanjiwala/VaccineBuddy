@@ -21,6 +21,7 @@ import ErrorScreen from '../components/ErrorScreen';
 import moment from 'moment';
 import { useGetUserMutate } from '../queries/Users/getUsersMutate';
 import { useGetChildMutate } from '../queries/Child/getChildMutate';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const UserDetails2 = ({ navigation }) => {
     const [birthWeight, setBirthWeight] = React.useState('');
@@ -95,6 +96,7 @@ const UserDetails2 = ({ navigation }) => {
 
     return (
         <Screen>
+            <ScrollView>
             <View style={styles.container}>
                 <View>
                     <View style={styles.details}>
@@ -249,6 +251,7 @@ const UserDetails2 = ({ navigation }) => {
                     }}
                 />
             </View>
+            </ScrollView>
         </Screen>
     );
 };
