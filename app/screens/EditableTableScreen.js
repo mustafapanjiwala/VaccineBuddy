@@ -61,7 +61,7 @@ const createAndSavePDF = async (html) => {
     try {
         const { uri } = await Print.printToFileAsync({
             html,
-            width: 400,
+            width: 700,
             height: 1000
         });
         console.log('URI ', uri);

@@ -32,10 +32,10 @@ export const NewVaccineSelectScreen = (props) => {
     const ctx = useContext(AppContext);
     const addVac = async () => {
         if (vaccine) {
-            const promiseArr = vaccine.map(async vac => {
+            const promiseArr = vaccine.map(async (vac, vacI) => {
                 let load = {
                     vaccine: vac,
-                    brand: "",
+                    brand: selectedBrands[vacI],
                     child: ctx.child,
                     givenOn: givenOnDate
                     // age: age
