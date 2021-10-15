@@ -163,11 +163,11 @@ async function schedulePushNotification() {
     await Notifications.scheduleNotificationAsync({
       content: {
         title: "Vaccine Reminder 💉",
-        body: 'Your scheduled vaccination is on ' + moment(daterem).format("DD/MM/YYYY"),
+        body: 'Tomorrow is your vaccination date.',
         data: { data: 'goes here' },
       },
       trigger: { 
-        seconds: 2,
+        seconds: calculateSecondsToSpecifiedDate(moment(daterem).subtract(1, 'day').format("DD/MM/YYYY")),
        },
     });
   }

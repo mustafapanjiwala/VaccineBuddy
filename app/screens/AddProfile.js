@@ -143,41 +143,6 @@ const AddProfile = ({ navigation, setAddProfile, setIsUpdate }) => {
                                     fontFamily: 'PublicSans-Regular'
                                 }}
                             >
-                                Is this your first child?
-                            </CardPara>
-                            <View style={styles.radio}>
-                                <RadioButton
-                                    value="yes"
-                                    status={
-                                        firstChild === 'yes'
-                                            ? 'checked'
-                                            : 'unchecked'
-                                    }
-                                    onPress={() => setFirstChild('yes')}
-                                    color="#79D1D7"
-                                />
-                                <CardPara>Yes</CardPara>
-                            </View>
-                            <View style={styles.radio}>
-                                <RadioButton
-                                    value="no"
-                                    status={
-                                        firstChild === 'no'
-                                            ? 'checked'
-                                            : 'unchecked'
-                                    }
-                                    onPress={() => setFirstChild('no')}
-                                    color="#79D1D7"
-                                />
-                                <CardPara>No</CardPara>
-                            </View>
-
-                            <CardPara
-                                style={{
-                                    fontSize: 14,
-                                    fontFamily: 'PublicSans-Regular'
-                                }}
-                            >
                                 Mode Of Delivery
                             </CardPara>
                             <View style={styles.radio}>
