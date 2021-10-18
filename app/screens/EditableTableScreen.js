@@ -62,6 +62,10 @@ const createAndSavePDF = async (html) => {
             width: 400,
             height: 1000
         });
+
+          await Sharing.shareAsync(uri)
+            .catch((err) => console.log('Sharing::error', err))
+
         console.log('URI ', uri);
         if (Platform.OS === 'ios') {
             const UTI = 'public.pdf';
@@ -418,8 +422,8 @@ const EditableVaccine = ({ navigation }) => {
                 </ScrollView>
             <View style={styles.Appbtn}>
                 <AppButton2
-                    title="Download"
-                    name="download"
+                    title="Share"
+                    name="share"
                     onPress={async () => {
                         console.log("PDF ", data)
                         const table = createTable(
