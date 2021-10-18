@@ -32,6 +32,8 @@ import { AppContext } from '../context/AppContext';
 import LoadingScreen from '../components/LoadingScreen';
 import { useAddTableToDB } from '../queries/Vaccines/addTableToDB';
 import * as FileSystem from 'expo-file-system';
+import { callUpdateDueDates } from "../queries/Vaccines/helpers/callUpdateDueDates"
+import ErrorScreen from '../components/ErrorScreen';
 /*
  *    TODO
  *   - [x] Fix font size and table size in PDF
@@ -59,7 +61,7 @@ const createAndSavePDF = async (html) => {
     try {
         const { uri } = await Print.printToFileAsync({
             html,
-            width: 400,
+            width: 700,
             height: 1000
         });
 
@@ -118,6 +120,8 @@ const EditableVaccine = ({ navigation }) => {
     const [downloadedFileURI, setDownloadedFileURI] = useState();
     const ctx = useContext(AppContext);
     const addTableToDb = useAddTableToDB();
+    const [manLoading, setManLoading] = useState(false)
+    const [isError, setError] = useState(false)
 
     //FOR TESTING
     //START
@@ -132,10 +136,6 @@ const EditableVaccine = ({ navigation }) => {
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
         20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37
     ]);
-
-    const [dueOn, setDueOn] = useState([]);
-    const [givenOn, setGivenOn] = useState([]);
-    const [brands, setBrands] = useState([]);
 
     const [data, setData] = useState([]);
 
@@ -272,10 +272,10 @@ const EditableVaccine = ({ navigation }) => {
 
     const hideDialog = () => setVisible(false);
 
-    if (vaccinatedVaccines.isLoading || addTableToDb.isLoading) {
+    if (vaccinatedVaccines.isLoading || addTableToDb.isLoading || manLoading) {
         return <LoadingScreen />;
     }
-
+    if (isError) return <ErrorScreen />
     return (
             <View style={styles.container}>
                 <ScrollView>
@@ -324,7 +324,6 @@ const EditableVaccine = ({ navigation }) => {
 
                             <TableWrapper>
                                     {data.map((data, i) => {
-                                        console.log("DUUON ", data.dueOn)
                                         return (
                                     <Cell
                                         width={110}
@@ -440,14 +439,28 @@ const EditableVaccine = ({ navigation }) => {
                     title="Update"
                     name="rotate-cw"
                     onPress={async () => {
-                        console.log('ADDDING TO DB ', data);
-                        data.map((d) => {
-                            d !== '' &&
+                        let count = data.length
+                        const promiseArr = data.map((d) => {
+                            return d !== '' ?
                                 addTableToDb.mutate({
+                                    child: ctx.child,
                                     id: ctx.child.id,
                                     data: d
-                                });
+                                }) : ''
                         });
+                        Promise.all(promiseArr.filter(v => v !== '')).then(async () => {
+                            setManLoading(true)
+                            callUpdateDueDates(ctx.child.id).then(res => res.json())
+                                .then(async res => {
+                                    console.log("RES ", res)
+                                    if (res.error) {
+                                        setError(true)
+                                        setManLoding(false)
+                                    }
+                                    setManLoading(false)
+                                    navigation.navigate("Home")
+                                })
+                        })
                     }}
                 />
                 <Portal>
@@ -509,26 +522,7 @@ const EditableVaccine = ({ navigation }) => {
                                             setNewVal("")
                                             setData(temp)
                                         }
-                                        // if (changeParams[0] === "dueOn") {
-                                        //     let temp = [...data]
-                                        //     temp[changeParams[1]].dueOn = newVal;
-                                        //     console.log("HERE2 ", temp, changeParams[1], temp[changeParams[1]])
-                                        //     // setData(temp)
-                                        // }
-                                        // if (changeParams[0] === "givenOn") {
-                                        //     let temp = [...data]
-                                        //     temp[changeParams[1]].givenOn = newVal;
-                                        //     setData(temp)
-                                        // }
-                                        // if (changeParams[0] === "brands") {
-                                        //     let temp = [...data]
-                                        //     temp[changeParams[1]].brand = newVal
-                                        //     setData(temp)
-                                        // }
-                                        // setChangeParams()
-                                        // setNewVal("")
                                     }
-                                    // hideDialog()
                                 }
                             }
                         }

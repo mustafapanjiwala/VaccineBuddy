@@ -51,8 +51,7 @@ const SelectVaccine = (props) => {
             console.log("ADDING ACCINE ")
             const res = await addVaccine.mutateAsync(load);
             })
-            updateChild
-                .mutateAsync({
+            if (givenOnDate > ctx.child.lastVaccinated.format("DD/MM/YYYY")) updateChild.mutateAsync({
                     id: ctx.child.id,
                     data: { lastVaccinated: givenOnDate ?? '' }
                 })
@@ -153,12 +152,13 @@ const SelectVaccine = (props) => {
             </View> */}
             <AppButton
                 onPress={() => {
-                    console.log("BOTH SELECTED ", selectedBrand, selectedVaccine)
-                    addVac(selectedVaccine, selectedBrand).then(() => {
-                        props.navigation.navigate('NewSelectVaccine', { data: selectedVaccine });
+                    // console.log("BOTH SELECTED ", selectedBrand, selectedVaccine)
+                    props.navigation.navigate('NewSelectVaccine', { data: selectedVaccine, givenOnDate: props.route.params.givenOnDate });
+                    // addVac(selectedVaccine, selectedBrand).then(() => {
 
-                    })
-                        .catch(err => { console.error("SELECT VACCINE ONPRESS BOTTOM", err); alert("Failed to add Vaccine") });
+                    //     props.navigation.navigate('NewSelectVaccine', { data: selectedVaccine });
+                    // })
+                    //     .catch(err => { console.error("SELECT VACCINE ONPRESS BOTTOM", err); alert("Failed to add Vaccine") });
                 }}
             />
             {/* {!isVacSelected && <TouchableOpacity

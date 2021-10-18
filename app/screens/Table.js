@@ -75,7 +75,7 @@ export const createTable = (age, vaccines, data) => {
     <th class="tg-0lax">VACCINES</th>
     <th class="tg-0lax">DUE DATE</th>
     <th class="tg-0lax">GIVEN ON</th>
-    <th class="tg-0lax">BRAND NAME</th>
+    <th class="tg-0lax" style="width: 250px">BRAND NAME</th>
   </tr>
 </thead>
 <tbody>

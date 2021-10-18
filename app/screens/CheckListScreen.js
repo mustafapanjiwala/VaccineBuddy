@@ -24,7 +24,7 @@ const CheckListScreen = ({ navigation }) => {
     const onChange = (event, selectedDate) => {
         const currentDate = moment(selectedDate).format("DD/MM/YYYY") ?? moment(date).format("DD/MM/YYYY");
       setShow(Platform.OS === 'ios');
-        setDate(selectedDate ?? date);
+        setDate(selectedDate ?? moment(date).format("DD/MM/YYYY"));
         setGivenOnDate(currentDate);
     };
   
@@ -183,9 +183,7 @@ const CheckListScreen = ({ navigation }) => {
                                 <CardPara>2 years</CardPara>
                             </View>
                             <View style={styles.radio}>
-                                <RadioButton
-                                value="4-6 years"
-                                status={checked === 192 ? 'checked' : 'unchecked'}
+                            <RadioButton
                                     color="#79D1D7"
                                 onPress={() => setChecked(192)}
                                 />
