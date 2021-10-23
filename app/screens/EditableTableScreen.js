@@ -273,289 +273,272 @@ const EditableVaccine = ({ navigation }) => {
     }
     if (isError) return <ErrorScreen />
     return (
-            <View style={styles.container}>
-                <ScrollView>
+        <View style={styles.container}>
+            <ScrollView>
                 <ScrollView horizontal>
-                <View style={{width: 600}}>
-                <Table
-                    style={{ flexDirection: 'row'}}
-                    borderStyle={{ borderWidth: 1, borderColor: '#C1C0B9' }}
-                >
-                    {/* Left Wrapper */}
-                    <TableWrapper>
-                        {/* <Cell data="Age" style={styles.singleHead} /> */}
-                        <Row
-                            style={{ backgroundColor: '#79D1D7'}}
-                            data={[
-                                'AGE',
-                                'VACCINES',
-                                'Due Date',
-                                'Given on',
-                                'Brand Name'
-                            ]}
-                            givenOn
-                            widthArr={[80, 130, 110, 110, 110]}
-                        />
-                        <TableWrapper style={{ flexDirection: 'row' }}>
+                    <View style={{ width: 600 }}>
+                        <Table
+                            style={{ flexDirection: 'row' }}
+                            borderStyle={{ borderWidth: 1, borderColor: '#C1C0B9' }}
+                        >
+                            {/* Left Wrapper */}
                             <TableWrapper>
-                                {state.age.map((data, i) => (
-                                    <Cell
-                                        width={80}
-                                        height={
-                                            state.vac_back[i].length * height
-                                        }
-                                        data={data}
-                                    />
-                                ))}
-                            </TableWrapper>
-                            <TableWrapper>
-                                {state.vaccines.map((data) => (
-                                    <Cell
-                                        width={130}
-                                        height={height}
-                                        data={data}
-                                    />
-                                ))}
-                            </TableWrapper>
+                                {/* <Cell data="Age" style={styles.singleHead} /> */}
+                                <Row
+                                    style={{ backgroundColor: '#79D1D7' }}
+                                    data={[
+                                        'AGE',
+                                        'VACCINES',
+                                        'Due Date',
+                                        'Given on',
+                                        'Brand Name'
+                                    ]}
+                                    givenOn
+                                    widthArr={[80, 130, 110, 110, 110]}
+                                />
+                                <TableWrapper style={{ flexDirection: 'row' }}>
+                                    <TableWrapper>
+                                        {state.age.map((data, i) => (
+                                            <Cell
+                                                width={80}
+                                                height={
+                                                    state.vac_back[i].length * height
+                                                }
+                                                data={data}
+                                            />
+                                        ))}
+                                    </TableWrapper>
+                                    <TableWrapper>
+                                        {state.vaccines.map((d, i) => (
+                                            <Cell
+                                                style={data[i] && data[i].givenOn ? styles.green : styles.red}
+                                                width={130}
+                                                height={height}
+                                                data={d}
+                                            />
+                                        ))}
+                                    </TableWrapper>
 
-                            <TableWrapper>
-                                    {data.map((data, i) => {
-                                        return (
-                                    <Cell
-                                        width={110}
-                                        height={height}
-                                        data={
-                                            <View>
-                                                <Text
-                                                    onPress={() => {
-                                                        setChangeParams([
-                                                            'dueOn',
-                                                            i
-                                                        ]);
-                                                        setVisible(true);
-                                                    }}
-                                                >
-                                                    {data.dueOn}
-                                                </Text>
-                                            </View>
-                                        }
-                                    />
-                                        )
-                                    })}
+                                    <TableWrapper>
+                                        {data.map((d, i) => {
+                                            return (
+                                                <Cell
+                                                    style={data[i] && data[i].givenOn ? styles.green : styles.red}
+                                                    width={110}
+                                                    height={height}
+                                                    data={
+                                                        <View>
+                                                            <Text
+                                                                onPress={() => {
+                                                                    setChangeParams([
+                                                                        'dueOn',
+                                                                        i
+                                                                    ]);
+                                                                    setVisible(true);
+                                                                }}
+                                                            >
+                                                                {d.dueOn}
+                                                            </Text>
+                                                        </View>
+                                                    }
+                                                />
+                                            )
+                                        })}
+                                    </TableWrapper>
+                                    <TableWrapper>
+                                        {data.map((d, i) => (
+                                            <Cell
+                                                style={data[i] && data[i].givenOn ? styles.green : styles.red}
+                                                width={110}
+                                                height={height}
+                                                data={
+                                                    <View>
+                                                        <Text
+                                                            onPress={() => {
+                                                                setChangeParams([
+                                                                    'givenOn',
+                                                                    i
+                                                                ]);
+                                                                setVisible(true);
+                                                            }}
+                                                        >
+                                                            {d.givenOn}
+                                                        </Text>
+                                                    </View>
+                                                }
+                                            />
+                                        ))}
+                                    </TableWrapper>
+                                    <TableWrapper>
+                                        {data.map((d, i) => (
+                                            <Cell
+                                                style={data[i] && data[i].givenOn ? styles.green : styles.red}
+                                                width={110}
+                                                height={height}
+                                                data={
+                                                    <View>
+                                                        <Text
+                                                            onPress={() => {
+                                                                setChangeParams([
+                                                                    'brands',
+                                                                    i
+                                                                ]);
+                                                                setVisible(true);
+                                                            }}
+                                                        >
+                                                            {d.brand}
+                                                        </Text>
+                                                    </View>
+                                                }
+                                            />
+                                        ))}
+                                    </TableWrapper>
+                                </TableWrapper>
                             </TableWrapper>
-                            <TableWrapper>
-                                {data.map((data, i) => (
-                                    <Cell
-                                        width={110}
-                                        height={height}
-                                        data={
-                                            <View>
-                                                <Text
-                                                    onPress={() => {
-                                                        setChangeParams([
-                                                            'givenOn',
-                                                            i
-                                                        ]);
-                                                        setVisible(true);
-                                                    }}
-                                                >
-                                                    {data.givenOn}
-                                                </Text>
-                                            </View>
-                                        }
-                                    />
-                                ))}
-                            </TableWrapper>
-                            <TableWrapper>
-                                {data.map((data, i) => (
-                                    <Cell
-                                        width={110}
-                                        height={height}
-                                        data={
-                                            <View>
-                                                <Text
-                                                    onPress={() => {
-                                                        setChangeParams([
-                                                            'brands',
-                                                            i
-                                                        ]);
-                                                        setVisible(true);
-                                                    }}
-                                                >
-                                                    {data.brand}
-                                                </Text>
-                                            </View>
-                                        }
-                                    />
-                                ))}
-                            </TableWrapper>
-                            {/* <TableWrapper>
-                                {dueOn.map((data, i) => <Cell width={70} height={height} data={<View ><Text onPress={() => {
-                                    setChangeParams(["dueOn", i])
-                                    setVisible(true)
-                                }}>{data}</Text></View>} />)}
-                            </TableWrapper>
-
-                            <TableWrapper>
-                                {givenOn.map((data, i) => <Cell width={70} height={height} data={<View><Text onPress={() => {
-                                    setChangeParams(["givenOn", i])
-                                    setVisible(true)
-                                }}>{data}</Text></View>} />)}
-
-                            </TableWrapper>
-
-                            <TableWrapper>
-                                {brands.map((data, i) => <Cell width={90} height={height} data={<View><Text onPress={() => {
-                                    setChangeParams(["brands", i])
-                                    setVisible(true)
-                                }}>{data}</Text></View>} />)}
-                            </TableWrapper> */}
-                        </TableWrapper>
-                    </TableWrapper>
-                </Table>
-                </View>
+                        </Table>
+                    </View>
                 </ScrollView>
-            <View style={styles.Appbtn}>
-                <AppButton2
-                    title="Download"
-                    name="download"
-                    onPress={async () => {
-                        console.log("PDF ", data)
-                        const table = createTable(
-                            state.age,
-                            state.vac_back,
-                            data
-                        );
-                        // console.log(table)
-                        const that = await createAndSavePDF(table);
-                        setDownloadedFileURI(that);
-                    }}
-                />
-                <AppButton2
-                    title="Update"
-                    name="rotate-cw"
-                    onPress={async () => {
-                        let count = data.length
-                        const promiseArr = data.map((d) => {
-                            return d !== '' ?
-                                addTableToDb.mutate({
-                                    child: ctx.child,
-                                    id: ctx.child.id,
-                                    data: d
-                                }) : ''
-                        });
-                        Promise.all(promiseArr.filter(v => v !== '')).then(async () => {
-                            setManLoading(true)
-                            callUpdateDueDates(ctx.child.id).then(res => res.json())
-                                .then(async res => {
-                                    console.log("RES ", res)
-                                    if (res.error) {
-                                        setError(true)
-                                        setManLoding(false)
-                                    }
-                                    setManLoading(false)
-                                    navigation.navigate("Home")
-                                })
-                        })
-                    }}
-                />
-                <Portal>
-                    <Dialog visible={visible} onDismiss={hideDialog}>
-                        <Dialog.Title>Enter new value</Dialog.Title>
-                        <Dialog.Content>
-                            {changeParams && changeParams[0] === 'brands' ? (
-                                <TextInput
-                                    label="New Value"
-                                    value={newVal}
-                                    mode={'outlined'}
-                                    outlineColor={'#E2E2E2'}
-                                    // selectionColor={'#E2E2E2'}
-                                    onChangeText={setNewVal}
-                                />
-                            ) : (
-                                <DatePicker
-                                    datecb={(date) => {
-                                        setNewVal(date);
-                                    }}
-                                />
-                            )}
-                        </Dialog.Content>
-                        <Dialog.Actions>
-                            <Button onPress={() => {
-                                if (changeParams) {
-                                    console.log(data[changeParams[1]])
-                                    if (data[changeParams[1]] === "") {
-                                        console.log("CONDITION TRUE")
-                                        let temp = [...data]
-                                        console.log("HERE ", temp, changeParams[1], temp[changeParams[1]])
-                                        temp[changeParams[1]] = {
-                                            id: vacs[changeParams[1]],
-                                            dueOn: "",
-                                            givenOn: "",
-                                            brand: ""
-                                        };
-                                        setData(temp)
-                                    } else {
-                                        if (changeParams[0] === "dueOn") {
-                                            let temp = [...data]
-                                            temp[changeParams[1]].dueOn = newVal;
-                                            console.log("HERE2 ", temp, changeParams[1], temp[changeParams[1]])
-                                            setChangeParams()
-                                            setNewVal("")
-                                            setData(temp)
+                <View style={styles.Appbtn}>
+                    <AppButton2
+                        title="Download"
+                        name="download"
+                        onPress={async () => {
+                            console.log("PDF ", data)
+                            const table = createTable(
+                                state.age,
+                                state.vac_back,
+                                data
+                            );
+                            // console.log(table)
+                            const that = await createAndSavePDF(table);
+                            setDownloadedFileURI(that);
+                        }}
+                    />
+                    <AppButton2
+                        title="Update"
+                        name="rotate-cw"
+                        onPress={async () => {
+                            let count = data.length
+                            const promiseArr = data.map((d) => {
+                                return d !== '' ?
+                                    addTableToDb.mutate({
+                                        child: ctx.child,
+                                        id: ctx.child.id,
+                                        data: d
+                                    }) : ''
+                            });
+                            Promise.all(promiseArr.filter(v => v !== '')).then(async () => {
+                                setManLoading(true)
+                                callUpdateDueDates(ctx.child.id).then(res => res.json())
+                                    .then(async res => {
+                                        console.log("RES ", res)
+                                        if (res.error) {
+                                            setError(true)
+                                            setManLoding(false)
                                         }
-                                        if (changeParams[0] === "givenOn") {
+                                        setManLoading(false)
+                                        navigation.navigate("Home")
+                                    })
+                            })
+                        }}
+                    />
+                    <Portal>
+                        <Dialog visible={visible} onDismiss={hideDialog}>
+                            <Dialog.Title>Enter new value</Dialog.Title>
+                            <Dialog.Content>
+                                {changeParams && changeParams[0] === 'brands' ? (
+                                    <TextInput
+                                        label="New Value"
+                                        value={newVal}
+                                        mode={'outlined'}
+                                        outlineColor={'#E2E2E2'}
+                                        // selectionColor={'#E2E2E2'}
+                                        onChangeText={setNewVal}
+                                    />
+                                ) : (
+                                    <DatePicker
+                                        datecb={(date) => {
+                                            setNewVal(date);
+                                        }}
+                                    />
+                                )}
+                            </Dialog.Content>
+                            <Dialog.Actions>
+                                <Button onPress={() => {
+                                    if (changeParams) {
+                                        console.log(data[changeParams[1]])
+                                        if (data[changeParams[1]] === "") {
+                                            console.log("CONDITION TRUE")
                                             let temp = [...data]
-                                            temp[changeParams[1]].givenOn = newVal;
-                                            setChangeParams()
-                                            setNewVal("")
+                                            console.log("HERE ", temp, changeParams[1], temp[changeParams[1]])
+                                            temp[changeParams[1]] = {
+                                                id: vacs[changeParams[1]],
+                                                dueOn: "",
+                                                givenOn: "",
+                                                brand: ""
+                                            };
                                             setData(temp)
-                                        }
-                                        if (changeParams[0] === "brands") {
-                                            let temp = [...data]
-                                            temp[changeParams[1]].brand = newVal
-                                            setChangeParams()
-                                            setNewVal("")
-                                            setData(temp)
+                                        } else {
+                                            if (changeParams[0] === "dueOn") {
+                                                let temp = [...data]
+                                                temp[changeParams[1]].dueOn = newVal;
+                                                console.log("HERE2 ", temp, changeParams[1], temp[changeParams[1]])
+                                                setChangeParams()
+                                                setNewVal("")
+                                                setData(temp)
+                                            }
+                                            if (changeParams[0] === "givenOn") {
+                                                let temp = [...data]
+                                                temp[changeParams[1]].givenOn = newVal;
+                                                setChangeParams()
+                                                setNewVal("")
+                                                setData(temp)
+                                            }
+                                            if (changeParams[0] === "brands") {
+                                                let temp = [...data]
+                                                temp[changeParams[1]].brand = newVal
+                                                setChangeParams()
+                                                setNewVal("")
+                                                setData(temp)
+                                            }
                                         }
                                     }
                                 }
-                            }
-                        }
-                                title="Ok"
-                            >
-                                Done
-                            </Button>
-                        </Dialog.Actions>
-                    </Dialog>
-                </Portal>
-                <Portal>
-                    <Dialog
-                        visible={downloadedFileURI}
-                        onDismiss={() => setDownloadedFileURI()}
-                    >
-                        <Dialog.Title>Enter new value</Dialog.Title>
-                        <Dialog.Content>
-                            <ParaText>
-                                Your File has been downloaded to:{' '}
-                                {downloadedFileURI}
-                            </ParaText>
-                        </Dialog.Content>
-                        <Dialog.Actions>
-                            <Button
-                                onPress={() => {
-                                    setDownloadedFileURI();
-                                }}
-                                title="Ok"
-                            >
-                                Done
-                            </Button>
-                        </Dialog.Actions>
-                    </Dialog>
-                </Portal>
-            </View>
+                                }
+                                    title="Ok"
+                                >
+                                    Done
+                                </Button>
+                            </Dialog.Actions>
+                        </Dialog>
+                    </Portal>
+                    <Portal>
+                        <Dialog
+                            visible={downloadedFileURI}
+                            onDismiss={() => setDownloadedFileURI()}
+                        >
+                            <Dialog.Title>Enter new value</Dialog.Title>
+                            <Dialog.Content>
+                                <ParaText>
+                                    Your File has been downloaded to:{' '}
+                                    {downloadedFileURI}
+                                </ParaText>
+                            </Dialog.Content>
+                            <Dialog.Actions>
+                                <Button
+                                    onPress={() => {
+                                        setDownloadedFileURI();
+                                    }}
+                                    title="Ok"
+                                >
+                                    Done
+                                </Button>
+                            </Dialog.Actions>
+                        </Dialog>
+                    </Portal>
+                </View>
             </ScrollView>
-            </View>
+        </View>
     );
 };
 
@@ -578,27 +561,21 @@ const styles = StyleSheet.create({
         backgroundColor: '#c8e1ff',
         borderRadius: 2
     },
-    Appbtn: { 
+    Appbtn: {
         display: 'flex',
         flexDirection: 'row-reverse',
         justifyContent: 'space-evenly',
-        marginVertical: 25 
+        marginVertical: 25
     },
-    btnText: { 
+    btnText: {
         textAlign: 'center'
-     }
+    },
+    green: {
+        backgroundColor: "#ed3138"
+    },
+    red: {
+        backgroundColor: "#4cef52"
+    }
 });
-// const styles = StyleSheet.create({
-//     container: {
-//         padding: 20,
-//         height: 500,
-//     },
-//     vcontain: {
-//         flexDirection: 'row',
-//         flexWrap: 'wrap',
-//         justifyContent: 'flex-start',
-//         alignItems: 'center',
-//     }
-// })
 
 export default EditableVaccine;

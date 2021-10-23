@@ -225,7 +225,7 @@ const ProfileScreen = ({ route, navigation }) => {
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Child's Name</ParaText>
                     <ParaText style={styles.text2}>
-                        {ctx.child.childsName == "" ? ctx.user.mothersName : ctx.child.childsName}
+                        {ctx.child.childsName == "" ? `Baby of ${ctx.user.mothersName}` : ctx.child.childsName}
                     </ParaText>
                 </View>
                 <View style={styles.list}>

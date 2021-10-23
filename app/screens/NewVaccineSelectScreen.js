@@ -35,7 +35,7 @@ export const NewVaccineSelectScreen = (props) => {
             const promiseArr = vaccine.map(async (vac, vacI) => {
                 let load = {
                     vaccine: vac,
-                    brand: selectedBrands[vacI],
+                    brand: selectedBrands[vacI] ?? "",
                     child: ctx.child,
                     givenOn: givenOnDate
                     // age: age
@@ -56,17 +56,20 @@ export const NewVaccineSelectScreen = (props) => {
                     console.error('CATCHED IN selectVacicne.js', err)
                 );
             setManLoading(true)
-            return Promise.all(promiseArr).then(res => {
-                callUpdateDueDates(ctx.child.id).then(res => res.json)
+            return await Promise.all(promiseArr).then(res => {
+                callUpdateDueDates(ctx.child.id).then(res => res.json())
                     .then(res => {
+                        console.log("RES AFTER LOADING", res);
                         if (res.error) setIsError(true)
                         setManLoading(false)
+                        queryClient.invalidateQueries(['useGetVaccinatedVaccines']);
                     })
             }).catch((error) => {
                 setIsError(true)
+                setManLoading(false)
                 console.error("CATCHED IN NEWVACCINESELECTSCREEN", error)
+                queryClient.invalidateQueries(['useGetVaccinatedVaccines']);
             })
-            queryClient.invalidateQueries(['useGetVaccinatedVaccines']);
         }
     };
     if (addVaccine.isLoading || updateChild.isLoading || manLoading) return <LoadingScreen />
