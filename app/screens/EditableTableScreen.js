@@ -64,6 +64,10 @@ const createAndSavePDF = async (html) => {
             width: 700,
             height: 1000
         });
+
+        await Sharing.shareAsync(uri)
+            .catch((err) => console.log('Sharing::error', err))
+
         console.log('URI ', uri);
         if (Platform.OS === 'ios') {
             const UTI = 'public.pdf';

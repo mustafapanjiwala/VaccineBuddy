@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { View, StyleSheet, Image, Platform } from 'react-native' 
 import { Button } from 'react-native-paper'
-import { Fontisto, MaterialIcons } from '@expo/vector-icons';
+import { Fontisto, MaterialIcons , Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { Modal } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -75,10 +75,47 @@ const MyPrescriptionScreen = () => {
     }
   };
 
+  // This function is triggered when the "Open camera" button pressed
+  const openCamera = async () => {
+    // Ask the user for the permission to access the camera
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("You've refused to allow this app to access your camera!");
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync();
+
+    // Explore the result
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+      setIsUploading(true)
+      UploadImage(result.uri)
+        .then(async (res) => {
+          await updateChild.mutateAsync({
+            data: { images: [...ctx.child.images, res] },
+            id: ctx.child.id
+          });
+          ctx.setChild({ ...ctx.child, images: [...ctx.child.images, res] });
+          //ctx.setChildren()
+          setIsUploading(false)
+        })
+        .catch((err) => {
+          setIsUploading(false)
+          alert('Failed to Upload Image');
+          console.error('pickImage ProfileScreen.js : ', err);
+        });
+    }
+  }
+
   if (updateChild.isLoading || isUploading) return <LoadingScreen />
     return (
         <View style={styles.container}>
-            <Button style={styles.text} mode="contained" onPress={pickImage}><MaterialIcons style={styles.icon} name="add-to-photos" size={14} color="white" />{' '}Add Prescription</Button>
+            <Button style={styles.text} mode="contained" onPress={pickImage}><MaterialIcons style={styles.icon} name="add-to-photos" size={14} color="white" />{' '}My Files</Button>
+            <Button style={styles.text} mode="contained" onPress={openCamera}><Entypo style={styles.icon} name="camera" size={14} color="white" />{' '}Camera</Button>
             <Button style={styles.text} mode="outlined" onPress={openModal}><Fontisto style={styles.icon} name="prescription" size={16} color="#0A8C94" />{' '}My Prescriptions</Button>
 
             <Modal visible={isModalVisible} transparent={true}>
