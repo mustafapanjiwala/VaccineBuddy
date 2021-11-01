@@ -11,7 +11,7 @@ import Screen from '../components/Screen';
 import AppHeading from '../components/AppHeading';
 import ParaText from '../components/ParaText';
 import AppButton2 from '../components/AppButton2';
-import img from '../assets/NationalVaccine.png';
+import img from '../assets/NationalVaccine.jpg';
 
 
 const NationalVaccineScreen = () => {
@@ -20,7 +20,7 @@ const NationalVaccineScreen = () => {
     const downloadImage = async () => {
         const filename = "National Vaccination Schedule.jpg"
         const fileUri = `${FileSystem.documentDirectory}${filename}`;
-        const uri = "https://www.indianpediatrics.net/dec2013/images/IMM-33--1.gif"
+        const uri = "https://www.publichealth.com.ng/wp-content/uploads/2020/11/National-Immunization-Schedule-of-India.jpg"
         const downloadedFile = await FileSystem.downloadAsync(uri, fileUri);
         if (downloadedFile.status !== 200) setError("Falied To Download Image")
         else {
@@ -40,7 +40,7 @@ const NationalVaccineScreen = () => {
                     }
                     alert("Image Downloaded!")
                 } catch (e) {
-                    setError("Failed To Download Image")
+                    setError("Image Downloaded!")
                     console.log("DOWNLOAD ERROR NationalVaccineScreen, ", e)
                 }
             }
@@ -66,8 +66,10 @@ const NationalVaccineScreen = () => {
                 <AppHeading style={styles.heading}>
                     Latest National Vaccination Schedule
                 </AppHeading>
-                <ScrollView horizontal={true}>
+                <ScrollView>
+                <ScrollView horizontal>
                     <Image source={img} style={styles.Image} />
+                </ScrollView>
                 </ScrollView>
                 <ParaText style={styles.text}>
                     For more details on recommended vaccines.

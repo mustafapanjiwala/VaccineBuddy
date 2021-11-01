@@ -167,7 +167,8 @@ async function schedulePushNotification() {
         data: { data: 'goes here' },
       },
       trigger: { 
-        seconds: calculateSecondsToSpecifiedDate(moment(daterem).subtract(1, 'day').format("DD/MM/YYYY")),
+        date : moment(daterem).subtract(1, 'day'),
+        // seconds: 2
        },
     });
   }
