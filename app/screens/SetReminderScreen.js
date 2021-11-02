@@ -36,13 +36,13 @@ const SetReminderScreen = () => {
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
 
-  global.daterem = date;
+  global.daterem = moment(date).subtract(1, "day").toDate();
 
   const onChange = (event, selectedDate) => {
-    const currentDate = moment(selectedDate).format("DD/MM/YYYY") || moment(date).format("DD/MM/YYYY");
+    const currentDate = moment(selectedDate).subtract(1, "day").format("DD/MM/YYYY") || moment(date).subtract(1, "day").format("DD/MM/YYYY");
   setShow(Platform.OS === 'ios');
     setDate(selectedDate ?? date);
-    props.datecb(currentDate)
+    // props.datecb(currentDate)
 };
 
 const showMode = (currentMode) => {
@@ -167,7 +167,7 @@ async function schedulePushNotification() {
         data: { data: 'goes here' },
       },
       trigger: { 
-        date : moment(daterem).subtract(1, 'day'),
+        date : daterem,
         // seconds: 2
        },
     });

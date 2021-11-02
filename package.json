@@ -17,6 +17,8 @@
     "@react-navigation/stack": "^5.14.5",
     "@unimodules/core": "^7.1.1",
     "axios": "^0.21.1",
+    "countries-states-cities": "^1.0.6",
+    "country-state-city": "^3.0.1",
     "expo": "~41.0.1",
     "expo-app-loading": "^1.0.3",
     "expo-file-system": "~11.0.2",

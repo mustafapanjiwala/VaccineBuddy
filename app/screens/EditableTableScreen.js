@@ -404,8 +404,8 @@ const EditableVaccine = ({ navigation }) => {
                 </ScrollView>
                 <View style={styles.Appbtn}>
                     <AppButton2
-                        title="Download"
-                        name="download"
+                        title="Share"
+                        name="share"
                         onPress={async () => {
                             console.log("PDF ", data)
                             const table = createTable(
@@ -575,10 +575,10 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     green: {
-        backgroundColor: "#ed3138"
+        backgroundColor: "#dbffe1"
     },
     red: {
-        backgroundColor: "#4cef52"
+        backgroundColor: "#fff5f5"
     }
 });
 

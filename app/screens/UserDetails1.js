@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, View, Text, Button } from 'react-native';
 import Screen from '../components/Screen';
+import { Picker } from '@react-native-picker/picker';
 import DatePicker from '../components/DatePicker';
 import { TextInput } from 'react-native-paper';
 import AppButton from '../components/AppButton';
@@ -11,6 +12,10 @@ import colors from '../constants/colors';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
+import { ScrollView } from 'react-native-gesture-handler';
+import { States } from '../constants/States'
+import { Cities } from '../constants/Cities';
+
 // import { withTheme } from 'react-native-paper';
 // import colors from '../constants/colors';
 // import DateTimePicker from '@react-native-community/datetimepicker';
@@ -37,7 +42,9 @@ const userData = {
     birthWeight: '',
     gender: '',
     firstChild: '',
-    deliveryMode: ''
+    deliveryMode: '',
+    state: '',
+    city: ''
 };
 global.userData = userData;
 
@@ -49,6 +56,16 @@ const UserDetails1 = ({ navigation }) => {
     const [fathersName, setFathersName] = React.useState('');
     const [address, setAddress] = React.useState('');
     const [dob, setDob] = React.useState('');
+    const [state, setState] = useState("Madhya Pradesh");
+    const [city, setCity] = React.useState('');
+
+    const code = States.filter(function(item){
+        return item.name == state;         
+    })
+    
+    const City = Cities.filter(function(item){
+        return item.state_code == code[0].state_code;         
+    })
     
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
@@ -77,6 +94,8 @@ const UserDetails1 = ({ navigation }) => {
         global.userData.fathersName = fathersName;
         global.userData.address = address;
         global.userData.dob = moment(date).format("DD/MM/YYYY");
+        global.userData.state = state;
+        global.userData.city = city;
     }
 
     return (
@@ -87,8 +106,9 @@ const UserDetails1 = ({ navigation }) => {
                 validationSchema={profileSchema}
             >
                 {(props) => (
+                    <ScrollView showsHorizontalScrollIndicator={true}>
                     <View style={styles.container}>
-                        <View>
+                        <View style={{marginBottom: 30}}>
                             <View style={styles.details}>
                                 <AppHeading>Enter Details</AppHeading>
                                 <Text style={styles.stepText}>Step: 1/2</Text>
@@ -134,6 +154,67 @@ const UserDetails1 = ({ navigation }) => {
                                     // selectionColor={'#E2E2E2'}
                                     onChangeText={setAddress}
                                 />
+                                <View>
+                                <View
+                                style={{
+                                    backgroundColor: colors.grey3,
+                                    width: 200,
+                                    borderRadius: 10,
+                                    marginTop: 10
+                                }}
+                                >
+                                <Picker
+                                    // selectedValue={state.name}
+                                    selectedValue={state}
+                                    style={{ height: 50, width: 200 }}
+                                    onValueChange={(itemValue, itemIndex) => {
+                                        setState(itemValue)
+                                    }
+                                    }
+                                >
+                                    {States.map((item) => {
+                                        return (
+                                            <Picker.Item
+                                                label={item.name}
+                                                value={item.name}
+                                                key={item.key}
+                                            />
+                                        );
+                                    })}
+                                </Picker>
+                            </View>
+                            <Text style={styles.stepText}>Select State</Text>
+                            </View>
+                            <View>
+                            <View
+                                style={{
+                                    backgroundColor: colors.grey3,
+                                    width: 200,
+                                    borderRadius: 10,
+                                }}
+                                >
+                                <Picker
+                                    // selectedValue={state.name}
+                                    selectedValue={city}
+                                    style={{ height: 50, width: 200 }}
+                                    onValueChange={(itemValue, itemIndex) => {
+                                        setCity(itemValue)
+                                    }
+                                    }
+                                >
+                                    {City.map((item) => {
+                                        return (
+                                            <Picker.Item
+                                                label={item.name}
+                                                value={item.name}
+                                                key={item.key}
+                                            />
+                                        );
+                                    })}
+                                </Picker>
+                            </View>
+                            <Text style={styles.stepText}>Select City</Text>
+                            </View>
                             </View>
                             <View>
                             <View>
@@ -175,6 +256,7 @@ const UserDetails1 = ({ navigation }) => {
                             }}
                         />
                     </View>
+                    </ScrollView>
                 )}
             </Formik>
         </Screen>
@@ -190,11 +272,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingBottom: Platform.OS === 'ios' ? 40 : 20,
         paddingHorizontal: 20,
-        paddingTop: Platform.OS === 'ios' ? 40 : 50
+        paddingTop: Platform.OS === 'ios' ? 10 : 40
     },
     inputs: {
         marginTop: 20,
-        height: 360,
+        height: 570,
         display: 'flex',
         justifyContent: 'space-evenly',
         marginBottom: 10
@@ -205,7 +287,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     stepText: {
-        marginTop: 12,
+        marginTop: 8,
         fontFamily: 'PublicSans-Regular',
         fontSize: 13,
         color: '#676767'
