@@ -5,23 +5,30 @@
         "version": "1.0.0",
         "orientation": "portrait",
         "icon": "./assets/icon.png",
-        "splash": {
-            "image": "./assets/splash.png",
-            "resizeMode": "contain",
-            "backgroundColor": "#ffffff"
-        },
         "updates": {
             "fallbackToCacheTimeout": 0
         },
         "assetBundlePatterns": ["**/*"],
         "ios": {
+            "splash": {
+                "image": "./assets/splash.png",
+                "resizeMode": "cover"
+              },
             "supportsTablet": true
         },
         "android": {
             "package": "mustafasachin.vacseenapp",
+            "splash": {
+                "mdpi": "./assets/drawable-mdpi/content.png",
+                "hdpi": "./assets/drawable-hdpi/content.png",
+                "xhdpi": "./assets/drawable-xhdpi/content.png",
+                "xxhdpi": "./assets/drawable-xxhdpi/content.png",
+                "xxxhdpi": "./assets/drawable-xxxhdpi/content.png",
+                "resizeMode": "cover"
+              },
             "adaptiveIcon": {
                 "foregroundImage": "./assets/256x256.png",
-                "backgroundColor": "#FFFFFF"
+                "backgroundColor": "#79D1D7"
             }
         },
         "web": {

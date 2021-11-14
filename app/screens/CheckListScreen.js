@@ -119,50 +119,50 @@ const CheckListScreen = ({ navigation }) => {
                             </View>
                             <View style={styles.radio}>
                                 <RadioButton
-                                value="9 months"
+                                value="7 months"
                                 status={checked === 36 ? 'checked' : 'unchecked'}
                                     color="#79D1D7"
                                 onPress={() => setChecked(36)}
                                 />
-                            <CardPara>9 months</CardPara>
+                            <CardPara>7 months</CardPara>
                             </View>
                             <View style={styles.radio}>
                                 <RadioButton
-                                value="10 months"
+                                value="6-9 months"
                                 status={checked === 40 ? 'checked' : 'unchecked'}
                                     color="#79D1D7"
                                 onPress={() => setChecked(40)}
                                 />
-                            <CardPara>9-12 months</CardPara>
+                            <CardPara>6-9 months</CardPara>
                             </View>
                     </View>
                     <View style={styles.checkboxContain}>
                             <View style={styles.radio}>
                                 <RadioButton
-                                    value="12 months"
+                                    value="9 months"
                                 status={checked === 48 ? 'checked' : 'unchecked'}
                                     color="#79D1D7"
                                 onPress={() => setChecked(48)}
+                                />
+                                <CardPara>9 months</CardPara>
+                            </View>
+                            <View style={styles.radio}>
+                                <RadioButton
+                                    value="12 months"
+                                status={checked === 60 ? 'checked' : 'unchecked'}
+                                    color="#79D1D7"
+                                onPress={() => setChecked(60)}
                                 />
                                 <CardPara>12 months</CardPara>
                             </View>
                             <View style={styles.radio}>
                                 <RadioButton
                                     value="15 months"
-                                status={checked === 60 ? 'checked' : 'unchecked'}
-                                    color="#79D1D7"
-                                onPress={() => setChecked(60)}
-                                />
-                                <CardPara>15 months</CardPara>
-                            </View>
-                            <View style={styles.radio}>
-                                <RadioButton
-                                    value="16-18 months"
                                 status={checked === 64 ? 'checked' : 'unchecked'}
                                 color="#79D1D7"
                                 onPress={() => setChecked(64)}
                             />
-                            <CardPara>16-18 months</CardPara>
+                            <CardPara>15 months</CardPara>
                         </View>
                         <View style={styles.radio}>
                             <RadioButton
@@ -175,12 +175,12 @@ const CheckListScreen = ({ navigation }) => {
                         </View>
                         <View style={styles.radio}>
                             <RadioButton
-                                    value="2 years"
+                                    value="18-19 months"
                                 status={checked === 96 ? 'checked' : 'unchecked'}
                                     color="#79D1D7"
                                 onPress={() => setChecked(96)}
                                 />
-                                <CardPara>2 years</CardPara>
+                                <CardPara>18-19 months</CardPara>
                             </View>
                             <View style={styles.radio}>
                             <RadioButton

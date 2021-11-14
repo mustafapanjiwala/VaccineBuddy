@@ -6,7 +6,6 @@ import Screen from '../components/Screen';
 import AppButton from '../components/AppButton';
 import colors from '../constants/colors';
 import { OnlyVaccineInfo } from '../constants/OnlyVaccineInfo'
-import { useGetAllvaccines } from "../queries/Vaccines/getVaccines"
 import LoadingScreen from '../components/LoadingScreen';
 
 const KnowYourVaccines = ({ key }) => {
@@ -30,7 +29,7 @@ const KnowYourVaccines = ({ key }) => {
                     }}
                 >
                     <Picker
-                        selectedValue={selectedValue.name}
+                        selectedValue={selectedValue}
                         style={{ height: 60, width: 160 }}
                         onValueChange={(itemValue, itemIndex) => {
                             setSelectedValue(itemValue)
@@ -65,15 +64,7 @@ const KnowYourVaccines = ({ key }) => {
                             Age of Administration
                         </ParaText>
                         <ParaText style={styles.text2}>
-                                {result.ageOfAdministration}
-                        </ParaText>
-                    </View>
-                    <View style={styles.list}>
-                            <ParaText style={styles.text ?? ""}>
-                           Doses
-                        </ParaText>
-                        <ParaText style={styles.text2}>
-                                {result.doses}
+                                {result.ageOfAdministration}{result.doses}
                         </ParaText>
                     </View>
                     <View style={styles.list}>
@@ -130,14 +121,6 @@ const KnowYourVaccines = ({ key }) => {
                         </ParaText>
                         <ParaText style={styles.text2}>
                                 {result.effects}
-                        </ParaText>
-                    </View>
-                    <View style={styles.list}>
-                        <ParaText style={styles.text}>
-                        Efficacy
-                        </ParaText>
-                        <ParaText style={styles.text2}>
-                                {result.efficacy}
                         </ParaText>
                     </View>
                     <View style={styles.list}>
