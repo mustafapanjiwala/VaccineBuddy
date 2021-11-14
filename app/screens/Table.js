@@ -1,4 +1,4 @@
-export const createTable = (age, vaccines, data) => {
+export const createTable = (order, data, vaccines) => {
   let count = 0;
   return `
   <!DOCTYPE html>
@@ -79,22 +79,22 @@ export const createTable = (age, vaccines, data) => {
   </tr>
 </thead>
 <tbody>
- ${age.map((a, i) => `
+ ${order.map((o, i) => `
   <tr>
-    <td class="tg-nrix" rowspan="${vaccines[i].length}">${a}</td>
-    <td class="tg-0lax">${vaccines[i][0]}</td>
-    <td class="tg-0lax">${data[count].dueOn ?? ""}</td>
-    <td class="tg-0lax">${data[count].givenOn ?? ""}</td>
-    <td class="tg-0lax">${data[count].brand ?? ""}</td>
+    <td class="tg-nrix" rowspan="${o.section.length}">${o.age}</td>
+    <td class="tg-0lax">${vaccines[o.section[0]] && vaccines[o.section[0]].name ? vaccines[o.section[0]].name : ""}</td>
+    <td class="tg-0lax">${data[count] && data[count].dueOn ? data[count].dueOn : ""}</td>
+    <td class="tg-0lax">${data[count] && data[count].givenOn ? data[count].givenOn : ""}</td>
+    <td class="tg-0lax">${data[count] && data[count].brand ? data[count].brand : ""}</td>
   </tr>
-  ${vaccines[i].map((vac, index) => {
+  ${o.section.map((vaci, index) => {
     if (index !== 0) {
       let markup = `
       <tr>
-        <td class="tg-0lax">${vaccines[i][index]}</td>
-        <td class="tg-0lax">${data[count].dueOn ?? ""}</td>
-        <td class="tg-0lax">${data[count].givenOn ?? ""}</td>
-        <td class="tg-0lax">${data[count].brand ?? ""}</td>
+        <td class="tg-0lax">${vaccines[vaci] && vaccines[vaci].name ? vaccines[vaci].name : ""}</td>
+        <td class="tg-0lax">${data[count] && data[count].dueOn ? data[count].dueOn : ""}</td>
+        <td class="tg-0lax">${data[count] && data[count].givenOn ? data[count].givenOn : ""}</td>
+        <td class="tg-0lax">${data[count] && data[count].brand ? data[count].brand : ""}</td>
       </tr>
       `
       count++

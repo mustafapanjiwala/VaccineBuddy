@@ -127,9 +127,7 @@ const ProfileScreen = ({ route, navigation }) => {
 
     const unSubscribe = navigation.addListener('focus', async () => {
         if (ctx.isUpdated) {
-            console.log('PASSED ');
             await updateContext();
-            // ctx.setIsUpdated(false)
         }
     });
 

@@ -97,160 +97,161 @@ const UserDetails2 = ({ navigation }) => {
     return (
         <Screen>
             <ScrollView>
-            <View style={styles.container}>
-                <View>
-                    <View style={styles.details}>
-                        <AppHeading>Enter Details</AppHeading>
-                        <Text style={styles.stepText}>Step: 2/2</Text>
-                    </View>
-                    <View style={styles.inputs}>
-                        <TextInput
-                            label="Birth Weight"
-                            mode={'outlined'}
-                            outlineColor={'#E2E2E2'}
-                            onChangeText={setBirthWeight}
-                            value={birthWeight}
-                            style={{ width: '60%' }}
-                        />
+                <View style={styles.container}>
+                    <View>
+                        <View style={styles.details}>
+                            <AppHeading>Enter Details</AppHeading>
+                            <Text style={styles.stepText}>Step: 2/2</Text>
+                        </View>
+                        <View style={styles.inputs}>
+                            <TextInput
+                                label="Birth Weight"
+                                mode={'outlined'}
+                                outlineColor={'#E2E2E2'}
+                                onChangeText={setBirthWeight}
+                                value={birthWeight}
+                                style={{ width: '60%' }}
+                            />
 
-                        <View>
-                            <CardPara
-                                style={{
-                                    fontSize: 14,
-                                    fontFamily: 'PublicSans-Regular'
-                                }}
-                            >
-                                Gender
-                            </CardPara>
-                            <View style={styles.radio}>
-                                <RadioButton
-                                    value="male"
-                                    status={
-                                        gender === 'male'
-                                            ? 'checked'
-                                            : 'unchecked'
-                                    }
-                                    onPress={() => setGender('male')}
-                                    color="#79D1D7"
-                                />
-                                <CardPara>Male</CardPara>
+                            <View>
+                                <CardPara
+                                    style={{
+                                        fontSize: 14,
+                                        fontFamily: 'PublicSans-Regular'
+                                    }}
+                                >
+                                    Gender
+                                </CardPara>
+                                <View style={styles.radio}>
+                                    <RadioButton
+                                        value="male"
+                                        status={
+                                            gender === 'male'
+                                                ? 'checked'
+                                                : 'unchecked'
+                                        }
+                                        onPress={() => setGender('male')}
+                                        color="#79D1D7"
+                                    />
+                                    <CardPara>Male</CardPara>
+                                </View>
+                                <View style={styles.radio}>
+                                    <RadioButton
+                                        value="female"
+                                        status={
+                                            gender === 'female'
+                                                ? 'checked'
+                                                : 'unchecked'
+                                        }
+                                        onPress={() => setGender('female')}
+                                        color="#79D1D7"
+                                    />
+                                    <CardPara>Female</CardPara>
+                                </View>
                             </View>
-                            <View style={styles.radio}>
-                                <RadioButton
-                                    value="female"
-                                    status={
-                                        gender === 'female'
-                                            ? 'checked'
-                                            : 'unchecked'
-                                    }
-                                    onPress={() => setGender('female')}
-                                    color="#79D1D7"
-                                />
-                                <CardPara>Female</CardPara>
+                            <View>
+                                <CardPara
+                                    style={{
+                                        fontSize: 14,
+                                        fontFamily: 'PublicSans-Regular'
+                                    }}
+                                >
+                                    Is this your first child?
+                                </CardPara>
+                                <View style={styles.radio}>
+                                    <RadioButton
+                                        value="yes"
+                                        status={
+                                            firstChild === 'yes'
+                                                ? 'checked'
+                                                : 'unchecked'
+                                        }
+                                        onPress={() => setFirstChild('yes')}
+                                        color="#79D1D7"
+                                    />
+                                    <CardPara>Yes</CardPara>
+                                </View>
+                                <View style={styles.radio}>
+                                    <RadioButton
+                                        value="no"
+                                        status={
+                                            firstChild === 'no'
+                                                ? 'checked'
+                                                : 'unchecked'
+                                        }
+                                        onPress={() => setFirstChild('no')}
+                                        color="#79D1D7"
+                                    />
+                                    <CardPara>No</CardPara>
+                                </View>
                             </View>
-                        </View>
-                        <View>
-                            <CardPara
-                                style={{
-                                    fontSize: 14,
-                                    fontFamily: 'PublicSans-Regular'
-                                }}
-                            >
-                                Is this your first child?
-                            </CardPara>
-                            <View style={styles.radio}>
-                                <RadioButton
-                                    value="yes"
-                                    status={
-                                        firstChild === 'yes'
-                                            ? 'checked'
-                                            : 'unchecked'
-                                    }
-                                    onPress={() => setFirstChild('yes')}
-                                    color="#79D1D7"
-                                />
-                                <CardPara>Yes</CardPara>
-                            </View>
-                            <View style={styles.radio}>
-                                <RadioButton
-                                    value="no"
-                                    status={
-                                        firstChild === 'no'
-                                            ? 'checked'
-                                            : 'unchecked'
-                                    }
-                                    onPress={() => setFirstChild('no')}
-                                    color="#79D1D7"
-                                />
-                                <CardPara>No</CardPara>
-                            </View>
-                        </View>
-                        <View>
-                            <CardPara
-                                style={{
-                                    fontSize: 14,
-                                    fontFamily: 'PublicSans-Regular'
-                                }}
-                            >
-                                Mode Of Delivery
-                            </CardPara>
-                            <View style={styles.radio}>
-                                <RadioButton
-                                    value="lscs"
-                                    status={
-                                        deliveryMode === 'lscs'
-                                            ? 'checked'
-                                            : 'unchecked'
-                                    }
-                                    onPress={() => setDeliveryMode('lscs')}
-                                    color="#79D1D7"
-                                />
-                                <CardPara>LSCS Delivery</CardPara>
-                            </View>
-                            <View style={styles.radio}>
-                                <RadioButton
-                                    value="vaginal"
-                                    status={
-                                        deliveryMode === 'vaginal'
-                                            ? 'checked'
-                                            : 'unchecked'
-                                    }
-                                    onPress={() => setDeliveryMode('vaginal')}
-                                    color="#79D1D7"
-                                />
-                                <CardPara>Vaginal Delivery</CardPara>
+                            <View>
+                                <CardPara
+                                    style={{
+                                        fontSize: 14,
+                                        fontFamily: 'PublicSans-Regular'
+                                    }}
+                                >
+                                    Mode Of Delivery
+                                </CardPara>
+                                <View style={styles.radio}>
+                                    <RadioButton
+                                        value="lscs"
+                                        status={
+                                            deliveryMode === 'lscs'
+                                                ? 'checked'
+                                                : 'unchecked'
+                                        }
+                                        onPress={() => setDeliveryMode('lscs')}
+                                        color="#79D1D7"
+                                    />
+                                    <CardPara>LSCS Delivery</CardPara>
+                                </View>
+                                <View style={styles.radio}>
+                                    <RadioButton
+                                        value="vaginal"
+                                        status={
+                                            deliveryMode === 'vaginal'
+                                                ? 'checked'
+                                                : 'unchecked'
+                                        }
+                                        onPress={() => setDeliveryMode('vaginal')}
+                                        color="#79D1D7"
+                                    />
+                                    <CardPara>Vaginal Delivery</CardPara>
+                                </View>
                             </View>
                         </View>
                     </View>
-                </View>
-                <AppButton
-                    onPress={() => {
-                        setData();
-                        addUser.mutateAsync({
-                            uid: ctx.uid, userData: userData
-                        })
-                            .then(res => {
-                                console.log("ADDING CHILD ")
-                                addChild.mutateAsync({
-                                    user: { id: ctx.uid }, child: {
-                                        childsName: userData.childsName ?? '',
-                                        dob: userData.dob ?? '',
-                                        birthWeight: userData.birthWeight ?? '',
-                                        gender: userData.gender ?? '',
-                                        firstChild: userData.firstChild ?? '',
-                                        deliveryMode: userData.deliveryMode ?? ''
-                                    }
-                                }).then(res => {
-                                    // navigation.navigate('Home', { token: "justfortest" });
-                                    getAndMutateUser()
-                                });
-                            }).catch(err => {
-                                console.error("Could not add userdetails to database UserDetils2.js")
-                                setError("Could not add connect")
+                    <AppButton
+                        onPress={() => {
+                            setData();
+                            console.log("USERDATA", userData)
+                            addUser.mutateAsync({
+                                uid: ctx.uid, userData: userData
                             })
-                    }}
-                />
-            </View>
+                                .then(res => {
+                                    console.log("ADDING CHILD ")
+                                    addChild.mutateAsync({
+                                        user: { id: ctx.uid }, child: {
+                                            childsName: userData.childsName ?? '',
+                                            dob: userData.dob ?? '',
+                                            birthWeight: userData.birthWeight ?? '',
+                                            gender: userData.gender ?? '',
+                                            firstChild: userData.firstChild ?? '',
+                                            deliveryMode: userData.deliveryMode ?? ''
+                                        }
+                                    }).then(res => {
+                                        // navigation.navigate('Home', { token: "justfortest" });
+                                        getAndMutateUser()
+                                    });
+                                }).catch(err => {
+                                    console.error("Could not add userdetails to database UserDetils2.js")
+                                    setError("Could not connect")
+                                })
+                        }}
+                    />
+                </View>
             </ScrollView>
         </Screen>
     );

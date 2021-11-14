@@ -34,26 +34,24 @@ import { useAddTableToDB } from '../queries/Vaccines/addTableToDB';
 import * as FileSystem from 'expo-file-system';
 import { callUpdateDueDates } from "../queries/Vaccines/helpers/callUpdateDueDates"
 import ErrorScreen from '../components/ErrorScreen';
-/*
- *    TODO
- *   - [x] Fix font size and table size in PDF
- *   -[x] Duplicate detection and handling
- */
+import { useGetOrder } from "../queries/order/getOrder"
+import { useGetAllvaccines } from "../queries/Vaccines/getVaccines"
+
 
 const mapData = (data, map) => {
-    let count = 0;
-    let filled_data = map.map((_, i) => {
-        console.log("IN MAP ", Boolean(data[count]), data[count].id, i, data[count].id === i.toString())
-        if (Boolean(data[count]) && data[count].id === i.toString()) {
-            return data[count++];
-        } else {
-            return '';
-        }
-    });
+    // let count = 0;
+    // let filled_data = map.map((_, i) => {
+    //     if (Boolean(data[count]) && data[count].id === i.toString()) {
+    //         return data[count++];
+    //     } else {
+    //         return '';
+    //     }
+    // });
     let arr = [];
-    filled_data.forEach((d, i) => {
-        arr[map[i]] = d;
+    map.forEach((m, i) => {
+        arr[i] = data[m];
     });
+    // console.log("ARR", arr)
     return arr;
 };
 
@@ -68,50 +66,46 @@ const createAndSavePDF = async (html) => {
         await Sharing.shareAsync(uri)
             .catch((err) => console.log('Sharing::error', err))
 
-        console.log('URI ', uri);
-        if (Platform.OS === 'ios') {
-            const UTI = 'public.pdf';
-            Sharing.shareAsync(downloadedFile.uri, { UTI }).then(() => {
-                alert("File Downloaded !")
-            }).catch(err => {
-                console.log("ERror downloading file, editabletable.js", err)
-                alert("Download Failed")
-            })
+        //     console.log('URI ', uri);
+        //     if (Platform.OS === 'ios') {
+        //         const UTI = 'public.pdf';
+        //         Sharing.shareAsync(downloadedFile.uri, { UTI }).then(() => {
+        //             alert("File Downloaded !")
+        //         }).catch(err => {
+        //             console.log("ERror downloading file, editabletable.js", err)
+        //             alert("Download Failed")
+        //         })
 
-        } else {
-            const permission = await MediaLibrary.requestPermissionsAsync();
+        //     } else {
+        //         const permission = await MediaLibrary.requestPermissionsAsync();
 
-            if (permission.granted) {
-                // const filename = "VaccineChart.pdf"
-                // const fileUri = `${FileSystem.documentDirectory}${filename}`;
-                // const downloadedFile = await FileSystem.downloadAsync(uri, fileUri);
-                try {
-                    const asset = await MediaLibrary.createAssetAsync(uri);
-                    const album = await MediaLibrary.getAlbumAsync('Download');
-                    if (album == null) {
-                        await MediaLibrary.createAlbumAsync('Download', asset, false);
-                    } else {
-                        await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
-                    }
-                    alert("File Downloaded !")
-                } catch (e) {
-                    setError("Failed To Download Image")
-                    console.log("DOWNLOAD ERROR Table PDF, ", e)
-                }
-            } else alert("Need Permissions to download file")
-        }
+        //         if (permission.granted) {
+        //             // const filename = "VaccineChart.pdf"
+        //             // const fileUri = `${FileSystem.documentDirectory}${filename}`;
+        //             // const downloadedFile = await FileSystem.downloadAsync(uri, fileUri);
+        //             try {
+        //                 const asset = await MediaLibrary.createAssetAsync(uri);
+        //                 const album = await MediaLibrary.getAlbumAsync('Download');
+        //                 if (album == null) {
+        //                     await MediaLibrary.createAlbumAsync('Download', asset, false);
+        //                 } else {
+        //                     await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
+        //                 }
+        //                 alert("File Downloaded !")
+        //             } catch (e) {
+        //                 setError("Failed To Download Image")
+        //                 console.log("DOWNLOAD ERROR Table PDF, ", e)
+        //             }
+        //         } else alert("Need Permissions to download file")
+        //     }
     } catch (error) {
         console.error(error);
     }
 };
 
-const EditableVaccine = ({ navigation }) => {
-    const queryClient = useQueryClient();
-    // const unSubscribe = navigation.addListener("focus", async () => {
-    //     if (ctx.isUpdated) {
 
-    //     }
-    // })
+const EditableVaccine = ({ navigation }) => {
+    const orderQuery = useGetOrder();
 
     const height = 30;
     const [visible, setVisible] = useState(false);
@@ -122,132 +116,56 @@ const EditableVaccine = ({ navigation }) => {
     const addTableToDb = useAddTableToDB();
     const [manLoading, setManLoading] = useState(false)
     const [isError, setError] = useState(false)
+    const getAllVaccines = useGetAllvaccines();
 
-    //FOR TESTING
-    //START
-    const child = { id: '' };
-    //END
+    const [vacs, setVacs] = useState([]);
+    const [data, setData] = useState([]);
+    const [orderLoading, setOrderLoading] = useState(true);
+    const [orderData, setOrderData] = useState([]);
+    const [age, setAge] = useState([]);
+    const [vaccines, setVaccines] = useState([])
 
-    // const vaccinatedVaccines = useGetVaccinatedVaccines({ child: ctx.child });
-    // const vaccinatedVaccines = useGetVaccinatedVaccines({ child: ctx.child });
     const vaccinatedVaccines = useGetVaccinatedVaccines()
 
-    const [vacs, setVacs] = useState([
-        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-        20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37
-    ]);
+    useEffect(() => {
+        if (orderQuery.data) {
+            const order = orderQuery.data.serial;
+            const gonnaBeVacs = order.reduce((prev, curr) => {
+                return ({ section: [...prev.section, ...curr.section] })
+            }).section
+            setOrderData(order);
+            setVacs(gonnaBeVacs)
+            setAge(order.map(d => d.age))
+            setOrderLoading(false);
+        }
+    }, [orderQuery.data])
 
-    const [data, setData] = useState([]);
+    useEffect(() => {
+        (async () => {
+            if (vacs.length > 0) {
+                const vacVaccines = await vaccinatedVaccines.mutateAsync({ child: ctx.child });
+                const mappedData = mapData(vacVaccines, vacs);
+                // console.log("MAPPED DATA", mappedData)
+                setData(mappedData);
+            }
+        })();
+    }, [vacs])
 
-    const [state, setState] = useState({
-        age: [
-            'Birth',
-            '6 Weeks',
-            '10 Weeks',
-            '14 Weeks',
-            '6 Months',
-            '9 Months',
-            '9-12 Months',
-            '12 Months',
-            '15 Months',
-            '16-18 Months',
-            '18 Months',
-            '2 Years',
-            '4-6 Years',
-            '10-12 Years'
-        ],
-        vaccines: [
-            'BCG',
-            'OPV 0',
-            'Hep-B 1',
-            'DTwP 1',
-            'IPV 1',
-            'Hep-B 2',
-            'Hib 1',
-            'Rotavirus 1',
-            'PCV 1',
-            'DTwP 2',
-            'IPV 2',
-            'Hib 2',
-            'Rotavirus 2',
-            'PCV 2',
-            'DTwP 3',
-            'IPV 3',
-            'Hib 3',
-            'Rotavirus 3',
-            'PCV 3',
-            'OPV 1',
-            'Hep-B 3',
-            'OPV 2',
-            'MMR 1',
-            'TCV',
-            'Hep-A 1',
-            'MMR 2',
-            'Varicella 1',
-            'PCV Booster',
-            'DTwP B 1/ DTaP B 1',
-            'IPV B 1',
-            "Hib B 1",
-            "Hep-A 2",
-            'Typhoid Booster',
-            'DTwP B 2 / DTaP B 2',
-            'OPV 3',
-            'Varicella 2',
-            'Tdap/Td',
-            'HPV'
-        ],
-        test: [
-            [0, 1, 2],
-            [3, 4, 5, 6, 7, 8],
-            [9, 10, 11, 12, 13],
-            [14, 15, 16, 17, 18],
-            [19, 20],
-            [21, 22],
-            [23],
-            [24],
-            [25, 26, 27],
-            [28, 29, 30],
-            [31],
-            [32],
-            [33, 34, 35]
-            [36, 37]
-        ],
-        vac_back: [
-            ['BCG', 'OPV 0', 'Hep-B 1'],
-            ['DTwP 1', 'IPV 1', 'Hep-B 2', 'Hib 1', 'Rotavirus 1', 'PCV 1'],
-            ['DTwP 2', 'IPV 2', 'Hib 2', 'Rotavirus 2', 'PCV 2'],
-            ['DTwP 3', 'IPV 3', 'Hib 3', 'Rotavirus 3', 'PCV 3'],
-            ['OPV 1', 'Hep-B 3'],
-            ['OPV 2', 'MMR 1'],
-            ['TCV'],
-            ['Hep-A 1'],
-            ['MMR 2', 'Varicella 1', 'PCV Booster'],
-            ['DTwPB1 / DTaPB1', 'IPV B1', 'Hib B1'],
-            ['Hep-A 2'],
-            ['Typhoid Booster'],
-            ['DTwP B2/DTaP B2', 'OPV 3', 'Varicella 2'],
-            ['Tdap/Td', 'HPV']
-        ]
-    });
+    useEffect(() => {
+        if (getAllVaccines.data) {
+            const mappedData = mapData(getAllVaccines.data.map(d => ({ name: d.name, id: d.s_no })), vacs)
+            setVaccines(mappedData);
+            // setVaccines(getAllVaccines.data.map(d => d.name))
+        }
+    }, [getAllVaccines.data])
 
-    const unSub = navigation.addListener('focus', async () => {
-        const vacVacines = await vaccinatedVaccines.mutateAsync({ child: ctx.child })
-        // console.log("VACCAVINES", vacVacines)
-        const data = mapData(vacVacines, vacs);
-        setData(data);
-    })
 
     useEffect(() => {
         if (changeParams) {
             if (changeParams[0] === 'dueOn') {
                 let temp = [...data];
                 temp[changeParams[1]].dueOn = newVal;
-                console.log(
-                    'HERE2 ',
-                    temp,
-                    changeParams[1],
-                    temp[changeParams[1]]
-                );
+
                 setChangeParams();
                 setNewVal('');
                 setData(temp);
@@ -272,7 +190,7 @@ const EditableVaccine = ({ navigation }) => {
 
     const hideDialog = () => setVisible(false);
 
-    if (vaccinatedVaccines.isLoading || addTableToDb.isLoading || manLoading) {
+    if (getAllVaccines.isLoading || orderQuery.isLoading || vaccinatedVaccines.isLoading || addTableToDb.isLoading || manLoading || orderLoading) {
         return <LoadingScreen />;
     }
     if (isError) return <ErrorScreen />
@@ -298,27 +216,27 @@ const EditableVaccine = ({ navigation }) => {
                                         'Brand Name'
                                     ]}
                                     givenOn
-                                    widthArr={[80, 130, 110, 110, 110]}
+                                    widthArr={[100, 150, 110, 110, 110]}
                                 />
                                 <TableWrapper style={{ flexDirection: 'row' }}>
                                     <TableWrapper>
-                                        {state.age.map((data, i) => (
+                                        {age.map((data, i) => (
                                             <Cell
-                                                width={80}
+                                                width={100}
                                                 height={
-                                                    state.vac_back[i].length * height
+                                                    orderQuery.data.serial[i].section.length * height
                                                 }
-                                                data={data}
+                                                data={data ?? ""}
                                             />
                                         ))}
                                     </TableWrapper>
                                     <TableWrapper>
-                                        {state.vaccines.map((d, i) => (
+                                        {vaccines.map((d, i) => (
                                             <Cell
                                                 style={data[i] && data[i].givenOn ? styles.green : styles.red}
-                                                width={130}
+                                                width={150}
                                                 height={height}
-                                                data={d}
+                                                data={d && d.name ? d.name : ""}
                                             />
                                         ))}
                                     </TableWrapper>
@@ -341,7 +259,7 @@ const EditableVaccine = ({ navigation }) => {
                                                                     setVisible(true);
                                                                 }}
                                                             >
-                                                                {d.dueOn}
+                                                                {d && d.dueOn ? d.dueOn : ""}
                                                             </Text>
                                                         </View>
                                                     }
@@ -366,7 +284,7 @@ const EditableVaccine = ({ navigation }) => {
                                                                 setVisible(true);
                                                             }}
                                                         >
-                                                            {d.givenOn}
+                                                            {d && d.givenOn ? d.givenOn : ""}
                                                         </Text>
                                                     </View>
                                                 }
@@ -390,7 +308,7 @@ const EditableVaccine = ({ navigation }) => {
                                                                 setVisible(true);
                                                             }}
                                                         >
-                                                            {d.brand}
+                                                            {d && d.brand ? d.brand : ""}
                                                         </Text>
                                                     </View>
                                                 }
@@ -407,11 +325,10 @@ const EditableVaccine = ({ navigation }) => {
                         title="Share"
                         name="share"
                         onPress={async () => {
-                            console.log("PDF ", data)
                             const table = createTable(
-                                state.age,
-                                state.vac_back,
-                                data
+                                orderData,
+                                data,
+                                vaccines
                             );
                             // console.log(table)
                             const that = await createAndSavePDF(table);
@@ -422,7 +339,6 @@ const EditableVaccine = ({ navigation }) => {
                         title="Update"
                         name="rotate-cw"
                         onPress={async () => {
-                            let count = data.length
                             const promiseArr = data.map((d) => {
                                 return d !== '' ?
                                     addTableToDb.mutate({
@@ -431,19 +347,18 @@ const EditableVaccine = ({ navigation }) => {
                                         data: d
                                     }) : ''
                             });
-                            Promise.all(promiseArr.filter(v => v !== '')).then(async () => {
-                                setManLoading(true)
-                                callUpdateDueDates(ctx.child.id).then(res => res.json())
-                                    .then(async res => {
-                                        console.log("RES ", res)
-                                        if (res.error) {
-                                            setError(true)
-                                            setManLoding(false)
-                                        }
-                                        setManLoading(false)
-                                        navigation.navigate("Home")
-                                    })
-                            })
+                            // Promise.all(promiseArr.filter(v => v !== '')).then(async () => {
+                            //     setManLoading(true)
+                            //     callUpdateDueDates(ctx.child.id).then(res => res.json())
+                            //         .then(async res => {
+                            //             if (res.error) {
+                            //                 setError(true)
+                            //                 setManLoding(false)
+                            //             }
+                            //             setManLoading(false)
+                            //             navigation.navigate("Home")
+                            //         })
+                            // })
                         }}
                     />
                     <Portal>
@@ -470,11 +385,8 @@ const EditableVaccine = ({ navigation }) => {
                             <Dialog.Actions>
                                 <Button onPress={() => {
                                     if (changeParams) {
-                                        console.log(data[changeParams[1]])
                                         if (data[changeParams[1]] === "") {
-                                            console.log("CONDITION TRUE")
                                             let temp = [...data]
-                                            console.log("HERE ", temp, changeParams[1], temp[changeParams[1]])
                                             temp[changeParams[1]] = {
                                                 id: vacs[changeParams[1]],
                                                 dueOn: "",
@@ -486,7 +398,6 @@ const EditableVaccine = ({ navigation }) => {
                                             if (changeParams[0] === "dueOn") {
                                                 let temp = [...data]
                                                 temp[changeParams[1]].dueOn = newVal;
-                                                console.log("HERE2 ", temp, changeParams[1], temp[changeParams[1]])
                                                 setChangeParams()
                                                 setNewVal("")
                                                 setData(temp)

@@ -59,34 +59,34 @@ const UserDetails1 = ({ navigation }) => {
     const [state, setState] = useState("Madhya Pradesh");
     const [city, setCity] = React.useState('');
 
-    const code = States.filter(function(item){
-        return item.name == state;         
+    const code = States.filter(function (item) {
+        return item.name == state;
     })
-    
-    const City = Cities.filter(function(item){
-        return item.state_code == code[0].state_code;         
+
+    const City = Cities.filter(function (item) {
+        return item.state_code == code[0].state_code;
     })
-    
+
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
 
     const onChange = (event, selectedDate) => {
         const currentDate = moment(selectedDate).format("DD/MM/YYYY") || moment(date).format("DD/MM/YYYY");
-      setShow(Platform.OS === 'ios');
+        setShow(Platform.OS === 'ios');
         setDate(selectedDate ?? date);
         props.datecb(currentDate)
     };
-  
+
     const showMode = (currentMode) => {
-      setShow(true);
-      setMode(currentMode);
+        setShow(true);
+        setMode(currentMode);
     };
-  
+
     const showDatepicker = () => {
-      showMode('date');
+        showMode('date');
     };
-    
+
 
     function setData() {
         global.userData.mothersName = ref.current.values.mothersName;
@@ -107,155 +107,155 @@ const UserDetails1 = ({ navigation }) => {
             >
                 {(props) => (
                     <ScrollView showsHorizontalScrollIndicator={true}>
-                    <View style={styles.container}>
-                        <View style={{marginBottom: 30}}>
-                            <View style={styles.details}>
-                                <AppHeading>Enter Details</AppHeading>
-                                <Text style={styles.stepText}>Step: 1/2</Text>
-                            </View>
-                            <View style={styles.inputs}>
-                                <Text style={{ fontSize: 9, color: 'crimson' }}>
-                                    {props.touched.mothersName &&
-                                        props.errors.mothersName}
-                                </Text>
-                                <TextInput
-                                    label="Mother's Name*"
-                                    mode={'outlined'}
-                                    outlineColor={'#E2E2E2'}
-                                    onChangeText={props.handleChange(
-                                        'mothersName'
-                                    )}
-                                    value={props.values.mothersName}
-                                    mothersName={props.values.mothersName}
-                                    onBlur={props.handleBlur('mothersName')}
-                                />
-                                <TextInput
-                                    label="Child's Name"
-                                    value={childsName}
-                                    mode={'outlined'}
-                                    outlineColor={'#E2E2E2'}
-                                    // selectionColor={'#E2E2E2'}
-                                    onChangeText={setChildsName}
-                                />
-
-                                <TextInput
-                                    label="Father's Name"
-                                    value={fathersName}
-                                    mode={'outlined'}
-                                    outlineColor={'#E2E2E2'}
-                                    // selectionColor={'#E2E2E2'}
-                                    onChangeText={setFathersName}
-                                />
-                                <TextInput
-                                    label="Address"
-                                    value={address}
-                                    mode={'outlined'}
-                                    outlineColor={'#E2E2E2'}
-                                    // selectionColor={'#E2E2E2'}
-                                    onChangeText={setAddress}
-                                />
-                                <View>
-                                <View
-                                style={{
-                                    backgroundColor: colors.grey3,
-                                    width: 200,
-                                    borderRadius: 10,
-                                    marginTop: 10
-                                }}
-                                >
-                                <Picker
-                                    // selectedValue={state.name}
-                                    selectedValue={state}
-                                    style={{ height: 50, width: 200 }}
-                                    onValueChange={(itemValue, itemIndex) => {
-                                        setState(itemValue)
-                                    }
-                                    }
-                                >
-                                    {States.map((item) => {
-                                        return (
-                                            <Picker.Item
-                                                label={item.name}
-                                                value={item.name}
-                                                key={item.key}
-                                            />
-                                        );
-                                    })}
-                                </Picker>
-                            </View>
-                            <Text style={styles.stepText}>Select State</Text>
-                            </View>
-                            <View>
-                            <View
-                                style={{
-                                    backgroundColor: colors.grey3,
-                                    width: 200,
-                                    borderRadius: 10,
-                                }}
-                                >
-                                <Picker
-                                    // selectedValue={state.name}
-                                    selectedValue={city}
-                                    style={{ height: 50, width: 200 }}
-                                    onValueChange={(itemValue, itemIndex) => {
-                                        setCity(itemValue)
-                                    }
-                                    }
-                                >
-                                    {City.map((item) => {
-                                        return (
-                                            <Picker.Item
-                                                label={item.name}
-                                                value={item.name}
-                                                key={item.key}
-                                            />
-                                        );
-                                    })}
-                                </Picker>
-                            </View>
-                            <Text style={styles.stepText}>Select City</Text>
-                            </View>
-                            </View>
-                            <View>
-                            <View>
-
-                                <TouchableOpacity
-                                activeOpacity={0.8}
-                                onPress={showDatepicker}
-                                style={styles.datePicker}
-                                >
-                                    <Text style={styles.selectedDate}>{moment(date).format("DD/MM/YYYY")}</Text>
-                                    <FontAwesome5 name="calendar-alt" size={24} color="#515151" />
-                                </TouchableOpacity>
-                            </View>
-                                {show && (
-                                    <DateTimePicker
-                                        testID="dateTimePicker"
-                                        value={date}
-                                        mode={date}
-                                        is24Hour={true}
-                                        display="default"
-                                        onChange={onChange}
+                        <View style={styles.container}>
+                            <View style={{ marginBottom: 30 }}>
+                                <View style={styles.details}>
+                                    <AppHeading>Enter Details</AppHeading>
+                                    <Text style={styles.stepText}>Step: 1/2</Text>
+                                </View>
+                                <View style={styles.inputs}>
+                                    <Text style={{ fontSize: 9, color: 'crimson' }}>
+                                        {props.touched.mothersName &&
+                                            props.errors.mothersName}
+                                    </Text>
+                                    <TextInput
+                                        label="Mother's Name*"
+                                        mode={'outlined'}
+                                        outlineColor={'#E2E2E2'}
+                                        onChangeText={props.handleChange(
+                                            'mothersName'
+                                        )}
+                                        value={props.values.mothersName}
+                                        mothersName={props.values.mothersName}
+                                        onBlur={props.handleBlur('mothersName')}
                                     />
-                                )}
+                                    <TextInput
+                                        label="Child's Name"
+                                        value={childsName}
+                                        mode={'outlined'}
+                                        outlineColor={'#E2E2E2'}
+                                        // selectionColor={'#E2E2E2'}
+                                        onChangeText={setChildsName}
+                                    />
+
+                                    <TextInput
+                                        label="Father's Name"
+                                        value={fathersName}
+                                        mode={'outlined'}
+                                        outlineColor={'#E2E2E2'}
+                                        // selectionColor={'#E2E2E2'}
+                                        onChangeText={setFathersName}
+                                    />
+                                    <TextInput
+                                        label="Address"
+                                        value={address}
+                                        mode={'outlined'}
+                                        outlineColor={'#E2E2E2'}
+                                        // selectionColor={'#E2E2E2'}
+                                        onChangeText={setAddress}
+                                    />
+                                    <View>
+                                        <Text style={styles.stepText}>Select State</Text>
+                                        <View
+                                            style={{
+                                                backgroundColor: colors.grey3,
+                                                width: 200,
+                                                borderRadius: 10,
+                                                marginTop: 10
+                                            }}
+                                        >
+                                            <Picker
+                                                // selectedValue={state.name}
+                                                selectedValue={state}
+                                                style={{ height: 50, width: 200 }}
+                                                onValueChange={(itemValue, itemIndex) => {
+                                                    setState(itemValue)
+                                                }
+                                                }
+                                            >
+                                                {States.map((item) => {
+                                                    return (
+                                                        <Picker.Item
+                                                            label={item.name}
+                                                            value={item.name}
+                                                            key={item.key}
+                                                        />
+                                                    );
+                                                })}
+                                            </Picker>
+                                        </View>
+                                    </View>
+                                    <View>
+                                        <Text style={styles.stepText}>Select City</Text>
+                                        <View
+                                            style={{
+                                                backgroundColor: colors.grey3,
+                                                width: 200,
+                                                borderRadius: 10,
+                                            }}
+                                        >
+                                            <Picker
+                                                // selectedValue={state.name}
+                                                selectedValue={city}
+                                                style={{ height: 50, width: 200 }}
+                                                onValueChange={(itemValue, itemIndex) => {
+                                                    setCity(itemValue)
+                                                }
+                                                }
+                                            >
+                                                {City.map((item) => {
+                                                    return (
+                                                        <Picker.Item
+                                                            label={item.name}
+                                                            value={item.name}
+                                                            key={item.key}
+                                                        />
+                                                    );
+                                                })}
+                                            </Picker>
+                                        </View>
+                                    </View>
+                                </View>
+                                <Text style={styles.stepText}>Enter D.O.B*</Text>
+                                <View>
+                                    <View>
+
+                                        <TouchableOpacity
+                                            activeOpacity={0.8}
+                                            onPress={showDatepicker}
+                                            style={styles.datePicker}
+                                        >
+                                            <Text style={styles.selectedDate}>{moment(date).format("DD/MM/YYYY")}</Text>
+                                            <FontAwesome5 name="calendar-alt" size={24} color="#515151" />
+                                        </TouchableOpacity>
+                                    </View>
+                                    {show && (
+                                        <DateTimePicker
+                                            testID="dateTimePicker"
+                                            value={date}
+                                            mode={date}
+                                            is24Hour={true}
+                                            display="default"
+                                            onChange={onChange}
+                                        />
+                                    )}
+                                </View>
                             </View>
-                            <Text style={styles.stepText}>Enter D.O.B*</Text>
-                        </View>
-                        {/* <Button title="hi"onPress={() => {
+                            {/* <Button title="hi"onPress={() => {
                             setData();
                             console.log(userData);
                         }} /> */}
-                        <AppButton
-                            // onPress={props.handleSubmit}
-                            onPress={() => {
-                                setData()
-                                navigation.navigate('UserDetails2');
-                                {
-                                    props.handleSubmit;
-                                }
-                            }}
-                        />
-                    </View>
+                            <AppButton
+                                // onPress={props.handleSubmit}
+                                onPress={() => {
+                                    setData()
+                                    navigation.navigate('UserDetails2');
+                                    {
+                                        props.handleSubmit;
+                                    }
+                                }}
+                            />
+                        </View>
                     </ScrollView>
                 )}
             </Formik>
@@ -292,17 +292,17 @@ const styles = StyleSheet.create({
         fontSize: 13,
         color: '#676767'
     },
-    datePicker:{
-        width:'55%',
+    datePicker: {
+        width: '55%',
         borderRadius: 5,
         backgroundColor: '#f4f4f4',
-        display:'flex',
+        display: 'flex',
         flexDirection: 'row',
-        justifyContent:'space-between',
-        paddingHorizontal:14,
-        paddingVertical:12,
+        justifyContent: 'space-between',
+        paddingHorizontal: 14,
+        paddingVertical: 12,
     },
-    selectedDate:{
+    selectedDate: {
         fontFamily: 'PublicSans-Light',
         color: colors.textGrey
     }

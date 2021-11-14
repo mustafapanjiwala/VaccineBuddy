@@ -4,7 +4,6 @@ import { useMutation, useQuery } from "react-query";
 import { COLLECTIONS } from "../../constants/collections"
 
 const process = async (load) => {
-    console.log("LOAD", load)
     if (load.child) {
         return new Promise(async (resolve, reject) => {
             const collectionref = firebase.firestore().collection(COLLECTIONS.CHILDREN);

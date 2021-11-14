@@ -11,7 +11,8 @@ const process = async (load) => {
             mothersName: load.userData.mothersName ?? '',
             fathersName: load.userData.fathersName ?? '',
             address: load.userData.address ?? '',
-            image: ""
+            city: load.userData.city ?? '',
+            state: load.userData.state ?? ''
         })
     }
 }

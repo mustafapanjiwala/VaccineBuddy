@@ -11,6 +11,8 @@ import { useUpdateUser } from "../queries/Users/updateUser"
 import LoadingScreen from '../components/LoadingScreen';
 import { useUpdateChild } from "../queries/Child/updateChild"
 import { AppContext } from "../context/AppContext"
+import { useGetUserMutate } from "../queries/Users/getUsersMutate"
+import { useGetChildMutate } from "../queries/Child/getChildMutate"
 
 const profileSchema = yup.object({
     mothersName: yup
@@ -27,16 +29,28 @@ const profileSchema = yup.object({
 const UpdateProfile = ({ navigation }) => {
     const updateUser = useUpdateUser()
     const updateChild = useUpdateChild();
+
     const ctx = useContext(AppContext)
 
-    const [gender, setGender] = React.useState('');
-    const [firstChild, setFirstChild] = React.useState('');
-    const [deliveryMode, setDeliveryMode] = React.useState('');
+    const [gender, setGender] = React.useState(ctx.child.gender ?? '');
+    const [firstChild, setFirstChild] = React.useState(ctx.child.firstChild ?? '');
+    const [deliveryMode, setDeliveryMode] = React.useState(ctx.child.deliveryMode ?? '');
+
 
     if (updateUser.isLoading) return <LoadingScreen />
     return (
         <Formik
-            initialValues={{ mothersName: '', childsName: '', fathersName: '', address: '', dob: '', birthWeight: '', gender: gender, firstChild: firstChild, deliveryMode: deliveryMode }}
+            initialValues={{
+                mothersName: ctx.user.mothersName ?? '',
+                childsName: ctx.child.name ?? '',
+                fathersName: ctx.user.fathersName ?? '',
+                address: ctx.user.address ?? '',
+                dob: ctx.child.dob ?? '',
+                birthWeight: ctx.child.birthWeight ?? '',
+                gender: gender,
+                firstChild: firstChild,
+                deliveryMode: deliveryMode
+            }}
             validationSchema={profileSchema}
             onSubmit={async values => {
                 const user = {
@@ -54,6 +68,8 @@ const UpdateProfile = ({ navigation }) => {
                 try {
                     await updateUser.mutateAsync({ userData: user, uid: ctx.uid })
                     await updateChild.mutateAsync({ data: child, id: ctx.child.id })
+                    ctx.setChild({ ...ctx.child, child });
+                    ctx.setUser({ ...ctx.user, user })
                     navigation.navigate("ProfileScreen")
                 } catch (error) {
                     console.error("UPDATE PROFILE ", error)

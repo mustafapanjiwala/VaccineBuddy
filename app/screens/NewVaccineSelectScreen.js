@@ -90,6 +90,7 @@ export const NewVaccineSelectScreen = (props) => {
                                         onSelect={() => {
                                             let temp = [...selectedBrands]
                                             temp[VacIndex] = vac
+                                            if (selectedBrands[VacIndex] == vac) temp[VacIndex] = undefined
                                             setSelectedBrands(temp)
                                             // setSelectedBrand('');
                                             // setIsVacSelected(selectedVaccine && selectedVaccine.id === vac.id || Boolean(vaccinatedVaccines.data.find((val) => val.vaccine === vac.id)))
