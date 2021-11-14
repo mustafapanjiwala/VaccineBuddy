@@ -20,7 +20,7 @@ const NationalVaccineScreen = () => {
     const downloadImage = async () => {
         const filename = "National Vaccination Schedule.jpg"
         const fileUri = `${FileSystem.documentDirectory}${filename}`;
-        const uri = "https://www.publichealth.com.ng/wp-content/uploads/2020/11/National-Immunization-Schedule-of-India.jpg"
+        const uri = "https://www.indianpediatrics.net/jan2021/images/RECOMM-1-2.jpg"
         const downloadedFile = await FileSystem.downloadAsync(uri, fileUri);
         if (downloadedFile.status !== 200) setError("Falied To Download Image")
         else {
@@ -68,7 +68,7 @@ const NationalVaccineScreen = () => {
                 </AppHeading>
                 <ScrollView>
                 <ScrollView horizontal>
-                    <Image source={img} style={styles.Image} />
+                    <Image source={img} style={styles.img} />
                 </ScrollView>
                 </ScrollView>
                 <ParaText style={styles.text}>
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
         marginBottom: 40
     },
     img: {
-        width: '100%'
+        height: 330
     },
     text: {
         marginBottom: 20

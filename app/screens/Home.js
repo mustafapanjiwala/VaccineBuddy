@@ -36,7 +36,7 @@ const Home = ({ navigation }) => {
         {
             id: '1',
             title: 'Add Vaccine',
-            para: 'Helps you schedule your next vaccine on time.',
+            para: 'Chart your childs vaccination here',
             img: require('../../assets/illustrations/1.jpg'),
             onpress: 'AddVaccine'
         },
@@ -50,7 +50,7 @@ const Home = ({ navigation }) => {
         {
             id: '3',
             title: 'Your Vaccine Chart',
-            para: 'Get assistance from your own doctor.',
+            para: 'Quick view of the vaccinations done so far.',
             img: require('../../assets/illustrations/3.jpg'),
             onpress: 'EditableTable'
         },
@@ -64,21 +64,21 @@ const Home = ({ navigation }) => {
         {
             id: '4',
             title: 'Vaccination Schedule',
-            para: 'Latest national vaccination schedule.',
+            para: 'Latest IAP schedule.',
             img: require('../../assets/illustrations/4.jpg'),
             onpress: 'NationalVaccine'
         },
         {
             id: '5',
             title: 'Know Your Vaccines',
-            para: 'Details of the vaccines you’re going to take.',
+            para: 'Details of the vaccines.',
             img: require('../../assets/illustrations/5.jpg'),
             onpress: 'KnowYourVaccine'
         },
         {
             id: '6',
             title: 'FAQs',
-            para: 'Dont worry about a thing. Weve got you covered.',
+            para: 'Dont worry about a thing. We have got you covered.',
             img: require('../../assets/illustrations/6.jpg'),
             onpress: 'Faq'
         }
