@@ -130,7 +130,7 @@ const ProfileScreen = ({ route, navigation }) => {
             await updateContext();
         }
     });
-
+    console.log("REC", ctx.user.city, ctx.user.state)
     const unSubscribeBlur = navigation.addListener('blur', () => {
         unSubscribe();
         unSubscribeBlur();
@@ -275,7 +275,7 @@ const ProfileScreen = ({ route, navigation }) => {
                 <View style={styles.list}>
                     <ParaText style={styles.text}>City</ParaText>
                     <ParaText style={styles.text2}>
-                        {ctx.user?.cit}
+                        {ctx.user?.city}
                     </ParaText>
                 </View>
                 <View style={styles.list}>

@@ -31,9 +31,10 @@ const profileSchema = yup.object({
 });
 
 const UpdateProfile = ({ navigation }) => {
+    const ctx = useContext(AppContext)
 
-    const [state, setState] = useState("Madhya Pradesh");
-    const [city, setCity] = React.useState('');
+    const [state, setState] = useState(ctx.user.state ?? 'Madhya Pradesh');
+    const [city, setCity] = React.useState(ctx.user.city ?? '');
 
     const code = States.filter(function (item) {
         return item.name == state;
@@ -47,14 +48,14 @@ const UpdateProfile = ({ navigation }) => {
     const updateUser = useUpdateUser()
     const updateChild = useUpdateChild();
 
-    const ctx = useContext(AppContext)
 
     const [gender, setGender] = React.useState(ctx.child.gender ?? '');
     const [firstChild, setFirstChild] = React.useState(ctx.child.firstChild ?? '');
     const [deliveryMode, setDeliveryMode] = React.useState(ctx.child.deliveryMode ?? '');
+    const [manLoading, setManLoading] = React.useState(false)
 
 
-    if (updateUser.isLoading) return <LoadingScreen />
+    if (updateUser.isLoading || updateChild.isLoading || manLoading) return <LoadingScreen />
     return (
         <Formik
             initialValues={{
@@ -74,6 +75,8 @@ const UpdateProfile = ({ navigation }) => {
                     address: values.address,
                     mothersName: values.mothersName,
                     fathersName: values.fathersName,
+                    city: city,
+                    state: state
                 }
                 const child = {
                     childsName: values.childsName,
@@ -83,10 +86,12 @@ const UpdateProfile = ({ navigation }) => {
                     deliveryMode: values.deliveryMode
                 }
                 try {
+                    setManLoading(true)
                     await updateUser.mutateAsync({ userData: user, uid: ctx.uid })
                     await updateChild.mutateAsync({ data: child, id: ctx.child.id })
                     ctx.setChild({ ...ctx.child, child });
                     ctx.setUser({ ...ctx.user, user })
+                    setManLoading(false)
                     navigation.navigate("ProfileScreen")
                 } catch (error) {
                     console.error("UPDATE PROFILE ", error)
@@ -148,67 +153,67 @@ const UpdateProfile = ({ navigation }) => {
                                 onBlur={props.handleBlur('address')}
                             />
                             <View>
-                                        <Text style={styles.stepText}>Select State</Text>
-                                        <View
-                                            style={{
-                                                backgroundColor: colors.grey3,
-                                                width: 200,
-                                                borderRadius: 10,
-                                                marginTop: 10
-                                            }}
-                                        >
-                                            <Picker
-                                                // selectedValue={state.name}
-                                                selectedValue={state}
-                                                style={{ height: 50, width: 200 }}
-                                                onValueChange={(itemValue, itemIndex) => {
-                                                    setState(itemValue)
-                                                }
-                                                }
-                                            >
-                                                {States.map((item) => {
-                                                    return (
-                                                        <Picker.Item
-                                                            label={item.name}
-                                                            value={item.name}
-                                                            key={item.key}
-                                                        />
-                                                    );
-                                                })}
-                                            </Picker>
-                                        </View>
-                                    </View>
+                                <Text style={styles.stepText}>Select State</Text>
+                                <View
+                                    style={{
+                                        backgroundColor: colors.grey3,
+                                        width: 200,
+                                        borderRadius: 10,
+                                        marginTop: 10
+                                    }}
+                                >
+                                    <Picker
+                                        // selectedValue={state.name}
+                                        selectedValue={state}
+                                        style={{ height: 50, width: 200 }}
+                                        onValueChange={(itemValue, itemIndex) => {
+                                            setState(itemValue)
+                                        }
+                                        }
+                                    >
+                                        {States.map((item) => {
+                                            return (
+                                                <Picker.Item
+                                                    label={item.name}
+                                                    value={item.name}
+                                                    key={item.key}
+                                                />
+                                            );
+                                        })}
+                                    </Picker>
+                                </View>
+                            </View>
 
-                                    <View style={{marginBottom: 10}}>
-                                        <Text style={styles.stepText}>Select City</Text>
-                                        <View
-                                            style={{
-                                                backgroundColor: colors.grey3,
-                                                width: 200,
-                                                borderRadius: 10,
-                                            }}
-                                        >
-                                            <Picker
-                                                // selectedValue={state.name}
-                                                selectedValue={city}
-                                                style={{ height: 50, width: 200 }}
-                                                onValueChange={(itemValue, itemIndex) => {
-                                                    setCity(itemValue)
-                                                }
-                                                }
-                                            >
-                                                {City.map((item) => {
-                                                    return (
-                                                        <Picker.Item
-                                                            label={item.name}
-                                                            value={item.name}
-                                                            key={item.key}
-                                                        />
-                                                    );
-                                                })}
-                                            </Picker>
-                                        </View>
-                                    </View>
+                            <View style={{ marginBottom: 10 }}>
+                                <Text style={styles.stepText}>Select City</Text>
+                                <View
+                                    style={{
+                                        backgroundColor: colors.grey3,
+                                        width: 200,
+                                        borderRadius: 10,
+                                    }}
+                                >
+                                    <Picker
+                                        // selectedValue={state.name}
+                                        selectedValue={city}
+                                        style={{ height: 50, width: 200 }}
+                                        onValueChange={(itemValue, itemIndex) => {
+                                            setCity(itemValue)
+                                        }
+                                        }
+                                    >
+                                        {City.map((item) => {
+                                            return (
+                                                <Picker.Item
+                                                    label={item.name}
+                                                    value={item.name}
+                                                    key={item.key}
+                                                />
+                                            );
+                                        })}
+                                    </Picker>
+                                </View>
+                            </View>
                             <TextInput
                                 label="Birth Weight"
                                 mode={'outlined'}
