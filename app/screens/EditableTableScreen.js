@@ -48,6 +48,7 @@ const mapData = (data, map) => {
     //     }
     // });
     let arr = [];
+    // console.log("IN MAP", data, map)
     map.forEach((m, i) => {
         arr[i] = data[m];
     });
@@ -136,28 +137,27 @@ const EditableVaccine = ({ navigation }) => {
             setOrderData(order);
             setVacs(gonnaBeVacs)
             setAge(order.map(d => d.age))
-            setOrderLoading(false);
         }
     }, [orderQuery.data])
 
     useEffect(() => {
         (async () => {
             if (vacs.length > 0) {
-                const vacVaccines = await vaccinatedVaccines.mutateAsync({ child: ctx.child });
-                const mappedData = mapData(vacVaccines, vacs);
-                // console.log("MAPPED DATA", mappedData)
-                setData(mappedData);
+                if (data.length == 0) {
+                    const vacVaccines = await vaccinatedVaccines.mutateAsync({ child: ctx.child });
+                    const mappedData = mapData(vacVaccines, vacs);
+                    setData(mappedData);
+                }
+                if (vaccines.length == 0) {
+                    const mappedData = mapData(getAllVaccines.data.map(d => ({ name: d.name, id: d.s_no })), vacs)
+                    // console.log("SETTING MAPPED DATA", getAllVaccines.data.length, mappedData.length)
+                    setOrderLoading(false);
+                    setVaccines(mappedData);
+                }
             }
         })();
-    }, [vacs])
+    }, [vacs, getAllVaccines.data])
 
-    useEffect(() => {
-        if (getAllVaccines.data) {
-            const mappedData = mapData(getAllVaccines.data.map(d => ({ name: d.name, id: d.s_no })), vacs)
-            setVaccines(mappedData);
-            // setVaccines(getAllVaccines.data.map(d => d.name))
-        }
-    }, [getAllVaccines.data])
 
 
     useEffect(() => {

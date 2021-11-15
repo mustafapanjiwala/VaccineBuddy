@@ -272,6 +272,18 @@ const ProfileScreen = ({ route, navigation }) => {
                         {ctx.child?.lastVaccinated}
                     </ParaText>
                 </View>
+                <View style={styles.list}>
+                    <ParaText style={styles.text}>City</ParaText>
+                    <ParaText style={styles.text2}>
+                        {ctx.user?.cit}
+                    </ParaText>
+                </View>
+                <View style={styles.list}>
+                    <ParaText style={styles.text}>State</ParaText>
+                    <ParaText style={styles.text2}>
+                        {ctx.user?.state}
+                    </ParaText>
+                </View>
                 <Modal visible={isModalVisible} transparent={true}>
                     <ImageViewer
                         enableSwipeDown={true}
