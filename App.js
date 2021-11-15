@@ -10,29 +10,29 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import firebase from 'firebase/app';
 import { QueryClient, QueryClientProvider, useMutation } from 'react-query';
-import { useGetUserMutate } from './app/queries/Users/getUsersMutate';
-import { useGetChildMutate } from './app/queries/Child/getChildMutate';
+// import { useGetUserMutate } from './app/queries/Users/getUsersMutate';
+// import { useGetChildMutate } from './app/queries/Child/getChildMutate';
 import { AppContext, AppProvider } from './app/context/AppContext';
-import OTPSCREEN from './app/screens/OTPVerification';
-import EditableTable from './app/screens/EditableTableScreen';
-import HomeNavigator from './app/navigation/HomeNavigator';
-import ProfileScreen from './app/screens/ProfileScreen';
-import CheckListScreen from './app/screens/CheckListScreen';
+// import OTPSCREEN from './app/screens/OTPVerification';
+// import EditableTable from './app/screens/EditableTableScreen';
+// import HomeNavigator from './app/navigation/HomeNavigator';
+// import ProfileScreen from './app/screens/ProfileScreen';
+// import CheckListScreen from './app/screens/CheckListScreen';
 import AppNavigator from './app/navigation/AppNavigator';
-import SetReminderScreen from './app/screens/SetReminderScreen';
-import FaqScreen from './app/screens/FaqScreen';
-import KnowYourVaccines from './app/screens/KnowYourVaccines';
-import SelectVaccine from './app/screens/SelectVaccine';
+// import SetReminderScreen from './app/screens/SetReminderScreen';
+// import FaqScreen from './app/screens/FaqScreen';
+// import KnowYourVaccines from './app/screens/KnowYourVaccines';
+// import SelectVaccine from './app/screens/SelectVaccine';
 import { LogBox, YellowBox } from 'react-native';
-import UpdateProfile from './app/screens/UpdateProfile';
-import Home from './app/screens/Home';
-import UserDetails2 from './app/screens/UserDetails2';
-import UserDetails1 from './app/screens/UserDetails1';
+// import UpdateProfile from './app/screens/UpdateProfile';
+// import Home from './app/screens/Home';
+// import UserDetails2 from './app/screens/UserDetails2';
+// import UserDetails1 from './app/screens/UserDetails1';
 import ErrorScreen from './app/components/ErrorScreen';
 import "firebase/firestore"
 import { COLLECTIONS } from './app/constants/collections';
 import { vaccineInfo } from "./app/constants/VaccineInfo"
-import LoadingScreen from './app/components/LoadingScreen';
+// import LoadingScreen from './app/components/LoadingScreen';
 const fontConfig = {
     web: {
         regular: {
@@ -144,7 +144,7 @@ const Main = (props) => {
             }
         }
     });
-    // if (importData.isLoading) return <LoadingScreen />
+    // if (importData.isLoading) return <LoadingScreen />e
     if (isAuthenticated) return <AppNavigator />;
     else return <AuthNavigator />;
 };
