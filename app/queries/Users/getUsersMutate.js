@@ -5,7 +5,8 @@ import { COLLECTIONS } from "../../constants/collections"
 
 const process = async (uid) => {
     const collectionref = firebase.firestore().collection(COLLECTIONS.USERS)
-    return collectionref.doc(uid).get();
+    let docref = await collectionref.doc(uid).get();
+    return docref.data();
 }
 
 export const useGetUserMutate = (uid) => {
