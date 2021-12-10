@@ -85,11 +85,11 @@ const Home = ({ navigation }) => {
     ]);
 
     const getAndMutateUser = async () => {
-        console.log("CTX ", ctx)
+        // console.log("CTX ", ctx)
         try {
             const user = await getUSer.mutateAsync(ctx.uid);
-            let userData = user.data();
-            console.log("SHOULD BE HERE", userData)
+            let userData = user;
+            console.log("SHOULD BE HERE", userData, ctx.uid, getUSer)
             if (userData) ctx.setUser({ ...userData, id: ctx.uid, uid: ctx.uid });
                 if (userData) {
                     if (userData.children) {
@@ -136,6 +136,14 @@ const Home = ({ navigation }) => {
     // }, [])
     // )
 
+    useEffect(() => {
+            // console.log("FROM LISTENER")
+            (async() => {
+        if (!ctx.user || !ctx.child) await getAndMutateUser()
+            })()
+
+    }, [ctx.uid])
+
     const unSubscribe = navigation.addListener('focus', async () => {
 
         console.log("FROM LISTENER")
@@ -153,7 +161,7 @@ const Home = ({ navigation }) => {
     if (getUSer.isLoading || getChild.isLoading)
         return <LoadingScreen />;
     if (!ctx.user || !ctx.child) {
-        console.log("ctx.showUserDetails", ctx.showUserDetails)
+        // console.log("ctx.showUserDetails", ctx.showUserDetails, userData)
         // navigation.navigate('UserDetails');
         return <UserDetailsNavigator />
     }

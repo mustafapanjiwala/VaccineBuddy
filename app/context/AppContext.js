@@ -14,7 +14,7 @@ export const AppProvider = (props) => {
     // React.useEffect(() => console.log("CONTEXT CHANGE | user", user), [user]);
     // React.useEffect(() => console.log("CONTEXT CHANGE | child", child), [child])
     // React.useEffect(() => console.log("CONTEXT CHANGE | isUpdated", isUpdated), [isUpdated])
-    // React.useEffect(() => console.log("CONTEXT CHANGE | uid", uid), [uid])
+    React.useEffect(() => console.log("CONTEXT CHANGE | uid", uid), [uid])
     // React.useEffect(() => console.log("CONTEXT CHANGE | showUserDetails", showUserDetails), [showUserDetails])
 
     return (

@@ -124,6 +124,7 @@ export default function App() {
 }
 
 const Main = (props) => {
+    // firebase.auth().signOut();
     const [t, setT] = useState(false)
     // const importData = useImport();
     const { setUid, setIsAuthenticated, isAuthenticated } =
@@ -136,7 +137,7 @@ const Main = (props) => {
     firebase.auth().onAuthStateChanged(async function (user) {
         if (user) {
             try {
-                console.log('SIGNING IN');
+                console.log('SIGNING IN', user.uid);
                 setIsAuthenticated(true);
                 setUid(user.uid);
             } catch (e) {
@@ -145,6 +146,12 @@ const Main = (props) => {
         }
     });
     // if (importData.isLoading) return <LoadingScreen />e
-    if (isAuthenticated) return <AppNavigator />;
-    else return <AuthNavigator />;
+    if (isAuthenticated){
+        console.log("RETURNIG APP NAVIGATOR")
+return <AppNavigator />;
+    } 
+    else{
+        console.log("RETURING AUTH NAVIGATOR")
+        return <AuthNavigator />;
+    } 
 };
