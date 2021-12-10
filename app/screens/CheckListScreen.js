@@ -135,8 +135,6 @@ const CheckListScreen = ({ navigation }) => {
                             />
                             <CardPara>6-9 months</CardPara>
                         </View>
-                    </View>
-                    <View style={styles.checkboxContain}>
                         <View style={styles.radio}>
                             <RadioButton
                                 value="9 months"
@@ -146,6 +144,9 @@ const CheckListScreen = ({ navigation }) => {
                             />
                             <CardPara>9 months</CardPara>
                         </View>
+                    </View>
+                    <View style={styles.checkboxContain}>
+                        
                         <View style={styles.radio}>
                             <RadioButton
                                 value="12 months"
@@ -200,6 +201,15 @@ const CheckListScreen = ({ navigation }) => {
                             />
                             <CardPara>10-12 years</CardPara>
                         </View>
+                        <View style={styles.radio}>
+                            <RadioButton
+                                value="optional"
+                                status={checked === 'optional' ? 'checked' : 'unchecked'}
+                                color="#79D1D7"
+                                onPress={() => setChecked('optional')}
+                            />
+                            <CardPara>Optional</CardPara>
+                        </View>
                     </View>
                 </View>
                 <AppButton
@@ -244,6 +254,7 @@ const styles = StyleSheet.create({
     },
     datePicker: {
         width: '55%',
+        height:50,
         borderRadius: 5,
         backgroundColor: '#f4f4f4',
         display: 'flex',

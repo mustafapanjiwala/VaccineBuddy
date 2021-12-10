@@ -204,7 +204,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.grey3,
-        padding: 20
+        padding: 20,
+        paddingTop: 50
+        // marginTop: 30
     },
     helloBox: {
         flexDirection: 'row',

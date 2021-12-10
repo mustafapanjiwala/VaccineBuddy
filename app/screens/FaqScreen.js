@@ -36,18 +36,18 @@ const FaqScreen = () => {
                     in the first instance from getting sick.
                     </ParaText>
                     <AppHeading style={styles.heading}>
-                    Will my child get a fever after vaccination?
+                    Will my child get fever after vaccination?
                     </AppHeading>
                     <ParaText style={styles.para}>
                     Not all vaccines cause fever post administration. Only DTP vaccines with
-                    whole cell pertussis (DTwP) lead to fever. These are usually the ones given
+                    whole cell pertussis (mostly DTwP) lead to fever. These are usually the ones given
                     at 6, 10 and 14 weeks; and a booster dose at one and half years.
                     </ParaText>
                     <AppHeading style={styles.heading}>
                     Why should I get vaccinated?
                     </AppHeading>
                     <ParaText style={styles.para}>
-                    Without vaccines, we are at risk of serious illness and disability from
+                    Because without vaccines, we are at risk of serious illness and disability from
                     diseases like measles, meningitis, pneumonia, tetanus and polio. Many of
                     these diseases can be life-threatening. WHO estimates that childhood
                     vaccines alone save over 4 million lives every year.
@@ -138,19 +138,6 @@ she can provide you with science-based advice about vaccination for you
 and your family, including the recommended vaccination schedule in your
 country.When looking online for information about vaccines, be sure to
 consult only trustworthy sources.
-
-                    </ParaText>
-
-                    <AppHeading style={styles.heading}>
-                    What is a vaccine?
-                    </AppHeading>
-                    <ParaText style={styles.para}>
-                    All the ingredients of a vaccine play an important role in ensuring a vaccine
-is safe and effective. Vaccine ingredients can look unfamiliar when they are
-listed on a label. However, many of the components used in vaccines occur
-naturally in the body, in the environment, and in the foods we eat. All of the
-ingredients in vaccines – as well as the vaccines themselves - are
-thoroughly tested and monitored to ensure they are safe.
 
                     </ParaText>
 
@@ -279,9 +266,7 @@ that can be especially serious for infants and very young children.
                     Combination vaccines protect your child against more than one disease
 with a single shot. They reduce the number of shots and office visits your
 child would need, which not only saves you time and money, but also is
-easier on your child.Some common combination vaccines are Pediarix
-which combines DTap, Hep B, and IPV (polio) and ProQuad which
-combines MMR and varicella (chickenpox).
+easier on your child.
                     </ParaText>
 
                     <AppHeading style={styles.heading}>

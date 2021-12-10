@@ -17,6 +17,7 @@
             "supportsTablet": true
         },
         "android": {
+            "versionCode": 5,
             "package": "mustafasachin.vacseenapp",
             "splash": {
                 "mdpi": "./assets/drawable-mdpi/content.png",

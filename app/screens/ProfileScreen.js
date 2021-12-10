@@ -263,7 +263,8 @@ const ProfileScreen = ({ route, navigation }) => {
                 <View style={styles.list}>
                     <ParaText style={styles.text}>Address</ParaText>
                     <ParaText style={styles.address}>
-                        {ctx.user?.address}
+                        {ctx.user?.address}{'\n'}{ctx.user?.city}{'\n'}{ctx.user?.state}
+                        
                     </ParaText>
                 </View>
                 <View style={styles.list}>
@@ -272,7 +273,7 @@ const ProfileScreen = ({ route, navigation }) => {
                         {ctx.child?.lastVaccinated}
                     </ParaText>
                 </View>
-                <View style={styles.list}>
+                {/* <View style={styles.list}>
                     <ParaText style={styles.text}>City</ParaText>
                     <ParaText style={styles.text2}>
                         {ctx.user?.city}
@@ -283,7 +284,7 @@ const ProfileScreen = ({ route, navigation }) => {
                     <ParaText style={styles.text2}>
                         {ctx.user?.state}
                     </ParaText>
-                </View>
+                </View> */}
                 <Modal visible={isModalVisible} transparent={true}>
                     <ImageViewer
                         enableSwipeDown={true}
@@ -315,14 +316,17 @@ const ProfileScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
+       
     },
     top: {
         display: 'flex',
         flexDirection: 'row',
         backgroundColor: colors.profileBlue,
         paddingHorizontal: 30,
-        paddingTop: 18
+        // paddingTop: 18,
+        // marginTop: 30
+        paddingTop: 30
     },
     topDetails: {
         width: '60%',
