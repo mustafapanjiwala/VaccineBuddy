@@ -11,6 +11,7 @@ export const AppProvider = (props) => {
     const [showUserDetails, setShowUserDetails] = React.useState(true)
     const [isUpdated, setIsUpdated] = React.useState(false)
 
+    React.useEffect(() => console.log("CONTEXT CHANGE | children", children), [children])
     // React.useEffect(() => console.log("CONTEXT CHANGE | user", user), [user]);
     // React.useEffect(() => console.log("CONTEXT CHANGE | child", child), [child])
     // React.useEffect(() => console.log("CONTEXT CHANGE | isUpdated", isUpdated), [isUpdated])

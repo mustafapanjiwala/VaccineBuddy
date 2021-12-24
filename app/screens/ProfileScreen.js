@@ -70,7 +70,8 @@ const ProfileScreen = ({ route, navigation }) => {
         try {
             console.log('UPDATING DATA');
             const user = await getUSer.mutateAsync(ctx.uid);
-            let userData = user.data();
+
+            let userData = user;
             ctx.setUser({ ...userData, id: ctx.uid, uid: ctx.uid });
             if (userData) {
                 if (userData.children) {
@@ -125,14 +126,13 @@ const ProfileScreen = ({ route, navigation }) => {
     const [image, setImage] = useState(null);
     const updateUser = useUpdateUser();
 
-    const unSubscribe = navigation.addListener('focus', async () => {
-        if (ctx.isUpdated) {
-            await updateContext();
-        }
-    });
+    useEffect(() => {
+        (async function(){
+        if(ctx.isUpdated) await updateContext();
+        })()
+    }, [ctx.isUpdated])
     console.log("REC", ctx.user.city, ctx.user.state)
     const unSubscribeBlur = navigation.addListener('blur', () => {
-        unSubscribe();
         unSubscribeBlur();
     });
     useEffect(() => {
@@ -178,6 +178,7 @@ const ProfileScreen = ({ route, navigation }) => {
                         onValueChange={(itemValue, itemIndex) => {
                             console.log('SEECTING ONE');
                             setSelectedValue(ctx.children[itemIndex]);
+                            console.log('setting one', ctx.children[itemIndex])
                             ctx.setChild(ctx.children[itemIndex]);
                         }}
                     >
