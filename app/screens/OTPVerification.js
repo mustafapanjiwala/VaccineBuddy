@@ -44,10 +44,10 @@ const OTPVerification = ({ route, navigation }) => {
     const [verificationId, setVerificationId] = React.useState();
     const [verificationCode, setVerificationCode] = React.useState();
     // const [value, setValue] = useState('');
-    const ref = useBlurOnFulfill({ verificationCode, cellCount: CELL_COUNT });
+    const ref = useBlurOnFulfill({ value: verificationCode, cellCount: CELL_COUNT });
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({
-        verificationCode,
-        setVerificationCode
+        value: verificationCode,
+        setValue: setVerificationCode
     });
     const ctx = useContext(AppContext)
     

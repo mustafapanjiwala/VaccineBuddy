@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.grey3,
         padding: 20,
-        paddingTop: 50
+        paddingTop: 35
         // marginTop: 30
     },
     helloBox: {
