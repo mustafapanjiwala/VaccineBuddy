@@ -17,7 +17,10 @@ Built on React Native(Frontend) and Firebase(for Backend).
 
 Check out the demo video below to see VacSeen in action:
 
-![Alt Text](assets/demo.mp4)
+![Alt Text](assets/first.png)
+![Alt Text](assets/second.png)
+![Alt Text](assets/third.png)
+![Alt Text](assets/fourth.png)
 
 ## Authors
 
