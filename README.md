@@ -17,10 +17,11 @@ Built on React Native(Frontend) and Firebase(for Backend).
 
 Check out these screenshots to see how VacSeen simplifies vaccination tracking and management for parents.
 <div style="display: flex; justify-content: center; align-items: center;">
-<img src="assets/first.png" alt="Alt Text" width="207" height="410">
-<img src="assets/second.png" alt="Alt Text" width="207" height="410">
-<img src="assets/third.png" alt="Alt Text" width="207" height="410">
-<img src="assets/fourth.png" alt="Alt Text" width="207" height="410">
+<img src="assets/first.png" alt="Alt Text" width="207" height="425">
+<img src="assets/second.png" alt="Alt Text" width="207" height="425">
+  <img src="assets/fifth.png" alt="Alt Text" width="207" height="425">
+<img src="assets/third.png" alt="Alt Text" width="207" height="425">
+<img src="assets/fourth.png" alt="Alt Text" width="207" height="425">
 </div>
 
 
